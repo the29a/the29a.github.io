@@ -90,6 +90,7 @@ EOF
 В полученный файл необходимо добавить свои переменные, будь это API-токен, почта или что-то ещё. 
 Можно указать прямо в файле, но лучше, если сами переменные хранятся в глобальном окружении.
 
+Так же не забываем заменить GENERATE_UUID на валидные UUID, которые можно сгенерировать либо с помощью утилиты `uuidgen` или онлайн-генератором [uuidgenerator.net](https://www.uuidgenerator.net/version4).  
 
 
 - Добавлю сразу, что помимо самого OpenCTI и интеграции в Wazuh нам необходимы т.н. [external-import connectors](https://github.com/OpenCTI-Platform/connectors/tree/master/external-import), и для примера будем использовать [коннектор от alienvault](https://github.com/OpenCTI-Platform/connectors/tree/master/external-import/alienvault)
