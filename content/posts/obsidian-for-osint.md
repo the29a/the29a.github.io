@@ -22,3 +22,4 @@ Obsidian для OSINT?
 
 А если вы уже используете Obsidian как OSINT-инструмент, то можно подглядеть шаблоны там же, или в репе [TJ-OSINT-Notebook](https://github.com/tjnull/TJ-OSINT-Notebook).  
 Это для Joplin, но там тоже markdown.
+
