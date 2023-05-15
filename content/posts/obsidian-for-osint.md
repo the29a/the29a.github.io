@@ -1,7 +1,9 @@
 ---
+type: "post"
 title: "Obsidian for Osint"
 date: 2023-05-15T19:26:40+03:00
 draft: false
+tags: ['osint', 'obsidian']
 ---
 <img src="https://i0.wp.com/webbreacher.com/wp-content/uploads/2022/03/obsidian1.png"  width="30%" height="30%">
 
