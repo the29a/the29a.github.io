@@ -3,7 +3,7 @@ type: "post"
 title: "Make Notes"
 date: 2023-05-19T17:14:50+03:00
 draft: false
-tags: "notes", "learning", "obsidian"
+tags: ["notes", "learning", "obsidian"]
 ---
 Вы делаете заметки во время  прохождения CTF?
 
