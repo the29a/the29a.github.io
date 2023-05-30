@@ -3,6 +3,7 @@ type: "post"
 title: "Wazuh + OpenCTI = Integration?"
 date: 2023-05-03T20:09:45+03:00
 draft: false
+showTableOfContents: true
 tags: ["wazuh", "opencti"]
 ---
 
