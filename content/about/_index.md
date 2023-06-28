@@ -10,4 +10,3 @@ I`m Security Engeneer\Pentertation tester and CTF player.
 <script src="https://tryhackme.com/badge/20508"></script>
 {{< /rawhtml >}}
 
-<img src="https://tryhackme-badges.s3.amazonaws.com/the29a.png" alt="TryHackMe">
