@@ -48,9 +48,9 @@ trivy - простой, но хороший сканер уязвимостей.
 
 И немного дополню это всё, так как только инструментами всё не решается.
 
-[CIS Benchmarks](https://www.cisecurity.org/cis-benchmarks/), 
-[Best Practice](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
-[Top 20 Docker Security Best Practices](https://blog.aquasec.com/docker-security-best-practices)
+[CIS Benchmarks](https://www.cisecurity.org/cis-benchmarks/),  
+[Best Practice](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)  
+[Top 20 Docker Security Best Practices](https://blog.aquasec.com/docker-security-best-practices)  
 
 Да, кроме этого есть ещё и [clair](https://github.com/quay/clair), [Lynis](https://cisofy.com/lynis/), но первый довольно масштабный, и нужен не всем, а Lynis довольно своеобразен. 
 
