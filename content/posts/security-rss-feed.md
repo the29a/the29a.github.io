@@ -3,7 +3,7 @@ type: post
 title: "Security Rss Feed"
 date: 2023-10-04T15:38:45+03:00
 showTableOfContents: true
-draft: true
+draft: false
 tags: ["rss", "security", "feed"]
 ---
 
