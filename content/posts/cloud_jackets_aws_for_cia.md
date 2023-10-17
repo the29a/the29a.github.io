@@ -1,7 +1,7 @@
 ---
 type: post
 title: "Пиджаки в облаках. AWS для ЦРУ."
-description: "Пиджаки в облаках. AWS для ЦРУ."
+image: "/images/avatar.png"
 date: 2023-10-17T22:47:38+03:00
 showTableOfContents: true
 draft: false
