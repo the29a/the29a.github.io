@@ -1,5 +1,4 @@
 ---
-type: post
 title: "Security Rss Feed"
 date: 2023-10-04T15:38:45+03:00
 showTableOfContents: true
@@ -14,7 +13,7 @@ tags: ["rss", "security", "feed"]
 - [SecurityLab: Конкурсы](https://www.securitylab.ru/_Services/Export/RSS/contest/)
 - [SecurityLab: Статьи](https://www.securitylab.ru/_Services/Export/RSS/analytics/)
 - [SecurityLab: Софт](https://www.securitylab.ru/_Services/Export/RSS/software/)
-
+<!--more-->
 
 ### Anti-malware
 - [Anti-malware: Новости](https://www.anti-malware.ru/news/feed)

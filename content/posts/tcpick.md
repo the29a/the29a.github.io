@@ -1,5 +1,4 @@
 ---
-type: "post"
 title: "TCPick"
 date: 2022-03-25T18:13:19+03:00
 draft: false
@@ -7,7 +6,7 @@ tags: ["networks", "tcpick"]
 ---
 
 Чтобы не вылезая из консоли посмотреть содержимое дампа трафика в открытом виде можно использовать tcpick.
-
+<!--more-->
 ```shell
 tcpick -C -yP -r tcp_dump.pcap
 ```

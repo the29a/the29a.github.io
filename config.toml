@@ -1,100 +1,99 @@
-#baseURL = 'https://the29a.github.io/'
-baseURL = 'https://www.0x29a.in'
-languageCode = 'en-us'
-title = '29a µ blog'
-theme = 'gokarna'
+baseURL = "https://www.0x29a.in"
+languageCode = "en-us"
+theme = "poison"
+paginate = 10
+pluralizelisttitles = false   # removes the automatically appended "s" on sidebar entries
 
-# Automatically generate robots.txt
-enableRobotsTXT = true
-
-[menu]
-  [[menu.main]]
-    name = "Home"
-    pre = "<span data-feather='home'></span>"
-    url = "/"
-    weight = 1
-
-  [[menu.main]]
-    # Unique identifier for a menu item
-    identifier = "posts"
-    url = "/posts/"
-    
-    # You can add extra information before the name (HTML format is supported), such as icons
-    pre = "<span data-feather='book'></span>"
-
-    # You can add extra information after the name (HTML format is supported), such as icons
-    post = ""
-
-    # Display name
-    name = "Posts"
-
-    # Weights are used to determine the ordering
-    weight = 2
-
-  [[menu.main]]
-  
-    identifier = "projects"
-    name = "Projects"
-    pre = "<span data-feather='code'></span>"
-    url = "/projects/"
-    weight = 3
-
-  [[menu.main]]
-  
-    identifier = "tags"
-    name = "Tags"
-    pre = "<span data-feather='tag'></span>"
-    url = "/tags/"
-    weight = 4
-  
-  [[menu.main]]
-    name = "About"
-    pre = "<span data-feather='target'></span>"
-    url = "/about/"
-    weight = 5  
-    
-  [[menu.main]]
-    identifier = "github"
-    url = "https://github.com/the29a"
-    weight = 6
-    
-    # We use feather-icons: https://feathericons.com/
-    pre = "<span data-feather='github'></span>"
+# NOTE: If using Disqus as commenting engine, uncomment and configure this line
+# disqusShortname = "yourDisqusShortname"
 
 [params]
-  # URL for the avatar on homepage
-  avatarURL = "/images/avatar.png"
-  AvatarAltText = "avatar"
+    brand = "29a µ blog"                      # name of your site - appears in the sidebar
+    brand_image = "/images/avatar.png"    # path to the image shown in the sidebar
+    description = "infosec and something else" # Used as default meta description if not specified in front matter
+    dark_mode = true                      # optional - defaults to false
+    favicon = "/images/favicon.ico"             # path to favicon (defaults to favicon.png)
 
-  # Choose one of size-xs, size-s, size-m, size-l & size-xl. (Default: size-m)
-  avatarSize = ""
+    # MENU PLACEHOLDER
+    # Menu dict keys:
+        # Name:         The name to display on the menu.
+        # URL:          The directory relative to the content directory.
+        # HasChildren:  If the directory's files should be listed.  Default is true.
+        # Limit:        If the files should be listed, how many should be shown.
+    menu = [
+        {Name = "Posts", URL = "/posts/", Pre = "Recent", HasChildren = false, Limit = 5},
+        {Name = "Projects", URL = "/projects/", HasChildren = false},
+        {Name = "About", URL = "/about/", HasChildren = false},
+        {Name = "Tags", URL = "/tags/", HasChildren = false},
+    ]
 
-  # Description to display on homepage
-  description = "infosec and something else"
+    # Links to your socials.  Comment or delete any you don't need/use. 
+    github_url = "https://github.com/the29a"
+#    gitlab_url = "https://gitlab.com"
+#    linkedin_url = "https://linkedin.com"
+#    twitter_url = "https://twitter.com"
+#    mastodon_url = "https://mastodon.social"
+    tryhackme_url = "https://tryhackme.com/p/the29a"
+#    discord_url = "https://discord.com"
+#    youtube_url = "https://youtube.com"
+#    instagram_url = "https://instagram.com"
+#    facebook_url = "https://facebook.com"
+#    flickr_url = "https://flickr.com"
+#    telegram_url = "https://telegram.org"
+#    email_url = "mailto://user@domain"
 
-  # Accent color is displayed when you hover over <a> tags
-  accentColor = "#FF4D4D"
+    # NOTE: If you don't want to use RSS, comment or delete the following lines
+    # Adds an RSS icon to the end of the socials which links to {{ .Site.BaseURL }}/index.xml
+    rss_icon = true
+    # Which section the RSS icon links to, defaults to all content. See https://gohugo.io/templates/rss/#section-rss
+    rss_section = "posts"
 
-  # You can use this to inject any HTML in the <head> tag.
-  # Ideal usecase for this is to import custom js/css or add your analytics snippet
-  customHeadHTML = ""
- 
-  # Keywords relevant for SEO
-  metaKeywords = ["it", "cybersecurity", "hacking"]
+    # Hex colors for your sidebar.
+    sidebar_bg_color = "#202020"            # default is #202020
+    sidebar_img_border_color = "#515151"    # default is #515151
+    sidebar_p_color = "#909090"             # default is #909090
+    sidebar_h1_color = "#FFF"               # default is #FFF
+    sidebar_a_color = "#FFF"                # default is #FFF
+    sidebar_socials_color = "#FFF"          # default is #FFF
+    moon_sun_color = "#FFF"                 # default is #FFF
+    moon_sun_background_color = "#515151"   # default is #515151
 
-  # If you want to display posts on the homepage, the options are
-  # "popular" (order posts by weight), "recent" (order posts by date)
-  # or "" (do not display, default option)
-  showPostsOnHomePage = "recent"
+    # Hex colors for your content in light mode.
+    text_color = "#222"             # default is #222
+    content_bg_color = "#FAF9F6"    # default is #FAF9F6
+    post_title_color = "#303030"    # default is #303030
+    list_color = "#5a5a5a"          # default is #5a5a5a
+    link_color = "#268bd2"          # default is #268bd2
+    date_color = "#515151"          # default is #515151
+    table_border_color = "#E5E5E5"  # default is #E5E5E5
+    table_stripe_color = "#F9F9F9"  # default is #F9F9F9
 
-  # Footer text
-  footer = "the29a"
+    # Hex colors for your content in dark mode
+    text_color_dark = "#eee"                # default is #eee
+    content_bg_color_dark = "#121212"       # default is #121212
+    post_title_color_dark = "#DBE2E9"       # default is #DBE2E9
+    list_color_dark = "#9d9d9d"             # default is #9d9d9d
+    link_color_dark = "#268bd2"             # default is #268bd2
+    date_color_dark = "#9a9a9a"             # default is #9a9a9a
+    table_border_color_dark = "#515151"     # default is #515151
+    table_stripe_color_dark = "#202020"     # default is #202020
+    code_color = "#bf616a"                  # default is #bf616a
+    code_background_color = "#E5E5E5"       # default is #E5E5E5
+    code_color_dark = "#ff7f7f"             # default is #ff7f7f
+    code_background_color_dark = "#393D47"  # default is #393D47
 
-  pygmentsStyle = "monokai"
+    # NOTE: If using Remark42 as commenting engine, uncomment and configure these lines
+    # remark42 = true
+    # remark42_host = "https://yourhost.com"
+    # remark42_site_id = "your_site_id"
+    
+    # NOTE: The following three params are optional and are used to create meta tags + enhance SEO.
+    # og_image = ""                       # path to social icon - front matter: image takes precedent, then og_image, then brand_url
+                                          # this is also used in the schema output as well. Image is resized to max 1200x630
+                                          # For this to work though og_image and brand_url must be a path inside the assets directory
+                                          # e.g. /assets/images/site/og-image.png becomes images/site/og-image.png
+    # publisher_icon = ""                 # path to publisher icon - defaults to favicon, used in schema
 
-
-[markup]
-  [markup.tableOfContents]
-    startLevel = 1
-    endLevel = 3
-    ordered = false
+[taxonomies]
+    series = 'series'
+    tags = 'tags'
