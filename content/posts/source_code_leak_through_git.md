@@ -2,6 +2,7 @@
 title: "Утечка исходного кода через директорию .git"
 date: 2023-12-15T00:15:26+03:00
 showTableOfContents: true
+image: image/avatar.png
 draft: false
 hideToc: false
 tags: ["git", "hacking", "security"]
