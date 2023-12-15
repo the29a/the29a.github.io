@@ -1,5 +1,6 @@
 ---
 title: "Утечка исходного кода через директорию .git"
+description: "test description"
 date: 2023-12-15T00:15:26+03:00
 showTableOfContents: true
 image: avatar.png
