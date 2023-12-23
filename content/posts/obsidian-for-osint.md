@@ -1,5 +1,5 @@
 ---
-title: "Obsidian for Osint"
+title: "Obsidian for OSINT"
 date: 2023-05-15T19:26:40+03:00
 draft: false
 tags: ['osint', 'obsidian']

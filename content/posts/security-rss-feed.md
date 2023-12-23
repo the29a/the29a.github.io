@@ -1,5 +1,5 @@
 ---
-title: "Security Rss Feed"
+title: "Security RSS Feed"
 date: 2023-10-04T15:38:45+03:00
 showTableOfContents: true
 draft: false

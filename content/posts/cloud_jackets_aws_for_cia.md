@@ -164,9 +164,9 @@ ISO partition находятся в домене ic.gov и мы можем пр�
 
 Секретность тут довольно спорная. Указано, что данные разделы используются IC, CIA и прочими государственными органами США, однако часть информации можно о них узнать в [Go SDK](https://docs.aws.amazon.com/sdk-for-go/api/aws/endpoints/), и в issue [terraform-провайдера](https://github.com/hashicorp/terraform-provider-aws/issues/18593).
 
-Так же список эндпоинтов указаны в [botocore](https://github.com/boto/botocore/blob/master/botocore/data/endpoints.json), [aws-sdk-js-v3](https://github.com/aws/aws-sdk-js-v3/blob/c96f35f972c44706a391bb07e0a897e73b8d6dfe/clients/client-cloudfront/endpoints.ts) и некоторых других инструментах.
+Так же список эндпоинтов указаны в [botocore](), [aws-sdk-js-v3](https://github.com/aws/aws-sdk-js-v3/blob/c96f35f972c44706a391bb07e0a897e73b8d6dfe/clients/client-cloudfront/endpoints.ts) и некоторых других инструментах.
 
-В данном случае я буду рассматривать [endpoints.json]((https://github.com/boto/botocore/blob/master/botocore/data/endpoints.json)) из репозитория botocore.
+В данном случае я буду рассматривать [endpoints.json]() из репозитория botocore.
 
 ### Partition AWS ISO (США)
 | AWS Partition code | AWS Partition Name        |
@@ -390,7 +390,7 @@ DNS-суффикс: `sc2s.sgov.gov`
 [Neokobo: AWS Regions in Order by Partition Type](https://neokobo.blogspot.com/2022/02/aws-regions-in-order-by-partition-type.html)  
 [note.com: 知らなくても困らないAWSリージョンのパーティション](https://note.com/lighthawk/n/n13cef41d978b)  
 ### Github
-[Github: botocore. endpoints](https://github.com/boto/botocore/blob/master/botocore/data/endpoints.json)  
+[Github botocore. endpoints]
 [Github: Hashicorp Issue: Support aws-iso, aws-iso-b, aws-iso-e, aws-iso-f partitions](https://github.com/hashicorp/terraform-provider-aws/issues/18593)  
 [Github: prowler. aws_regions_by_service](https://github.com/prowler-cloud/prowler/blob/master/prowler/providers/aws/aws_regions_by_service.json)  
 [Github: aws-sdk-go. endpoints](https://github.com/aws/aws-sdk-go/blob/main/models/endpoints/endpoints.json)  
