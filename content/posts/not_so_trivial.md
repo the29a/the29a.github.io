@@ -419,6 +419,6 @@ done
 Жизнеспособное ли это решение? В целом, да. Если собирать и обрабатывать репорты где-то, с этим можно работать. Если денег нет, а скоуп небольшой, особых проблем быть не должно.
 
 ---
-[Habr: Trivy: вредные советы по скрытию уязвимостей](https://habr.com/ru/companies/swordfish_security/articles/822705/)
-[Trivy Documentation](https://aquasecurity.github.io/trivy/v0.56/)
-https://github.com/aquasecurity/trivy
+[Habr: Trivy: вредные советы по скрытию уязвимостей](https://habr.com/ru/companies/swordfish_security/articles/822705/)  
+[Trivy Documentation](https://aquasecurity.github.io/trivy/v0.56/)  
+[Github.com: Trivy](https://github.com/aquasecurity/trivy)  
