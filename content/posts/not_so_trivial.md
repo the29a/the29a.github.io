@@ -14,7 +14,9 @@ license:
 comment: false
 weight: 0
 tags:
-  - draft
+  - security
+  - docker
+  - trivy
 categories:
   - docker
   - vulnerabilities
@@ -33,7 +35,7 @@ lightgallery: false
 password:
 message:
 repost:
-  enable: true
+  enable: false
   url:
 
 # See details front matter: https://fixit.lruihao.cn/documentation/content-management/introduction/#front-matter
@@ -136,10 +138,9 @@ NEXUS_HOST="nexus.exampledomain.ru"
 IMAGES_LIST="images.list"
 IMAGES_LIST_TAGGED="images_tagged.list"
 TAGGED_COUNTER=0
-
 DATE=$(date +'%Y-%m-%d')
 
-curl -s -X GET -u "$REGISTRY_USER:$REGISTRY_PASSWORD" https://registry.exampledomain.ru/v2/_catalog | jq -r '.[].[]' > $IMAGES_LIST
+curl -s -X GET -u "$REGISTRY_USER:$REGISTRY_PASSWORD" https://$REGISTRY_HOST/v2/_catalog | jq -r '.[].[]' > $IMAGES_LIST
 IMAGE_QUANTITY=$(cat $IMAGES_LIST | wc -l)
 
 get_tags(){
@@ -155,7 +156,7 @@ for var in $(cat $IMAGES_LIST); do
     TAGGED_COUNTER=$((TAGGED_COUNTER + 1)) 
   status_code=0
   while [[ "$status_code" == "200" ]]; do
-    status_code=$(curl -I -k -s 'https://registry.exampledomain.ru' | head -n 1 | cut -d ' ' -f 2)
+    status_code=$(curl -I -k -s "REGISTRY_HOST" | head -n 1 | cut -d ' ' -f 2)
     if [[ "$status_code" == "200" ]]; then
           echo "$(date): Tagged $TAGGED_COUNTER / $IMAGE_QUANTITY"
         echo "$(date): Tag $REGISTRY_HOST/$var"
@@ -168,21 +169,55 @@ for var in $(cat $IMAGES_LIST); do
 done
 ```
 
-После по получившемуся списку мы проходим `docker pull`:
+После по получившемуся списку мы проходим `docker pull`. Не забываем, что для `docker login` у в `$HOME/.docker/config.json` нас должен лежать токен.
 ```bash
+REGISTRY_HOST="registry.exampledomain.ru"
 IMAGES_LIST_TAGGED="images_tagged.list"
-TAGGED_COUNTER=0
-IMAGE_QUANTITY=$(cat $IMAGES_LIST_TAGGED | wc -l)
+DATE=$(date +'%Y-%m-%d')
 
 docker login $REGISTRY_HOST
 
-for var in $(cat $IMAGES_LIST_TAGGED); do
-    SCANNED_COUNTER=$((SCANNED_COUNTER + 1))
-    echo "$(date): Pulled: $SCANNED_COUNTER / $IMAGE_QUANTITY"
-    echo "$(date): Pull:  $REGISTRY_HOST/$var"
-    docker pull $REGISTRY_HOST/$var 1> pull.log 2> err.log
+if [[ $? -ne 0 ]]; then
+  echo "Docker login не удался."
+  exit 1
+fi
 
-done
+# Check registry host availability
+check_registry() {
+  local status_code
+  status_code=$(curl -I -k -s "https://$REGISTRY_HOST" | head -n 1 | cut -d ' ' -f 2)
+  if [[ "$status_code" == "400" ]]; then
+    return 0
+  else
+    echo "$(date): Repo status: $status_code. Wait 30m."
+    sleep 1800
+    return 1
+  fi
+}
+
+# Проверка наличия файла $IMAGES_LIST_TAGGED
+if [[ ! -f $IMAGES_LIST_TAGGED ]]; then
+  echo "Файл $IMAGE_LIST_TAGGED не найден."
+  exit 1
+fi
+
+# Параллельная загрузка образов
+pull_image() {
+  local image="$1"
+
+  # Ожидание доступности registry
+  until check_registry; do
+    echo "$(date): registry unavailable. Re-check  in 30 min."
+  done
+
+  echo "$(date): Pull: $REGISTRY_HOST/$image"
+  docker pull "$REGISTRY_HOST/$image" >> pull.log 2>> err.log
+}
+
+export -f pull_image
+export REGISTRY_HOST
+
+cat "$IMAGES_LIST_TAGGED" | parallel -j 4 --bar pull_image {}
 ```
 
 #### Сканируем
@@ -190,9 +225,13 @@ done
 ```bash
 IMAGES_LOCAL_LIST="images_local.lst"
 SCANNED_COUNTER=0
+DATE=$(date +'%Y-%m-%d')
 
-# Очистка кэша, опционально
-#trivy clean --all
+# Temp folder
+mkdir -p tmp/
+tmp_dir="tmp"
+
+trivy_log_name=trivy.json
 
 trivy vulners-db --api-key $VULNERS_API_KEY
 
@@ -205,7 +244,6 @@ for var in $(cat $IMAGES_LOCAL_LIST); do
     echo "$(date): Scan $SCANNED_COUNTER / $IMAGE_QUANTITY"
     reponame="${var//\//_}"
     /usr/bin/trivy -q image $var --ignore-policy policy.rego --scanners vuln  --format json -o $tmp_dir/$reponame.json
-
 done
 ```
 
@@ -237,6 +275,17 @@ ignore {
     startswith(input.VulnerabilityID, "TEMP")
 }
 
+ignore {
+    input.VulnerabilityID != null
+    startswith(input.VulnerabilityID, "NSWG")
+}
+
+ignore {
+    input.VulnerabilityID != null
+    startswith(input.VulnerabilityID, "DSA")
+}
+
+
 ```
 
 #### Чистим и обогащаем
@@ -247,119 +296,142 @@ ignore {
 tmp_dir="./tmp"
 json_dir="json"
 jsonl_dir="jsonl"
-
+cve_cache_file="./cve_cache.txt"
+DATE=$(date +'%Y-%m-%d')
 
 mkdir -p $json_dir
 mkdir -p $jsonl_dir
 
-# Форматирование Description
-for filename in $(ls $tmp_dir); do
-  jq '.Results[].Vulnerabilities[]?.Description |= fromjson' "$tmp_dir"/"$filename"  > "$tmp_dir"/"$filename".tmp && mv "$tmp_dir"/"$filename".tmp "$tmp_dir"/"$filename"
-done
-echo "$(date): Description - Done" 
-```
+# Удаление репортов без Vulnerabilities
+echo "$(date): Clean Non-Description: Start"
+find ./tmp -name "*.json" | parallel -j 4 '
+  if ! jq -e ".Results[].Vulnerabilities? | select(. != null)" {} > /dev/null 2>&1; then
+    rm {}
+  fi
+'
+echo "$(date): Clean Non-Description: Done"
 
+# Форматирование Description
+echo "$(date): Format Description: Start"
+for filename in $(ls $tmp_dir); do
+	jq '.Results[].Vulnerabilities[]?.Description |= if type == "string" and startswith("{") then (try fromjson catch .) else . end' "$tmp_dir"/"$filename"  > "$tmp_dir"/"$filename".tmp && mv "$tmp_dir"/"$filename".tmp "$tmp_dir"/"$filename"
+done
+
+# Костыль, репорты без Description не обрабатываются, но создаётся временный файл
+rm tmp/*.json.tmp 2>/dev/null
+echo "$(date): Format Description: Done" 
+```
 Description исправлен, теперь нужно убрать лишние поля, добавить нужное (можно добавить свои поля). Так же добавляем и EPSS из API FIRST:
 ```bash
+# Форматирование тела JSON
+echo "$(date): Format JSON Body: Start" 
+
 # Форматирование и обрезка лишнего
 for filename in $(ls $tmp_dir); do
   jq '{
-    SchemaVersion, 
-    RepoTags: .Metadata.RepoTags[0], 
-    RepoDigests: .Metadata.RepoDigests[], 
+    SchemaVersion,
+    RepoTags: .Metadata.RepoTags[0],
+    RepoDigests: .Metadata.RepoDigests[],
     Vulnerabilities: [
-      .Results[].Vulnerabilities[]? | 
-      {Title, 
-        VulnerabilityID, 
-        Severity, 
-        PkgName, 
-        PkgPath, 
-        InstalledVersion, 
-        FixedVersion, 
-        Status,  
-        Cvss2_Score: .Description.Cvss2.Score, 
-        Cvss3_Score: .Description.Cvss3.Score, 
-        Epss, 
-        Epss_percent, 
-        VulnersScore: .Description.VulnersScore.Value, 
-        WildExploited: .Description.WildExploited, 
-        ExploitsCount: .Description.ExploitsCount, 
-        Vulners_Description: .Description.Description, 
-        Href: .Description.Href, 
-        } ]
-        | unique 
-  }' "$tmp_dir"/"$filename"  > "$tmp_dir"/"$filename".tmp && mv "$tmp_dir"/"$filename".tmp "$tmp_dir"/"$filename"
+      .Results[].Vulnerabilities[]? | {
+      Title,
+      VulnerabilityID,
+      Severity,
+      PkgName,
+      PkgPath,
+      InstalledVersion,
+      FixedVersion,
+      Status,
+      Cvss2_Score: (if (.Description | type) == "object" then .Description.Cvss2?.Score else null end),
+      Cvss3_Score: (if (.Description | type) == "object" then .Description.Cvss3?.Score else null end),
+      Epss,
+      Epss_percent,
+      VulnersScore: (if (.Description | type) == "object" then .Description.VulnersScore?.Value else null end),
+      WildExploited: (if (.Description | type) == "object" then .Description.WildExploited else null end),
+      ExploitsCount: (if (.Description | type) == "object" then .Description.ExploitsCount else null end),
+      Vulners_Description: (if (.Description | type) == "object" then .Description.Description else null end),
+      Href: (if (.Description | type) == "object" then .Description.Href else null end),
+    }
+  ] | unique
+}' "$tmp_dir"/"$filename"  > "$tmp_dir"/"$filename".tmp && mv "$tmp_dir"/"$filename".tmp "$tmp_dir"/"$filename"
 done
 
-echo "$(date): Formating - Done"
+echo "$(date): Format JSON Body: Done" 
 
-# Читаем исходный JSON из файла
-for filename in "$tmp_dir"/*; do
-  
+echo "$(date): Enrich process: Start"
+# Создаем кэш-файл, если он не существует
+touch "$cve_cache_file"
+
+# Функция для получения EPSS с кэшированием
+fetch_epss() {
+  local cve_id=$1
+  local cached=$(grep -E "^$cve_id\s" "$cve_cache_file" | awk '{print $2}')
+
+  if [ -n "$cached" ]; then
+    echo "$cached"
+  else
+    local api_response=$(curl -s "https://api.first.org/data/v1/epss?cve=$cve_id")
+    local epss_value=$(echo "$api_response" | jq -r '.data[]?.epss // "null"')
+    echo "$cve_id $epss_value" >> "$cve_cache_file"
+    echo "$epss_value"
+  fi
+}
+
+# Функция обработки одного файла
+process_file() {
+  local filename=$1
+  local results=()
+
   # Проверяем, что файл существует
   if [ ! -f "$filename" ]; then
     echo "Ошибка: файл $filename не найден."
-    continue
+    return
   fi
 
-  # Массив для хранения результатов
-  results=()
+  # Извлекаем данные одним вызовом jq
+  metadata=$(jq -r '{
+    cve_ids: [.Vulnerabilities[].VulnerabilityID // empty],
+    repotags: (.RepoTags // empty),
+    repodigests: (.RepoDigests // empty),
+    namespace: (.RepoTags | if . then split("/")[1] else null end)
+  }' "$filename")
 
-  # Извлекаем все CVE ID из текущего файла JSON
-  cve_ids=$(jq -r '.Vulnerabilities[].VulnerabilityID // empty' "$filename")
-  
-  # Извлекаем RepoTags
-  # если нет RepoTags
-  repotags=$(jq -r '.RepoDigests' "$filename" | sed -e 's|@.*||')
-  
-  # Извлекаем RepoDigests
-  repodigests=$(jq -r '.RepoDigests // empty' "$filename")
-  
-  # Извлекаем uri
-  get_image_uri=$(jq -r '.RepoDigests' "$filename" | sed -e 's|^[^/]*/||; s|:.*$||' -e 's|@.*||')
+  if [ $? -ne 0 ]; then
+    echo "Ошибка обработки JSON файла $filename с помощью jq."
+    return
+  fi
 
-  # Извлекаем uploader 
-  asset_uploader=$(curl -s -X GET -u "$REGISTRY_USER:$REGISTRY_PASSWORD" \
-  "$NEXUS_HOST/service/rest/v1/search?repository=reponamer&name=$get_image_uri" \
-  -H 'accept: application/json' | jq -r '.items[0].assets[].uploader')
+  cve_ids=$(echo "$metadata" | jq -r '.cve_ids[]')
+  repotags=$(echo "$metadata" | jq -r '.repotags')
+  repodigests=$(echo "$metadata" | jq -r '.repodigests')
+  namespace=$(echo "$metadata" | jq -r '.namespace')
 
-  # Получение неймспейса
-  namespace=$(jq -r '.RepoTags' "$filename" | awk -F'/' '{print $2}')
-  
 
   # Обработка каждого CVE ID
   for cve_id in $cve_ids; do
-    # Получаем значение Epss из API
-    api_response=$(curl -s "https://api.first.org/data/v1/epss?cve=$cve_id")
+    # Получаем значение EPSS
+    epss_value=$(fetch_epss "$cve_id")
 
-    # Проверяем ответ от API
-    if [ "$(echo "$api_response" | jq -r '.data // empty')" == "" ]; then
-      echo "Не удалось получить данные для $cve_id."
-      epss_value="null"
-    else
-      # Извлекаем значение Epss из массива data
-      epss_value=$(echo "$api_response" | jq -r '.data[]?.epss // "null"')
+    # Устанавливаем значение по умолчанию, если epss_value пустое или "null"
+    if [[ -z "$epss_value" || "$epss_value" == "null" ]]; then
+      epss_value=0
     fi
-    
-    # Рассчитываем процентное значение и обрезаем до двух знаков после запятой
-    epss_raw=$(echo "$epss_value * 100" | bc ) 
-    epss_percent=$(echo $epss_raw | awk '{printf("%.2f",$1)}')
 
+    # Рассчитываем процентное значение
+    epss_percent=$(awk "BEGIN {printf \"%.2f\", $epss_value * 100}")
 
-    # Обработка JSON и добавление значения CVE, Epss, Epss percent, RepoTags и RepoDigests
+    # Генерация JSON 
     processed_json=$(jq --arg cve "$cve_id" \
       --arg Source "nexus" \
       --arg epss "$epss_value" \
       --arg Epss_percent "$epss_percent" \
       --arg repotags "$repotags" \
-      --arg repodigests "$repodigests" \
-      --arg uploader "$asset_uploader" '
+      --arg repodigests "$repodigests" '
         .Vulnerabilities[] | select(.VulnerabilityID == $cve) | 
         {"reposcanner": {
           Source: $Source,
           RepoTags: $repotags,
           RepoDigests: $repodigests,
-          Uploader: $uploader,
           TeamId: $teamId,
           Title,
           VulnerabilityID: $cve,
@@ -381,14 +453,13 @@ for filename in "$tmp_dir"/*; do
         }}
       ' "$filename")
 
-# Проверяем, было ли успешно обработано значение
-    if [ -z "$processed_json" ]; then
-      echo "Не удалось обработать данные для $cve_id."
-    else
-      # Добавляем обработанный JSON в массив результатов
+    if [ -n "$processed_json" ]; then
       results+=("$processed_json")
+    else
+      echo "Не удалось обработать данные для $cve_id."
     fi
   done
+
 
   # Объединяем результаты в один JSON
   if [ ${#results[@]} -eq 0 ]; then
@@ -396,20 +467,28 @@ for filename in "$tmp_dir"/*; do
   else
     final_output=$(printf '%s\n' "${results[@]}" | jq -s '.')
     output_file="$json_dir/$(basename "$filename" .json).json"
-    echo "$final_output"  > "$output_file"
+    echo "$final_output" > "$output_file"
   fi
-done
+}
 
+# Параллельная обработка всех файлов
+export -f fetch_epss process_file
+export json_dir cve_cache_file
+find "$tmp_dir" -type f | parallel -j "$(nproc)" process_file {}
+echo "$(date): Enrich process: Done"
 ```
 
 Дальнейшие действия уже зависят от того, куда мы будем полученные репорты отправлять. Например, если нам нужен JSONL, мы можем с помощью jq репорты без проблем преобразовать:
 ```bash
+# JSON to JSONL
+echo "$(date): Convert JSON to JSONL: Start" 
 # Читаем исходный JSON из файла
 for filename in "$json_dir"/*; do
 
     # преобразовать JSON в JSONL 
     jq -c '.[]' $filename > $jsonl_dir/$(basename "$filename" .json).jsonl
 done
+echo "$(date): Convert JSON to JSONL: Done" 
 ```
 
 ## Итоги
@@ -418,7 +497,12 @@ done
 Хорошее ли это решение? Скорей нет. Это громадный и медленный костыль с кучей точек отказа.  
 Жизнеспособное ли это решение? В целом, да. Если собирать и обрабатывать репорты где-то, с этим можно работать. Если денег нет, а скоуп небольшой, особых проблем быть не должно.
 
+И самое главное: если нет процесса patch management, то никакие сканеры ситуацию не исправят. 
+
 ---
 [Habr: Trivy: вредные советы по скрытию уязвимостей](https://habr.com/ru/companies/swordfish_security/articles/822705/)  
 [Trivy Documentation](https://aquasecurity.github.io/trivy/v0.56/)  
 [Github.com: Trivy](https://github.com/aquasecurity/trivy)  
+[Github: trivy-plugin-vulners-db](https://github.com/vulnersCom/trivy-plugin-vulners-db)   
+[FIRST API v1](https://api.first.org/)   
+
