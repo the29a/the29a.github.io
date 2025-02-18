@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Obsidian - Tag - 29a µ blog</title>
+    <link>http://localhost:1313/tags/obsidian/</link>
+    <description>infosec and something else</description>
+    <generator>Hugo 0.144.0 &amp; FixIt v0.3.17-8b402129</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 19 May 2023 17:14:50 +0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/obsidian/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Make Notes</title>
+      <link>http://localhost:1313/posts/make-notes/</link>
+      <pubDate>Fri, 19 May 2023 17:14:50 +0300</pubDate>
+      <guid>http://localhost:1313/posts/make-notes/</guid>
+      <description>&lt;p&gt;Вы делаете заметки во время  прохождения CTF?&lt;/p&gt;&#xA;&lt;p&gt;Я делаю, но большая их часть больше напоминает копипаст кода\команд с комментариями.&lt;/p&gt;&#xA;&lt;p&gt;Но куски копипаста превращаются в заметки, заметки могут стать целым walkthrough. Или что-то более полезное.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Obsidian for OSINT</title>
+      <link>http://localhost:1313/posts/obsidian-for-osint/</link>
+      <pubDate>Mon, 15 May 2023 19:26:40 +0300</pubDate>
+      <guid>http://localhost:1313/posts/obsidian-for-osint/</guid>
+      <description>&lt;img src=&#34;https://i0.wp.com/webbreacher.com/wp-content/uploads/2022/03/obsidian1.png&#34;  width=&#34;30%&#34; height=&#34;30%&#34;&gt;&#xA;&lt;p&gt;Obsidian для OSINT?&lt;/p&gt;&#xA;&lt;p&gt;Почему бы и нет?&#xA;В целом, Obsidian сравнительно неплохо для этого подходит.&#xA;Что может потребоваться от OSINT-инструмента?&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Запись по какой-то единице информации? Есть.&lt;/li&gt;&#xA;&lt;li&gt;Обогащение записей различным медиа (фото, аудио, видео)? Есть.&lt;/li&gt;&#xA;&lt;li&gt;Построение связей между записями? Тоже есть.&lt;/li&gt;&#xA;&lt;li&gt;Построение графа? В наличии.&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>

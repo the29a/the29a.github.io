@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Not So (Trivy)al. Как Использовать Trivy На Большом Скоупе И Не Поехать Кукухой (Нет) - 29a µ blog</title><meta name="author" content="">
+<meta name="description" content="Стояла задача простая и ясная как летний день - сканировать Docker-образы в своём registry. Но по мере работы стали проявляться нюансы, которые как Газманов забирали этот ясный день:
+Тормозной и неудобный API Nexus (частная проблема, решается использованием Registry API); Большое количество и объем образов (3к&#43; образов и более 1.5Tb объема); Не все используют тэг latest; В роли сборщика репортов не подходил DefectDojo. "><meta name="keywords" content='security, docker, trivy'>
+  <meta itemprop="name" content="Not so (trivy)al. Как использовать trivy на большом скоупе и не поехать кукухой (нет)">
+  <meta itemprop="description" content="Стояла задача простая и ясная как летний день - сканировать Docker-образы в своём registry. Но по мере работы стали проявляться нюансы, которые как Газманов забирали этот ясный день:
+Тормозной и неудобный API Nexus (частная проблема, решается использованием Registry API); Большое количество и объем образов (3к&#43; образов и более 1.5Tb объема); Не все используют тэг latest; В роли сборщика репортов не подходил DefectDojo.">
+  <meta itemprop="datePublished" content="2024-11-08T16:48:43+03:00">
+  <meta itemprop="dateModified" content="2024-11-08T16:48:43+03:00">
+  <meta itemprop="wordCount" content="2425">
+  <meta itemprop="image" content="http://localhost:1313/avatar.png">
+  <meta itemprop="keywords" content="Security,Docker,Trivy"><meta property="og:url" content="http://localhost:1313/posts/not_so_trivial/">
+  <meta property="og:site_name" content="29a µ blog">
+  <meta property="og:title" content="Not so (trivy)al. Как использовать trivy на большом скоупе и не поехать кукухой (нет)">
+  <meta property="og:description" content="Стояла задача простая и ясная как летний день - сканировать Docker-образы в своём registry. Но по мере работы стали проявляться нюансы, которые как Газманов забирали этот ясный день:
+Тормозной и неудобный API Nexus (частная проблема, решается использованием Registry API); Большое количество и объем образов (3к&#43; образов и более 1.5Tb объема); Не все используют тэг latest; В роли сборщика репортов не подходил DefectDojo.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-11-08T16:48:43+03:00">
+    <meta property="article:modified_time" content="2024-11-08T16:48:43+03:00">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Docker">
+    <meta property="article:tag" content="Trivy">
+    <meta property="og:image" content="http://localhost:1313/avatar.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/avatar.png">
+  <meta name="twitter:title" content="Not so (trivy)al. Как использовать trivy на большом скоупе и не поехать кукухой (нет)">
+  <meta name="twitter:description" content="Стояла задача простая и ясная как летний день - сканировать Docker-образы в своём registry. Но по мере работы стали проявляться нюансы, которые как Газманов забирали этот ясный день:
+Тормозной и неудобный API Nexus (частная проблема, решается использованием Registry API); Большое количество и объем образов (3к&#43; образов и более 1.5Tb объема); Не все используют тэг latest; В роли сборщика репортов не подходил DefectDojo.">
+<meta name="application-name" content="29a µ blog">
+<meta name="apple-mobile-web-app-title" content="29a µ blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="http://localhost:1313/posts/not_so_trivial/" title="Not so (trivy)al. Как использовать trivy на большом скоупе и не поехать кукухой (нет) - 29a µ blog" /><link rel="prev" type="text/html" href="http://localhost:1313/posts/a_dwarf_garden_for_robots_looking_for_low-hanging_fruit_in_android/" title="Карликовый сад для роботов. Ищем низко висящие фрукты в Android" /><link rel="next" type="text/html" href="http://localhost:1313/posts/somali_customs/" title="Таможня по-сомалийски. Вскрываем контейнеры Docker" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Not so (trivy)al. Как использовать trivy на большом скоупе и не поехать кукухой (нет)",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/posts\/not_so_trivial\/"
+    },"genre": "posts","keywords": "security, docker, trivy","wordcount":  2425 ,
+    "url": "http:\/\/localhost:1313\/posts\/not_so_trivial\/","datePublished": "2024-11-08T16:48:43+03:00","dateModified": "2024-11-08T16:48:43+03:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item">
+              <a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item">
+              <a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item"><a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item"><a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="Collections"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Not So (Trivy)al. Как Использовать Trivy На Большом Скоупе И Не Поехать Кукухой (Нет)</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      Anonymous</span></span><span class="post-included-in">&nbsp;included in <a href="/categories/docker/" class="post-category" title="Category - Docker"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Docker</a>&ensp;<a href="/categories/vulnerabilities/" class="post-category" title="Category - Vulnerabilities"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Vulnerabilities</a></span></div><div class="post-meta-line"><span title="published on 2024-11-08 16:48:43"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-11-08">2024-11-08</time></span>&nbsp;<span title="2425 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 2500 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>12 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#выбор-тулкита">Выбор тулкита</a>
+      <ul>
+        <li><a href="#варианты-выбора">Варианты выбора</a>
+          <ul>
+            <li><a href="#grype">grype</a></li>
+            <li><a href="#dockle">dockle</a></li>
+            <li><a href="#docker-bench-security">docker-bench-security</a></li>
+            <li><a href="#clair">Clair</a></li>
+            <li><a href="#harbor">Harbor</a></li>
+            <li><a href="#dagda">Dagda</a></li>
+            <li><a href="#trivy">Trivy</a></li>
+            <li><a href="#итоговый-выбор">Итоговый выбор</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#превозмогая-трудности">Превозмогая трудности</a>
+      <ul>
+        <li><a href="#общие-проблемы">Общие проблемы</a></li>
+        <li><a href="#прикладное-велосипедостроение">Прикладное велосипедостроение</a>
+          <ul>
+            <li><a href="#получаем-образы-и-тэги">Получаем образы и тэги</a></li>
+            <li><a href="#сканируем">Сканируем</a>
+              <ul>
+                <li><a href="#ignore-policy">Ignore Policy</a></li>
+              </ul>
+            </li>
+            <li><a href="#чистим-и-обогащаем">Чистим и обогащаем</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#итоги">Итоги</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>Стояла задача простая и ясная как летний день - сканировать Docker-образы в своём registry.
+Но по мере работы стали проявляться нюансы, которые как Газманов забирали этот ясный день:</p>
+<ul>
+<li>Тормозной и неудобный API Nexus (частная проблема, решается использованием Registry API);</li>
+<li>Большое количество и объем образов (3к+ образов и более 1.5Tb объема);</li>
+<li>Не все используют тэг latest;</li>
+<li>В роли сборщика репортов не подходил DefectDojo.</li>
+</ul>
+<h2 id="intro" class="heading-element"><span>Intro</span>
+  <a href="#intro" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="details admonition info open disabled">
+  <div class="details-summary admonition-title"><i class="icon fa-fw fa-solid fa-circle-info" aria-hidden="true"></i>Info</div>
+  <div class="details-content">
+    <div class="admonition-content"><p>Тут не будет готового решения, скорей концептуальное описание пройденного пути.
+Так же примеры кода будут в виде shell-скриптов, так как с языками программирования у меня не всё просто, а так же многое завязано за jq.
+В статье будет про Nexus в роли репозитория, но основные моменты могут быть применимы и к другим решениям.</p></div>
+  </div>
+</div><h2 id="выбор-тулкита" class="heading-element"><span>Выбор тулкита</span>
+  <a href="#%d0%b2%d1%8b%d0%b1%d0%be%d1%80-%d1%82%d1%83%d0%bb%d0%ba%d0%b8%d1%82%d0%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Какие требования были к сканеру:</p>
+<ul>
+<li>Сканирование образов Registry;</li>
+<li>Сканирование Dockerfile в gitlab-репозитории и локально;</li>
+<li>Open-Source (Можно было бы всё купить, но обходимся тем, что есть);</li>
+<li>Отчёты в приемлемом виде (json, опционально html);</li>
+<li>Интеграция в CI/CD (скорей задел на будущее).</li>
+</ul>
+<h3 id="варианты-выбора" class="heading-element"><span>Варианты выбора</span>
+  <a href="#%d0%b2%d0%b0%d1%80%d0%b8%d0%b0%d0%bd%d1%82%d1%8b-%d0%b2%d1%8b%d0%b1%d0%be%d1%80%d0%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Сканеры на выбор есть, но нельзя сказать, что их много.</p>
+<h4 id="grype" class="heading-element"><span>grype</span>
+  <a href="#grype" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/anchore/grype"target="_blank" rel="external nofollow noopener noreferrer">grype</a> - ранее известный как <a href="https://github.com/anchore/anchore-engine"target="_blank" rel="external nofollow noopener noreferrer">Anchore-Engine</a>.<br>
+Сканер уязвимостей для образов контейнеров и файловых систем, не сканирует git-репозиторий.<br>
+Возможности:</p>
+<ul>
+<li>Сканирование содержимого образа контейнера или файловой системы для поиска известных уязвимостей.</li>
+<li>Обнаруживает уязвимости для распространенных систем</li>
+<li>Обнаруживает уязвимости в пакетах языков программирования</li>
+<li>Поддерживает форматы образов <a href="https://www.docker.com/"target="_blank" rel="external nofollow noopener noreferrer">Docker</a>, <a href="https://opencontainers.org/"target="_blank" rel="external nofollow noopener noreferrer">OCI</a> и <a href="https://github.com/sylabs/singularity"target="_blank" rel="external nofollow noopener noreferrer">SingularityCE</a></li>
+</ul>
+<p>Из коробки работает с другим инструментом от Anchore - <a href="https://github.com/anchore/syft"target="_blank" rel="external nofollow noopener noreferrer">syft</a> (генератор SBOM), но так же воспринимает форматы <a href="https://spdx.dev/"target="_blank" rel="external nofollow noopener noreferrer">SPDX</a> <a href="https://cyclonedx.org/"target="_blank" rel="external nofollow noopener noreferrer">CycloneDX</a></p>
+<p>Так же можно обогатить базу уязвимостей связкой <a href="https://github.com/anchore/grype"target="_blank" rel="external nofollow noopener noreferrer">grype</a> + <a href="https://github.com/anchore/grype-db"target="_blank" rel="external nofollow noopener noreferrer">grype-db</a> + <a href="https://github.com/anchore/vunnel"target="_blank" rel="external nofollow noopener noreferrer">vunnel</a>.<br>
+Раньше была <a href="https://docs.gitlab.com/ee/user/application_security/container_scanning/"target="_blank" rel="external nofollow noopener noreferrer">интеграция с Gitlab</a>, сейчас не поддерживается.</p>
+<h4 id="dockle" class="heading-element"><span>dockle</span>
+  <a href="#dockle" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/goodwithtech/dockle"target="_blank" rel="external nofollow noopener noreferrer">dockle</a> - линтер \ сканер.<br>
+Ищет CVE в ПО образа, проверяет корректность и безопасность конкретного образа, анализируя его слои и конфигурацию.<br>
+Используется CIS Benchmark.<br>
+Работает как отдельно, так и интегрируется с GitLab CI, Jenkins.</p>
+<h4 id="docker-bench-security" class="heading-element"><span>docker-bench-security</span>
+  <a href="#docker-bench-security" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/docker/docker-bench-security"target="_blank" rel="external nofollow noopener noreferrer">docker-bench-security</a> - набор bash скриптов для проверки безопасности конфигурации образов и контейнеров. docker-bench-security больше рассчитан на интеграцию, standalone сканирование в целом есть, но не без страданий в работе.</p>
+<p>Могут быть проблемы с интерпретацией вывода, так как используется CIS Benchmark.<br>
+Давно не обновлялся, последняя версия от 20 декабря 2023 г.</p>
+<h4 id="clair" class="heading-element"><span>Clair</span>
+  <a href="#clair" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/quay/clair"target="_blank" rel="external nofollow noopener noreferrer">Clair</a> - проект для статического анализа уязвимостей в контейнерах приложений (в настоящее время включает <a href="https://opencontainers.org/"target="_blank" rel="external nofollow noopener noreferrer">OCI</a> и <a href="https://www.docker.com/"target="_blank" rel="external nofollow noopener noreferrer">Docker</a>).<br>
+Клиенты используют API Clair для индексации своих образов контейнеров и затем могут сопоставить их с известными уязвимостями.</p>
+<p>Проблемно разворачивается, не очень удобен в использовании.</p>
+<h4 id="harbor" class="heading-element"><span>Harbor</span>
+  <a href="#harbor" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/goharbor/harbor"target="_blank" rel="external nofollow noopener noreferrer">Harbor</a> - open source Docker Registry с безопасностью «из коробки». Под капотом уже имеет trivy, всё круто-здорово, но это Registry, так что не подходит.</p>
+<h4 id="dagda" class="heading-element"><span>Dagda</span>
+  <a href="#dagda" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/eliasgranderubio/dagda"target="_blank" rel="external nofollow noopener noreferrer">Dagda</a> - инструмент для статического анализа известных уязвимостей,  вредоносного ПО и других  угроз в  образах/контейнерах, а также для мониторинга демона docker и запущенных docker контейнеров для выявления аномальных действий.
+Давно не обновлялся, последний релиз Jul 27, 2021</p>
+<h4 id="trivy" class="heading-element"><span>Trivy</span>
+  <a href="#trivy" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/aquasecurity/trivy"target="_blank" rel="external nofollow noopener noreferrer">Trivy</a> - довольно известный сканер от Aqua Security. Находит уязвимые версии софта в зависимостях, секреты, мисконфиги.<br>
+Из удобств: можно использовать как standalone сканирование, например проверить репозиторий целиком, так и интегрировать в CI/CD (GitLab CI, GitHub Actions). Есть плагин для VSCode и плагин для интеграции с Vulners.</p>
+<h4 id="итоговый-выбор" class="heading-element"><span>Итоговый выбор</span>
+  <a href="#%d0%b8%d1%82%d0%be%d0%b3%d0%be%d0%b2%d1%8b%d0%b9-%d0%b2%d1%8b%d0%b1%d0%be%d1%80" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>В итоге выбор пал на Trivy. Функционал trivy позволяет запускать его автоматизированно, сканировать как контейнеры, так и git-репозитории.<br>
+Данные будут передаваться в одно место для хранения\агрегации\обработки, поэтому не требуется использовать сложный и комплексный инструмент, вроде Dagda или Clair.</p>
+<p>Плагин <a href="https://github.com/vulnersCom/trivy-plugin-vulners-db"target="_blank" rel="external nofollow noopener noreferrer">trivy-plugin-vulners-db</a> позволяет обогащать данными сам отчёт (EPSS, CVSS, наличие эксплоитов, экслуатация &ldquo;in-the-wild&rdquo;, работает так себе, но есть).
+Плагин требует API-ключ для получения обновления баз, однако он запрашивается только при загрузке, а не каждом сканировании.</p>
+<h2 id="превозмогая-трудности" class="heading-element"><span>Превозмогая трудности</span>
+  <a href="#%d0%bf%d1%80%d0%b5%d0%b2%d0%be%d0%b7%d0%bc%d0%be%d0%b3%d0%b0%d1%8f-%d1%82%d1%80%d1%83%d0%b4%d0%bd%d0%be%d1%81%d1%82%d0%b8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="общие-проблемы" class="heading-element"><span>Общие проблемы</span>
+  <a href="#%d0%be%d0%b1%d1%89%d0%b8%d0%b5-%d0%bf%d1%80%d0%be%d0%b1%d0%bb%d0%b5%d0%bc%d1%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Но то, что неплохо работает в небольшом скоупе, может очень плохо масштабироваться. Либо делать это с компромиссами.
+Сравнительное удобство Trivy имеет ряд своих компромиссов, одним из которых является <a href="https://github.com/boltdb/bolt"target="_blank" rel="external nofollow noopener noreferrer">boltDB</a>. Сам boltDB является хранилищем на основе &ldquo;ключ-значение&rdquo;, и из-за его ограничений параллельная работа Trivy по сути не работает.</p>
+<p>Цитата <a href="https://aquasecurity.github.io/trivy/v0.56/docs/references/troubleshooting/#running-in-parallel-takes-same-time-as-series-run"target="_blank" rel="external nofollow noopener noreferrer">из документации</a>:</p>
+<blockquote>
+<p>Bolt obtains a file lock on the data file so multiple processes cannot open the same database at the same time. Opening an already open Bolt database will cause it to hang until the other process closes it.</p></blockquote>
+<p>Из коробки Trivy нельзя скормить список образов, но в целом это тоже решается, пускай и циклом на Bash.
+А так же в дальнейшем вскрылся неприятный нюанс: плагин trivy-plugin-vulners-db EPSS не отдаёт. Этот вопрос решаем, но нюанс неприятный.</p>
+<h3 id="прикладное-велосипедостроение" class="heading-element"><span>Прикладное велосипедостроение</span>
+  <a href="#%d0%bf%d1%80%d0%b8%d0%ba%d0%bb%d0%b0%d0%b4%d0%bd%d0%be%d0%b5-%d0%b2%d0%b5%d0%bb%d0%be%d1%81%d0%b8%d0%bf%d0%b5%d0%b4%d0%be%d1%81%d1%82%d1%80%d0%be%d0%b5%d0%bd%d0%b8%d0%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="получаем-образы-и-тэги" class="heading-element"><span>Получаем образы и тэги</span>
+  <a href="#%d0%bf%d0%be%d0%bb%d1%83%d1%87%d0%b0%d0%b5%d0%bc-%d0%be%d0%b1%d1%80%d0%b0%d0%b7%d1%8b-%d0%b8-%d1%82%d1%8d%d0%b3%d0%b8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Объемы большие, поэтому просто сканировать по очереди будет долго. Образы будем пуллить. Для начала нам нужно получить список образов с последним тэгом:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">REGISTRY_HOST</span><span class="o">=</span><span class="s2">&#34;registry.exampledomain.ru&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">NEXUS_HOST</span><span class="o">=</span><span class="s2">&#34;nexus.exampledomain.ru&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">IMAGES_LIST</span><span class="o">=</span><span class="s2">&#34;images.list&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">IMAGES_LIST_TAGGED</span><span class="o">=</span><span class="s2">&#34;images_tagged.list&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">TAGGED_COUNTER</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date +<span class="s1">&#39;%Y-%m-%d&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">curl -s -X GET -u <span class="s2">&#34;</span><span class="nv">$REGISTRY_USER</span><span class="s2">:</span><span class="nv">$REGISTRY_PASSWORD</span><span class="s2">&#34;</span> https://<span class="nv">$REGISTRY_HOST</span>/v2/_catalog <span class="p">|</span> jq -r <span class="s1">&#39;.[].[]&#39;</span> &gt; <span class="nv">$IMAGES_LIST</span>
+</span></span><span class="line"><span class="cl"><span class="nv">IMAGE_QUANTITY</span><span class="o">=</span><span class="k">$(</span>cat <span class="nv">$IMAGES_LIST</span> <span class="p">|</span> wc -l<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">get_tags<span class="o">(){</span>
+</span></span><span class="line"><span class="cl">  curl -s -X GET -u <span class="s2">&#34;</span><span class="nv">$REGISTRY_USER</span><span class="s2">:</span><span class="nv">$REGISTRY_PASSWORD</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="s2">&#34;https://</span><span class="nv">$NEXUS_HOST</span><span class="s2">/service/rest/v1/search?repository=reponame&amp;name=</span><span class="nv">$1</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -H <span class="s1">&#39;accept: application/json&#39;</span> <span class="p">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    jq -r <span class="s1">&#39;.items[] | .version as $version | .assets[] | {version: $version, lastModified: .lastModified}&#39;</span> <span class="p">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    jq -r -s <span class="s1">&#39;sort_by(.lastModified) | last | .version&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> var in <span class="k">$(</span>cat <span class="nv">$IMAGES_LIST</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">TAGGED_COUNTER</span><span class="o">=</span><span class="k">$((</span>TAGGED_COUNTER <span class="o">+</span> <span class="m">1</span><span class="k">))</span> 
+</span></span><span class="line"><span class="cl">  <span class="nv">status_code</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="o">[[</span> <span class="s2">&#34;</span><span class="nv">$status_code</span><span class="s2">&#34;</span> <span class="o">==</span> <span class="s2">&#34;200&#34;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">status_code</span><span class="o">=</span><span class="k">$(</span>curl -I -k -s <span class="s2">&#34;REGISTRY_HOST&#34;</span> <span class="p">|</span> head -n <span class="m">1</span> <span class="p">|</span> cut -d <span class="s1">&#39; &#39;</span> -f 2<span class="k">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">[[</span> <span class="s2">&#34;</span><span class="nv">$status_code</span><span class="s2">&#34;</span> <span class="o">==</span> <span class="s2">&#34;200&#34;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">          <span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Tagged </span><span class="nv">$TAGGED_COUNTER</span><span class="s2"> / </span><span class="nv">$IMAGE_QUANTITY</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Tag </span><span class="nv">$REGISTRY_HOST</span><span class="s2">/</span><span class="nv">$var</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> <span class="nv">$var</span>:<span class="k">$(</span>get_tags <span class="nv">$var</span><span class="k">)</span> &gt;&gt; <span class="nv">$IMAGES_LIST_TAGGED</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Repo status: </span><span class="k">$(</span>status_code<span class="k">)</span><span class="s2">. Wait 30m.&#34;</span>
+</span></span><span class="line"><span class="cl">      sleep <span class="m">1800</span>   
+</span></span><span class="line"><span class="cl">    <span class="k">fi</span>
+</span></span><span class="line"><span class="cl">  <span class="k">done</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>После по получившемуся списку мы проходим <code>docker pull</code>. Не забываем, что для <code>docker login</code> у в <code>$HOME/.docker/config.json</code> нас должен лежать токен.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">REGISTRY_HOST</span><span class="o">=</span><span class="s2">&#34;registry.exampledomain.ru&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">IMAGES_LIST_TAGGED</span><span class="o">=</span><span class="s2">&#34;images_tagged.list&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date +<span class="s1">&#39;%Y-%m-%d&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker login <span class="nv">$REGISTRY_HOST</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -ne <span class="m">0</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">echo</span> <span class="s2">&#34;Docker login не удался.&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Check registry host availability</span>
+</span></span><span class="line"><span class="cl">check_registry<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">local</span> status_code
+</span></span><span class="line"><span class="cl">  <span class="nv">status_code</span><span class="o">=</span><span class="k">$(</span>curl -I -k -s <span class="s2">&#34;https://</span><span class="nv">$REGISTRY_HOST</span><span class="s2">&#34;</span> <span class="p">|</span> head -n <span class="m">1</span> <span class="p">|</span> cut -d <span class="s1">&#39; &#39;</span> -f 2<span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[[</span> <span class="s2">&#34;</span><span class="nv">$status_code</span><span class="s2">&#34;</span> <span class="o">==</span> <span class="s2">&#34;400&#34;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Repo status: </span><span class="nv">$status_code</span><span class="s2">. Wait 30m.&#34;</span>
+</span></span><span class="line"><span class="cl">    sleep <span class="m">1800</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Проверка наличия файла $IMAGES_LIST_TAGGED</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[[</span> ! -f <span class="nv">$IMAGES_LIST_TAGGED</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">echo</span> <span class="s2">&#34;Файл </span><span class="nv">$IMAGE_LIST_TAGGED</span><span class="s2"> не найден.&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Параллельная загрузка образов</span>
+</span></span><span class="line"><span class="cl">pull_image<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">local</span> <span class="nv">image</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$1</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Ожидание доступности registry</span>
+</span></span><span class="line"><span class="cl">  <span class="k">until</span> check_registry<span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: registry unavailable. Re-check  in 30 min.&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Pull: </span><span class="nv">$REGISTRY_HOST</span><span class="s2">/</span><span class="nv">$image</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  docker pull <span class="s2">&#34;</span><span class="nv">$REGISTRY_HOST</span><span class="s2">/</span><span class="nv">$image</span><span class="s2">&#34;</span> &gt;&gt; pull.log 2&gt;&gt; err.log
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> -f pull_image
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> REGISTRY_HOST
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cat <span class="s2">&#34;</span><span class="nv">$IMAGES_LIST_TAGGED</span><span class="s2">&#34;</span> <span class="p">|</span> parallel -j <span class="m">4</span> --bar pull_image <span class="o">{}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="сканируем" class="heading-element"><span>Сканируем</span>
+  <a href="#%d1%81%d0%ba%d0%b0%d0%bd%d0%b8%d1%80%d1%83%d0%b5%d0%bc" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Список тэгированных образов получен. Осталось их скормить</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">IMAGES_LOCAL_LIST</span><span class="o">=</span><span class="s2">&#34;images_local.lst&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SCANNED_COUNTER</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date +<span class="s1">&#39;%Y-%m-%d&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Temp folder</span>
+</span></span><span class="line"><span class="cl">mkdir -p tmp/
+</span></span><span class="line"><span class="cl"><span class="nv">tmp_dir</span><span class="o">=</span><span class="s2">&#34;tmp&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">trivy_log_name</span><span class="o">=</span>trivy.json
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">trivy vulners-db --api-key <span class="nv">$VULNERS_API_KEY</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker images -a -q &gt; <span class="nv">$IMAGES_LOCAL_LIST</span>
+</span></span><span class="line"><span class="cl"><span class="nv">IMAGE_QUANTITY</span><span class="o">=</span><span class="k">$(</span>cat <span class="nv">$IMAGES_LOCAL_LIST</span><span class="p">|</span> wc -l<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> var in <span class="k">$(</span>cat <span class="nv">$IMAGES_LOCAL_LIST</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">SCANNED_COUNTER</span><span class="o">=</span><span class="k">$((</span>SCANNED_COUNTER <span class="o">+</span> <span class="m">1</span><span class="k">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Vulnerabilities search in image: </span><span class="nv">$var</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Scan </span><span class="nv">$SCANNED_COUNTER</span><span class="s2"> / </span><span class="nv">$IMAGE_QUANTITY</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">reponame</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">var</span><span class="p">//</span><span class="se">\/</span><span class="p">/_</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    /usr/bin/trivy -q image <span class="nv">$var</span> --ignore-policy policy.rego --scanners vuln  --format json -o <span class="nv">$tmp_dir</span>/<span class="nv">$reponame</span>.json
+</span></span><span class="line"><span class="cl"><span class="k">done</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="ignore-policy" class="heading-element"><span>Ignore Policy</span>
+  <a href="#ignore-policy" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h5><div class="details admonition info open disabled">
+  <div class="details-summary admonition-title"><i class="icon fa-fw fa-solid fa-circle-info" aria-hidden="true"></i>Info</div>
+  <div class="details-content">
+    <div class="admonition-content"><p>Тут стоит сделать небольшую сноску. Я использую опицию <code>--ignore-policy</code>, так как я дальше обрабатываю данные от плагина vulners. В не-CVE уязвимостях может быть описание в markdown, что вызывает проблемы.
+Если вы в дальнейшем не планируете обрабатывать его, то можно ignore policy не использовать.</p></div>
+  </div>
+</div><p>Пример Ignore Policy:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">trivy</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="nx">По</span> <span class="nx">умолчанию</span> <span class="nx">все</span> <span class="nx">уязвимости</span> <span class="nx">разрешены</span>
+</span></span><span class="line"><span class="cl"><span class="k">default</span> <span class="nx">ignore</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="nx">Игнорируем</span> <span class="nx">уязвимости</span> <span class="nx">с</span> <span class="nx">идентификаторами</span><span class="p">,</span> <span class="nx">начинающимися</span> <span class="nx">на</span> <span class="s">&#34;GHSA&#34;</span><span class="p">,</span> <span class="s">&#34;DLA&#34;</span> <span class="nx">или</span> <span class="s">&#34;TEMP&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">ignore</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">input</span><span class="p">.</span><span class="nx">VulnerabilityID</span> <span class="o">!=</span> <span class="nx">null</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">startswith</span><span class="p">(</span><span class="nx">input</span><span class="p">.</span><span class="nx">VulnerabilityID</span><span class="p">,</span> <span class="s">&#34;GHSA&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">ignore</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">input</span><span class="p">.</span><span class="nx">VulnerabilityID</span> <span class="o">!=</span> <span class="nx">null</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">startswith</span><span class="p">(</span><span class="nx">input</span><span class="p">.</span><span class="nx">VulnerabilityID</span><span class="p">,</span> <span class="s">&#34;DLA&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">ignore</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">input</span><span class="p">.</span><span class="nx">VulnerabilityID</span> <span class="o">!=</span> <span class="nx">null</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">startswith</span><span class="p">(</span><span class="nx">input</span><span class="p">.</span><span class="nx">VulnerabilityID</span><span class="p">,</span> <span class="s">&#34;TEMP&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">ignore</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">input</span><span class="p">.</span><span class="nx">VulnerabilityID</span> <span class="o">!=</span> <span class="nx">null</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">startswith</span><span class="p">(</span><span class="nx">input</span><span class="p">.</span><span class="nx">VulnerabilityID</span><span class="p">,</span> <span class="s">&#34;NSWG&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">ignore</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">input</span><span class="p">.</span><span class="nx">VulnerabilityID</span> <span class="o">!=</span> <span class="nx">null</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">startswith</span><span class="p">(</span><span class="nx">input</span><span class="p">.</span><span class="nx">VulnerabilityID</span><span class="p">,</span> <span class="s">&#34;DSA&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="чистим-и-обогащаем" class="heading-element"><span>Чистим и обогащаем</span>
+  <a href="#%d1%87%d0%b8%d1%81%d1%82%d0%b8%d0%bc-%d0%b8-%d0%be%d0%b1%d0%be%d0%b3%d0%b0%d1%89%d0%b0%d0%b5%d0%bc" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>На выходе сканирования мы получаем довольно массивные JSON-файлы с множеством полезной и не очень информации. Референсные ссылки,  информацию о слоях и прочую крайне полезную информацию отправлять в какой-то коллектор смысла нет. А так же вспоминаем тот факт, что EPSS нам нужно добавить самостоятельно.</p>
+<p>Так что чистим и обогащаем наши репорты. Для начала нужно отформатировать Description, которое получаем от плагина vulners:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">tmp_dir</span><span class="o">=</span><span class="s2">&#34;./tmp&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">json_dir</span><span class="o">=</span><span class="s2">&#34;json&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">jsonl_dir</span><span class="o">=</span><span class="s2">&#34;jsonl&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">cve_cache_file</span><span class="o">=</span><span class="s2">&#34;./cve_cache.txt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date +<span class="s1">&#39;%Y-%m-%d&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mkdir -p <span class="nv">$json_dir</span>
+</span></span><span class="line"><span class="cl">mkdir -p <span class="nv">$jsonl_dir</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Удаление репортов без Vulnerabilities</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Clean Non-Description: Start&#34;</span>
+</span></span><span class="line"><span class="cl">find ./tmp -name <span class="s2">&#34;*.json&#34;</span> <span class="p">|</span> parallel -j <span class="m">4</span> <span class="s1">&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">  if ! jq -e &#34;.Results[].Vulnerabilities? | select(. != null)&#34; {} &gt; /dev/null 2&gt;&amp;1; then
+</span></span></span><span class="line"><span class="cl"><span class="s1">    rm {}
+</span></span></span><span class="line"><span class="cl"><span class="s1">  fi
+</span></span></span><span class="line"><span class="cl"><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Clean Non-Description: Done&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Форматирование Description</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Format Description: Start&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> filename in <span class="k">$(</span>ls <span class="nv">$tmp_dir</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">	jq <span class="s1">&#39;.Results[].Vulnerabilities[]?.Description |= if type == &#34;string&#34; and startswith(&#34;{&#34;) then (try fromjson catch .) else . end&#39;</span> <span class="s2">&#34;</span><span class="nv">$tmp_dir</span><span class="s2">&#34;</span>/<span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span>  &gt; <span class="s2">&#34;</span><span class="nv">$tmp_dir</span><span class="s2">&#34;</span>/<span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span>.tmp <span class="o">&amp;&amp;</span> mv <span class="s2">&#34;</span><span class="nv">$tmp_dir</span><span class="s2">&#34;</span>/<span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span>.tmp <span class="s2">&#34;</span><span class="nv">$tmp_dir</span><span class="s2">&#34;</span>/<span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Костыль, репорты без Description не обрабатываются, но создаётся временный файл</span>
+</span></span><span class="line"><span class="cl">rm tmp/*.json.tmp 2&gt;/dev/null
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Format Description: Done&#34;</span> </span></span></code></pre></td></tr></table>
+</div>
+</div><p>Description исправлен, теперь нужно убрать лишние поля, добавить нужное (можно добавить свои поля). Так же добавляем и EPSS из API FIRST:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Форматирование тела JSON</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Format JSON Body: Start&#34;</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Форматирование и обрезка лишнего</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> filename in <span class="k">$(</span>ls <span class="nv">$tmp_dir</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  jq <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    SchemaVersion,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    RepoTags: .Metadata.RepoTags[0],
+</span></span></span><span class="line"><span class="cl"><span class="s1">    RepoDigests: .Metadata.RepoDigests[],
+</span></span></span><span class="line"><span class="cl"><span class="s1">    Vulnerabilities: [
+</span></span></span><span class="line"><span class="cl"><span class="s1">      .Results[].Vulnerabilities[]? | {
+</span></span></span><span class="line"><span class="cl"><span class="s1">      Title,
+</span></span></span><span class="line"><span class="cl"><span class="s1">      VulnerabilityID,
+</span></span></span><span class="line"><span class="cl"><span class="s1">      Severity,
+</span></span></span><span class="line"><span class="cl"><span class="s1">      PkgName,
+</span></span></span><span class="line"><span class="cl"><span class="s1">      PkgPath,
+</span></span></span><span class="line"><span class="cl"><span class="s1">      InstalledVersion,
+</span></span></span><span class="line"><span class="cl"><span class="s1">      FixedVersion,
+</span></span></span><span class="line"><span class="cl"><span class="s1">      Status,
+</span></span></span><span class="line"><span class="cl"><span class="s1">      Cvss2_Score: (if (.Description | type) == &#34;object&#34; then .Description.Cvss2?.Score else null end),
+</span></span></span><span class="line"><span class="cl"><span class="s1">      Cvss3_Score: (if (.Description | type) == &#34;object&#34; then .Description.Cvss3?.Score else null end),
+</span></span></span><span class="line"><span class="cl"><span class="s1">      Epss,
+</span></span></span><span class="line"><span class="cl"><span class="s1">      Epss_percent,
+</span></span></span><span class="line"><span class="cl"><span class="s1">      VulnersScore: (if (.Description | type) == &#34;object&#34; then .Description.VulnersScore?.Value else null end),
+</span></span></span><span class="line"><span class="cl"><span class="s1">      WildExploited: (if (.Description | type) == &#34;object&#34; then .Description.WildExploited else null end),
+</span></span></span><span class="line"><span class="cl"><span class="s1">      ExploitsCount: (if (.Description | type) == &#34;object&#34; then .Description.ExploitsCount else null end),
+</span></span></span><span class="line"><span class="cl"><span class="s1">      Vulners_Description: (if (.Description | type) == &#34;object&#34; then .Description.Description else null end),
+</span></span></span><span class="line"><span class="cl"><span class="s1">      Href: (if (.Description | type) == &#34;object&#34; then .Description.Href else null end),
+</span></span></span><span class="line"><span class="cl"><span class="s1">    }
+</span></span></span><span class="line"><span class="cl"><span class="s1">  ] | unique
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> <span class="s2">&#34;</span><span class="nv">$tmp_dir</span><span class="s2">&#34;</span>/<span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span>  &gt; <span class="s2">&#34;</span><span class="nv">$tmp_dir</span><span class="s2">&#34;</span>/<span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span>.tmp <span class="o">&amp;&amp;</span> mv <span class="s2">&#34;</span><span class="nv">$tmp_dir</span><span class="s2">&#34;</span>/<span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span>.tmp <span class="s2">&#34;</span><span class="nv">$tmp_dir</span><span class="s2">&#34;</span>/<span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Format JSON Body: Done&#34;</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Enrich process: Start&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Создаем кэш-файл, если он не существует</span>
+</span></span><span class="line"><span class="cl">touch <span class="s2">&#34;</span><span class="nv">$cve_cache_file</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Функция для получения EPSS с кэшированием</span>
+</span></span><span class="line"><span class="cl">fetch_epss<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">local</span> <span class="nv">cve_id</span><span class="o">=</span><span class="nv">$1</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">local</span> <span class="nv">cached</span><span class="o">=</span><span class="k">$(</span>grep -E <span class="s2">&#34;^</span><span class="nv">$cve_id</span><span class="s2">\s&#34;</span> <span class="s2">&#34;</span><span class="nv">$cve_cache_file</span><span class="s2">&#34;</span> <span class="p">|</span> awk <span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[</span> -n <span class="s2">&#34;</span><span class="nv">$cached</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$cached</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">local</span> <span class="nv">api_response</span><span class="o">=</span><span class="k">$(</span>curl -s <span class="s2">&#34;https://api.first.org/data/v1/epss?cve=</span><span class="nv">$cve_id</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">local</span> <span class="nv">epss_value</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$api_response</span><span class="s2">&#34;</span> <span class="p">|</span> jq -r <span class="s1">&#39;.data[]?.epss // &#34;null&#34;&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$cve_id</span><span class="s2"> </span><span class="nv">$epss_value</span><span class="s2">&#34;</span> &gt;&gt; <span class="s2">&#34;</span><span class="nv">$cve_cache_file</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$epss_value</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Функция обработки одного файла</span>
+</span></span><span class="line"><span class="cl">process_file<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">local</span> <span class="nv">filename</span><span class="o">=</span><span class="nv">$1</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">local</span> <span class="nv">results</span><span class="o">=()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Проверяем, что файл существует</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[</span> ! -f <span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Ошибка: файл </span><span class="nv">$filename</span><span class="s2"> не найден.&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Извлекаем данные одним вызовом jq</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">metadata</span><span class="o">=</span><span class="k">$(</span>jq -r <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    cve_ids: [.Vulnerabilities[].VulnerabilityID // empty],
+</span></span></span><span class="line"><span class="cl"><span class="s1">    repotags: (.RepoTags // empty),
+</span></span></span><span class="line"><span class="cl"><span class="s1">    repodigests: (.RepoDigests // empty),
+</span></span></span><span class="line"><span class="cl"><span class="s1">    namespace: (.RepoTags | if . then split(&#34;/&#34;)[1] else null end)
+</span></span></span><span class="line"><span class="cl"><span class="s1">  }&#39;</span> <span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -ne <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Ошибка обработки JSON файла </span><span class="nv">$filename</span><span class="s2"> с помощью jq.&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nv">cve_ids</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$metadata</span><span class="s2">&#34;</span> <span class="p">|</span> jq -r <span class="s1">&#39;.cve_ids[]&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">repotags</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$metadata</span><span class="s2">&#34;</span> <span class="p">|</span> jq -r <span class="s1">&#39;.repotags&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">repodigests</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$metadata</span><span class="s2">&#34;</span> <span class="p">|</span> jq -r <span class="s1">&#39;.repodigests&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">namespace</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$metadata</span><span class="s2">&#34;</span> <span class="p">|</span> jq -r <span class="s1">&#39;.namespace&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Обработка каждого CVE ID</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> cve_id in <span class="nv">$cve_ids</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Получаем значение EPSS</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">epss_value</span><span class="o">=</span><span class="k">$(</span>fetch_epss <span class="s2">&#34;</span><span class="nv">$cve_id</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Устанавливаем значение по умолчанию, если epss_value пустое или &#34;null&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">[[</span> -z <span class="s2">&#34;</span><span class="nv">$epss_value</span><span class="s2">&#34;</span> <span class="o">||</span> <span class="s2">&#34;</span><span class="nv">$epss_value</span><span class="s2">&#34;</span> <span class="o">==</span> <span class="s2">&#34;null&#34;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">      <span class="nv">epss_value</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Рассчитываем процентное значение</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">epss_percent</span><span class="o">=</span><span class="k">$(</span>awk <span class="s2">&#34;BEGIN {printf \&#34;%.2f\&#34;, </span><span class="nv">$epss_value</span><span class="s2"> * 100}&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Генерация JSON </span>
+</span></span><span class="line"><span class="cl">    <span class="nv">processed_json</span><span class="o">=</span><span class="k">$(</span>jq --arg cve <span class="s2">&#34;</span><span class="nv">$cve_id</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --arg Source <span class="s2">&#34;nexus&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --arg epss <span class="s2">&#34;</span><span class="nv">$epss_value</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --arg Epss_percent <span class="s2">&#34;</span><span class="nv">$epss_percent</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --arg repotags <span class="s2">&#34;</span><span class="nv">$repotags</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --arg repodigests <span class="s2">&#34;</span><span class="nv">$repodigests</span><span class="s2">&#34;</span> <span class="s1">&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        .Vulnerabilities[] | select(.VulnerabilityID == $cve) | 
+</span></span></span><span class="line"><span class="cl"><span class="s1">        {&#34;reposcanner&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s1">          Source: $Source,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          RepoTags: $repotags,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          RepoDigests: $repodigests,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          TeamId: $teamId,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          Title,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          VulnerabilityID: $cve,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          Severity: .Severity,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          PkgName: .PkgName,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          PkgPath: .PkgPath,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          InstalledVersion: .InstalledVersion,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          FixedVersion: .FixedVersion,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          Status: .Status,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          Cvss2_Score: .Cvss2_Score,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          Cvss3_Score: .Cvss3_Score,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          Epss: ($epss // &#34;custom_null&#34;),
+</span></span></span><span class="line"><span class="cl"><span class="s1">          Epss_percent: $Epss_percent,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          VulnersScore: .VulnersScore,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          WildExploited: .WildExploited,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          ExploitsCount: .ExploitsCount,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          Vulners_Description: .Vulners_Description,
+</span></span></span><span class="line"><span class="cl"><span class="s1">          Href: .Href      
+</span></span></span><span class="line"><span class="cl"><span class="s1">        }}
+</span></span></span><span class="line"><span class="cl"><span class="s1">      &#39;</span> <span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">[</span> -n <span class="s2">&#34;</span><span class="nv">$processed_json</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">      <span class="nv">results</span><span class="o">+=(</span><span class="s2">&#34;</span><span class="nv">$processed_json</span><span class="s2">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">echo</span> <span class="s2">&#34;Не удалось обработать данные для </span><span class="nv">$cve_id</span><span class="s2">.&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fi</span>
+</span></span><span class="line"><span class="cl">  <span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Объединяем результаты в один JSON</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[</span> <span class="si">${#</span><span class="nv">results</span><span class="p">[@]</span><span class="si">}</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Не найдено результатов для обработки файла </span><span class="nv">$filename</span><span class="s2">.&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">final_output</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s1">&#39;%s\n&#39;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">results</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">|</span> jq -s <span class="s1">&#39;.&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">output_file</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$json_dir</span><span class="s2">/</span><span class="k">$(</span>basename <span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span> .json<span class="k">)</span><span class="s2">.json&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$final_output</span><span class="s2">&#34;</span> &gt; <span class="s2">&#34;</span><span class="nv">$output_file</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Параллельная обработка всех файлов</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> -f fetch_epss process_file
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> json_dir cve_cache_file
+</span></span><span class="line"><span class="cl">find <span class="s2">&#34;</span><span class="nv">$tmp_dir</span><span class="s2">&#34;</span> -type f <span class="p">|</span> parallel -j <span class="s2">&#34;</span><span class="k">$(</span>nproc<span class="k">)</span><span class="s2">&#34;</span> process_file <span class="o">{}</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Enrich process: Done&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Дальнейшие действия уже зависят от того, куда мы будем полученные репорты отправлять. Например, если нам нужен JSONL, мы можем с помощью jq репорты без проблем преобразовать:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># JSON to JSONL</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Convert JSON to JSONL: Start&#34;</span> 
+</span></span><span class="line"><span class="cl"><span class="c1"># Читаем исходный JSON из файла</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> filename in <span class="s2">&#34;</span><span class="nv">$json_dir</span><span class="s2">&#34;</span>/*<span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># преобразовать JSON в JSONL </span>
+</span></span><span class="line"><span class="cl">    jq -c <span class="s1">&#39;.[]&#39;</span> <span class="nv">$filename</span> &gt; <span class="nv">$jsonl_dir</span>/<span class="k">$(</span>basename <span class="s2">&#34;</span><span class="nv">$filename</span><span class="s2">&#34;</span> .json<span class="k">)</span>.jsonl
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">: Convert JSON to JSONL: Done&#34;</span> </span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="итоги" class="heading-element"><span>Итоги</span>
+  <a href="#%d0%b8%d1%82%d0%be%d0%b3%d0%b8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Образы спуллены и отсканированы, репорты отформатированы и обмазаны EPSS. Дальше можно отправлять всё в коллектор, будь то Elastic, Graylog, DataDog, в какое-то кастомное решение или просто <del>читать перед сном</del> визуализировать в чём-то.</p>
+<p>Хорошее ли это решение? Скорей нет. Это громадный и медленный костыль с кучей точек отказа.<br>
+Жизнеспособное ли это решение? В целом, да. Если собирать и обрабатывать репорты где-то, с этим можно работать. Если денег нет, а скоуп небольшой, особых проблем быть не должно.</p>
+<p>И самое главное: если нет процесса patch management, то никакие сканеры ситуацию не исправят.</p>
+<hr>
+<p><a href="https://habr.com/ru/companies/swordfish_security/articles/822705/"target="_blank" rel="external nofollow noopener noreferrer">Habr: Trivy: вредные советы по скрытию уязвимостей</a><br>
+<a href="https://aquasecurity.github.io/trivy/v0.56/"target="_blank" rel="external nofollow noopener noreferrer">Trivy Documentation</a><br>
+<a href="https://github.com/aquasecurity/trivy"target="_blank" rel="external nofollow noopener noreferrer">Github.com: Trivy</a><br>
+<a href="https://github.com/vulnersCom/trivy-plugin-vulners-db"target="_blank" rel="external nofollow noopener noreferrer">Github: trivy-plugin-vulners-db</a><br>
+<a href="https://api.first.org/"target="_blank" rel="external nofollow noopener noreferrer">FIRST API v1</a></p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="Updated on 2024-11-08 16:48:43">Updated on 2024-11-08&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="Share on X" data-sharer="twitter" data-url="http://localhost:1313/posts/not_so_trivial/" data-title="Not So (Trivy)al. Как Использовать Trivy На Большом Скоупе И Не Поехать Кукухой (Нет)" data-hashtags="security,docker,trivy"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/not_so_trivial/" data-hashtag="security"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/not_so_trivial/" data-title="Not So (Trivy)al. Как Использовать Trivy На Большом Скоупе И Не Поехать Кукухой (Нет)"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/security/" class="post-tag" title="Tags - Security">Security</a><a href="/tags/docker/" class="post-tag" title="Tags - Docker">Docker</a><a href="/tags/trivy/" class="post-tag" title="Tags - Trivy">Trivy</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/a_dwarf_garden_for_robots_looking_for_low-hanging_fruit_in_android/" class="post-nav-item" rel="prev" title="Карликовый Сад Для Роботов. Ищем Низко Висящие Фрукты В Android"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Карликовый Сад Для Роботов. Ищем Низко Висящие Фрукты В Android</a><a href="/posts/somali_customs/" class="post-nav-item" rel="next" title="Таможня По-Сомалийски. Вскрываем Контейнеры Docker">Таможня По-Сомалийски. Вскрываем Контейнеры Docker<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="Contents"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.144.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> | Theme - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.17-8b402129"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">the29a</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">This website works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"version":"v0.3.17-8b402129"};console.log('Page config:', window.config);</script><script src="/js/theme.min.js" defer></script></body>
+</html>

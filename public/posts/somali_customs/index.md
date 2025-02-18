@@ -1,44 +1,5 @@
----
-title: Таможня по-сомалийски. Вскрываем контейнеры Docker
-subtitle:
-date: 2025-02-08T16:48:43+03:00
-draft: false
-author:
-  name:
-  link:
-  email:
-  avatar:
-description:
-keywords:
-license:
-comment: false
-weight: 0
-tags:
-  - security
-  - docker
-categories:
-  - docker
-  - vulnerabilities
-hiddenFromHomePage: false
-hiddenFromSearch: false
-hiddenFromRss: false
-summary:
-resources:
-  - name: featured-image
-    src: featured-image.jpg
-  - name: featured-image-preview
-    src: featured-image-preview.jpg
-toc: true
-math: false
-lightgallery: false
-password:
-message:
-repost:
-  enable: false
-  url:
+# Таможня По-Сомалийски. Вскрываем Контейнеры Docker
 
-# See details front matter: https://fixit.lruihao.cn/documentation/content-management/introduction/#front-matter
----
 
 ## Intro
 Docker-контейнеры давно и плотно вошли в нашу жизнь, их можно встретить как в кровавом Enterprise и разработке, так и на роутерах (например Keenetik и Mikrotik на ARM) и встроенных устройствах. Однако у удобства есть и обратная сторона: не совсем очевидно, что же содержат эти образы. Да и редко кто проверяет содержимое образа, а порой и вовсе используют неофициальные образы от непонятных авторов. 
@@ -46,7 +7,7 @@ Docker-контейнеры давно и плотно вошли в нашу ж
 
 В любом случае, образ Docker это не чёрный ящик, и заглянуть под капот образа не большая проблема.
 
-<!--more-->
+&lt;!--more--&gt;
 
 ## Тестовый образ
 Для начала нам нужен образ, который будет выступать в роли подопытного. Базовый образ нам не подойдёт в силу малого количества слоёв. Мы будем использовать специально подготовленный тестовый образ.
@@ -61,7 +22,7 @@ Docker-контейнеры давно и плотно вошли в нашу ж
 - `.env` с тестовыми секретами
 - секреты в `Dockerfile`
 
-> Для желающих повторить все файлы будут в репозитории: [https://github.com/the29a/somali_customs](https://github.com/the29a/somali_customs)
+&gt; Для желающих повторить все файлы будут в репозитории: [https://github.com/the29a/somali_customs](https://github.com/the29a/somali_customs)
 
 ### Подготовка тестового образа
 #### Использование готового образа
@@ -74,13 +35,13 @@ docker pull ghcr.io/the29a/somali_customs:latest
 #### Сборка образа
 Создадим бинарь:
 ```c
-#include <stdio.h>
+#include &lt;stdio.h&gt;
 
 int main() {
 	// Задаём строку, которую можно будет посмотреть strings
-    static const char initial[] = "$3cr3t_$tring";
+    static const char initial[] = &#34;$3cr3t_$tring&#34;;
     // Чтобы был какой-то функционал, пусть выводит Hello, Cult of Wire
-    printf("Hello, Cult of Wire\n");
+    printf(&#34;Hello, Cult of Wire\n&#34;);
     return 0;
 }
 
@@ -93,19 +54,19 @@ gcc findme.c -o findme
 
 Добавим .env:
 ```shell
-SECRET_1="578cb981-12b1-4931-9b74-9ff97b540b1e"
-SECRET_2="c7784065-c83d-4275-8580-7f241f173d40"
+SECRET_1=&#34;578cb981-12b1-4931-9b74-9ff97b540b1e&#34;
+SECRET_2=&#34;c7784065-c83d-4275-8580-7f241f173d40&#34;
 ```
 
 Соберём всё в Dockerfile:
 ```dockerfile
 FROM ubuntu:20.04
-LABEL maintainer="the29a"
+LABEL maintainer=&#34;the29a&#34;
 
 # Добавляем тестовые переменные
-ENV USER="super_user"
-ENV PASSWORD="super_secret_password"
-ENV API_TOKEN="71738e41-a648-41c8-9bcf-755dcf970788"
+ENV USER=&#34;super_user&#34;
+ENV PASSWORD=&#34;super_secret_password&#34;
+ENV API_TOKEN=&#34;71738e41-a648-41c8-9bcf-755dcf970788&#34;
 
 # Устанавливаем переменные окружения для веб-приложения
 ENV FLASK_ENV=development
@@ -122,20 +83,20 @@ WORKDIR /src
 COPY ./src /src
 
 # Устанавливаем необходимые пакеты
-RUN apt-get update && \
+RUN apt-get update &amp;&amp; \
     apt-get install -y \
     python3 \
     python3-pip \
     sqlite3 \
-    curl && \
-    pip3 install --upgrade pip==23.1.2 && \
+    curl &amp;&amp; \
+    pip3 install --upgrade pip==23.1.2 &amp;&amp; \
     pip3 install -r /src/requirements.txt
 
 # Открываем порт 5000
 EXPOSE 5000
 
 # Запускаем приложение с помощью Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:app"]
+CMD [&#34;gunicorn&#34;, &#34;--bind&#34;, &#34;0.0.0.0:5000&#34;, &#34;--workers&#34;, &#34;4&#34;, &#34;app:app&#34;]
 ```
 
 И соберём наш образ:
@@ -161,10 +122,10 @@ docker inspect somali_customs
 Либо мы сразу можем посмотреть, что указано в env:
 ```shell
 # Так
-docker inspect somali_customs --format '{{.Config.Env}}'
+docker inspect somali_customs --format &#39;{{.Config.Env}}&#39;
 
 # Или так
-docker inspect somali_customs | jq -r '.[].Config.Env[]'
+docker inspect somali_customs | jq -r &#39;.[].Config.Env[]&#39;
 ```
 
 В ответ получим переменные окружения, в том числе и секреты, указанные в Dockerfile.
@@ -177,11 +138,11 @@ FLASK_ENV=development
 FLASK_APP=/src/app.py
 DATABASE=/src/database.db
 ```
-> По этой причине и не рекомендуется передавать секреты в Dockerfile.
+&gt; По этой причине и не рекомендуется передавать секреты в Dockerfile.
 
 Но секретов из env недостаточно, или их может не быть вовсе.
 Так что мы идём дальше.
-![](../../static/20250212181500.png)
+![[Pasted image 20250212181500.png]]
 
 
 ## История слоёв
@@ -195,33 +156,33 @@ DATABASE=/src/database.db
 docker history somali_customs
 
 IMAGE          CREATED        CREATED BY                                      SIZE      COMMENT
-6dead3c50500   2 hours ago    CMD ["gunicorn" "--bind" "0.0.0.0:5000" "--w…   0B        buildkit.dockerfile.v0
-<missing>      2 hours ago    EXPOSE map[5000/tcp:{}]                         0B        buildkit.dockerfile.v0
-<missing>      2 hours ago    RUN /bin/sh -c apt-get update &&     apt-get…   417MB     buildkit.dockerfile.v0
-<missing>      2 hours ago    COPY ./src /src # buildkit                      17kB      buildkit.dockerfile.v0
-<missing>      2 hours ago    WORKDIR /src                                    0B        buildkit.dockerfile.v0
-<missing>      2 hours ago    ADD .env .env # buildkit                        96B       buildkit.dockerfile.v0
-<missing>      2 hours ago    ADD findme /usr/local/bin/findme # buildkit     16kB      buildkit.dockerfile.v0
-<missing>      2 hours ago    ENV DATABASE=/src/database.db                   0B        buildkit.dockerfile.v0
-<missing>      2 hours ago    ENV FLASK_APP=/src/app.py                       0B        buildkit.dockerfile.v0
-<missing>      2 hours ago    ENV FLASK_ENV=development                       0B        buildkit.dockerfile.v0
-<missing>      2 hours ago    ENV API_TOKEN=71738e41-a648-41c8-9bcf-755dcf…   0B        buildkit.dockerfile.v0
-<missing>      2 hours ago    ENV PASSWORD=super_secret_password              0B        buildkit.dockerfile.v0
-<missing>      2 hours ago    ENV USER=super_user                             0B        buildkit.dockerfile.v0
-<missing>      2 hours ago    LABEL maintainer=the29a                         0B        buildkit.dockerfile.v0
-<missing>      4 months ago   /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B        
-<missing>      4 months ago   /bin/sh -c #(nop) ADD file:7486147a645d8835a…   72.8MB    
-<missing>      4 months ago   /bin/sh -c #(nop)  LABEL org.opencontainers.…   0B        
-<missing>      4 months ago   /bin/sh -c #(nop)  LABEL org.opencontainers.…   0B        
-<missing>      4 months ago   /bin/sh -c #(nop)  ARG LAUNCHPAD_BUILD_ARCH     0B        
-<missing>      4 months ago   /bin/sh -c #(nop)  ARG RELEASE                  0B  
+6dead3c50500   2 hours ago    CMD [&#34;gunicorn&#34; &#34;--bind&#34; &#34;0.0.0.0:5000&#34; &#34;--w…   0B        buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    EXPOSE map[5000/tcp:{}]                         0B        buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    RUN /bin/sh -c apt-get update &amp;&amp;     apt-get…   417MB     buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    COPY ./src /src # buildkit                      17kB      buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    WORKDIR /src                                    0B        buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    ADD .env .env # buildkit                        96B       buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    ADD findme /usr/local/bin/findme # buildkit     16kB      buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    ENV DATABASE=/src/database.db                   0B        buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    ENV FLASK_APP=/src/app.py                       0B        buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    ENV FLASK_ENV=development                       0B        buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    ENV API_TOKEN=71738e41-a648-41c8-9bcf-755dcf…   0B        buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    ENV PASSWORD=super_secret_password              0B        buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    ENV USER=super_user                             0B        buildkit.dockerfile.v0
+&lt;missing&gt;      2 hours ago    LABEL maintainer=the29a                         0B        buildkit.dockerfile.v0
+&lt;missing&gt;      4 months ago   /bin/sh -c #(nop)  CMD [&#34;/bin/bash&#34;]            0B        
+&lt;missing&gt;      4 months ago   /bin/sh -c #(nop) ADD file:7486147a645d8835a…   72.8MB    
+&lt;missing&gt;      4 months ago   /bin/sh -c #(nop)  LABEL org.opencontainers.…   0B        
+&lt;missing&gt;      4 months ago   /bin/sh -c #(nop)  LABEL org.opencontainers.…   0B        
+&lt;missing&gt;      4 months ago   /bin/sh -c #(nop)  ARG LAUNCHPAD_BUILD_ARCH     0B        
+&lt;missing&gt;      4 months ago   /bin/sh -c #(nop)  ARG RELEASE                  0B  
 ```
 
 Данных не очень много, они идут снизу вверх. В целом малопригодно и требуется обработка. 
-Так же вы могли обратить внимание на `<missing>`, с 2016 года это ожидаемое поведение.
+Так же вы могли обратить внимание на `&lt;missing&gt;`, с 2016 года это ожидаемое поведение.
 Если интересно, то стоит почитать статью Нигеля Брауна [Explaining Docker Image IDs](https://windsock.io/explaining-docker-image-ids/) (или в частичном переводе [тут](https://questu.ru/questions/35310212/))
 Краткая цитата:
-> Я думаю, это ожидаемо; хранилище с адресацией к содержимому больше не использует «родительские» изображения для объединения слоев изображений.
+&gt; Я думаю, это ожидаемо; хранилище с адресацией к содержимому больше не использует «родительские» изображения для объединения слоев изображений.
 
 Но эту проблему мы сможем решить с помощью dive, о котором чуть позже.
 
@@ -241,7 +202,7 @@ ARG LAUNCHPAD_BUILD_ARCH
 LABEL org.opencontainers.image.ref.name=ubuntu
 LABEL org.opencontainers.image.version=20.04
 ADD file:7486147a645d8835a5181c79f00a3606c6b714c83bcbfcd8862221eb14690f9e in /
-CMD ["/bin/bash"]
+CMD [&#34;/bin/bash&#34;]
 RUN LABEL maintainer=the29a
 RUN ENV USER=super_user
 RUN ENV PASSWORD=super_secret_password
@@ -254,18 +215,18 @@ RUN ADD .env .env # buildkit
 RUN WORKDIR /src
 RUN COPY ./src /src # buildkit
 RUN RUN /bin/sh -c apt-get update \
-    &&     apt-get install -y     python3     python3-pip     sqlite3     curl \
-    &&     pip3 install --upgrade pip==23.1.2 \
-    &&     pip3 install -r /src/requirements.txt # buildkit
+    &amp;&amp;     apt-get install -y     python3     python3-pip     sqlite3     curl \
+    &amp;&amp;     pip3 install --upgrade pip==23.1.2 \
+    &amp;&amp;     pip3 install -r /src/requirements.txt # buildkit
 RUN EXPOSE map[5000/tcp:{}]
-RUN CMD ["gunicorn" "--bind" "0.0.0.0:5000" "--workers" "4" "app:app"]
+RUN CMD [&#34;gunicorn&#34; &#34;--bind&#34; &#34;0.0.0.0:5000&#34; &#34;--workers&#34; &#34;4&#34; &#34;app:app&#34;]
 ```
 
 
 ### zarva
 [zarva](https://github.com/the29a/zarva) - мой небольшой скрипт, работающий через Docker API. Работает из Docker-контейнера и самостоятельным скриптом. 
 ```shell
-git clone https://github.com/the29a/zarva.git && cd zarva
+git clone https://github.com/the29a/zarva.git &amp;&amp; cd zarva
 python3 zarva.py -lh somali_customs
 ```
 
@@ -276,7 +237,7 @@ ARG LAUNCHPAD_BUILD_ARCH
 LABEL org.opencontainers.image.ref.name=ubuntu
 LABEL org.opencontainers.image.version=20.04
 ADD file:7486147a645d8835a5181c79f00a3606c6b714c83bcbfcd8862221eb14690f9e in /
-CMD ["/bin/bash"]
+CMD [&#34;/bin/bash&#34;]
 LABEL maintainer=the29a
 ENV USER=super_user
 ENV PASSWORD=super_secret_password
@@ -288,14 +249,14 @@ ADD findme /usr/local/bin/findme # buildkit
 ADD .env .env # buildkit
 WORKDIR /src
 COPY ./src /src # buildkit
-RUN /bin/sh -c apt-get update &&     apt-get install -y     python3     python3-pip     sqlite3     curl &&     pip3 install --upgrade pip==23.1.2 &&     pip3 install -r /src/requirements.txt # buildkit
+RUN /bin/sh -c apt-get update &amp;&amp;     apt-get install -y     python3     python3-pip     sqlite3     curl &amp;&amp;     pip3 install --upgrade pip==23.1.2 &amp;&amp;     pip3 install -r /src/requirements.txt # buildkit
 EXPOSE map[5000/tcp:{}]
-CMD ["gunicorn" "--bind" "0.0.0.0:5000" "--workers" "4" "app:app"]
+CMD [&#34;gunicorn&#34; &#34;--bind&#34; &#34;0.0.0.0:5000&#34; &#34;--workers&#34; &#34;4&#34; &#34;app:app&#34;]
 ```
 
 
 ### dive
-[dive](https://github.com/wagoodman/dive) - инструмент для анализа образов Docker. Готовый Dockerfile он нам не выдаст, но он решит проблему `<missing>` дайджеста образа. 
+[dive](https://github.com/wagoodman/dive) - инструмент для анализа образов Docker. Готовый Dockerfile он нам не выдаст, но он решит проблему `&lt;missing&gt;` дайджеста образа. 
 ```shell
 dive somali_customs:latest
 ```
@@ -370,11 +331,11 @@ drwxr-xr-x 3 the29a the29a 4.0K Feb 12 20:41 blobs
 #!/bin/bash
 
 for file in *; do
-    if [[ "$file" != *.json && "$file" != *.tar ]]; then
-        if file "$file" | grep -q "JSON text data"; then
-            mv "$file" "$file.json"
-        elif file "$file" | grep -q "tar archive"; then
-            mv "$file" "$file.tar"
+    if [[ &#34;$file&#34; != *.json &amp;&amp; &#34;$file&#34; != *.tar ]]; then
+        if file &#34;$file&#34; | grep -q &#34;JSON text data&#34;; then
+            mv &#34;$file&#34; &#34;$file.json&#34;
+        elif file &#34;$file&#34; | grep -q &#34;tar archive&#34;; then
+            mv &#34;$file&#34; &#34;$file.tar&#34;
         fi
     fi
 done
@@ -388,15 +349,15 @@ done
 tar xfv f1080c8ed328be869717458a91a9bb4b0562f2cb31eea0beeee841af0e2cc56f.tar 
 
 cat .env                     
-SECRET_1="578cb981-12b1-4931-9b74-9ff97b540b1e"
-SECRET_2="c7784065-c83d-4275-8580-7f241f173d40"
+SECRET_1=&#34;578cb981-12b1-4931-9b74-9ff97b540b1e&#34;
+SECRET_2=&#34;c7784065-c83d-4275-8580-7f241f173d40&#34;
 ```
 
 Так же находим наш findme в `6136ad49dff9e25bb042db7fbc9efecdd182620d0cb9af0503b7018638635df3`
 ```shell
 tar xfv 6136ad49dff9e25bb042db7fbc9efecdd182620d0cb9af0503b7018638635df3.tar 
 
-strings usr/local/bin/findme | sed '13,14!d'
+strings usr/local/bin/findme | sed &#39;13,14!d&#39;
 Hello, Cult of Wire
 $3cr3t_$tring
 ```
@@ -412,7 +373,7 @@ f31355d24c80bac47d661c53db38adc17aa594df850864812fb37e1c7be9c6c9
 ```shell
 docker ps -a 
 CONTAINER ID   IMAGE                           COMMAND                  CREATED          STATUS          PORTS      NAMES
-f31355d24c80   ghcr.io/the29a/somali_customs   "gunicorn --bind 0.0…"   12 minutes ago   Up 12 minutes   5000/tcp   magical_ritchie
+f31355d24c80   ghcr.io/the29a/somali_customs   &#34;gunicorn --bind 0.0…&#34;   12 minutes ago   Up 12 minutes   5000/tcp   magical_ritchie
 ```
 
 Имея под рукой dive и\или зная, какие файлы у нас есть, мы просто копируем их из контейнера на хостовую машину: 
@@ -424,8 +385,8 @@ Successfully copied 2.05kB to /home/the29a/Dev/somali_customs/.
 Проверяем полученный `.env`:
 ```shell
 cat .env        
-SECRET_1="578cb981-12b1-4931-9b74-9ff97b540b1e"
-SECRET_2="c7784065-c83d-4275-8580-7f241f173d40"
+SECRET_1=&#34;578cb981-12b1-4931-9b74-9ff97b540b1e&#34;
+SECRET_2=&#34;c7784065-c83d-4275-8580-7f241f173d40&#34;
 ```
 
 Так же поступаем с нашим бинарником:
@@ -436,7 +397,7 @@ Successfully copied 17.9kB to /home/the29a/test/.
 
 Проверяем содержимое:
 ```shell
-strings findme | sed '13,14!d' 
+strings findme | sed &#39;13,14!d&#39; 
 Hello, Cult of Wire
 $3cr3t_$tring
 ```
@@ -458,3 +419,9 @@ $3cr3t_$tring
 ### Прочее
 [Explaining Docker Image IDs](https://windsock.io/explaining-docker-image-ids/)   
 [https://github.com/rcormie/python-flask-sqlite-app-docker](https://github.com/rcormie/python-flask-sqlite-app-docker)  
+
+---
+
+> Author:   
+> URL: http://localhost:1313/posts/somali_customs/  
+

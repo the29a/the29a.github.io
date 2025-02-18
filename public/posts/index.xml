@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>All Posts - 29a µ blog</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>infosec and something else</description>
+    <generator>Hugo 0.144.0 &amp; FixIt v0.3.17-8b402129</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 08 Feb 2025 16:48:43 +0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Таможня по-сомалийски. Вскрываем контейнеры Docker</title>
+      <link>http://localhost:1313/posts/somali_customs/</link>
+      <pubDate>Sat, 08 Feb 2025 16:48:43 +0300</pubDate>
+      <guid>http://localhost:1313/posts/somali_customs/</guid>
+      <category domain="http://localhost:1313/categories/docker/">Docker</category>
+      <category domain="http://localhost:1313/categories/vulnerabilities/">Vulnerabilities</category>
+      <description>&lt;h2 id=&#34;intro&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;Intro&lt;/span&gt;&#xA;  &lt;a href=&#34;#intro&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;p&gt;Docker-контейнеры давно и плотно вошли в нашу жизнь, их можно встретить как в кровавом Enterprise и разработке, так и на роутерах (например Keenetik и Mikrotik на ARM) и встроенных устройствах. Однако у удобства есть и обратная сторона: не совсем очевидно, что же содержат эти образы. Да и редко кто проверяет содержимое образа, а порой и вовсе используют неофициальные образы от непонятных авторов.&#xA;Или может утрачены исходники и нужно пересоздать образ. Или просто любопытно, что же в образе содержится.&lt;/p&gt;&#xA;&lt;p&gt;В любом случае, образ Docker это не чёрный ящик, и заглянуть под капот образа не большая проблема.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Not so (trivy)al. Как использовать trivy на большом скоупе и не поехать кукухой (нет)</title>
+      <link>http://localhost:1313/posts/not_so_trivial/</link>
+      <pubDate>Fri, 08 Nov 2024 16:48:43 +0300</pubDate>
+      <guid>http://localhost:1313/posts/not_so_trivial/</guid>
+      <category domain="http://localhost:1313/categories/docker/">Docker</category>
+      <category domain="http://localhost:1313/categories/vulnerabilities/">Vulnerabilities</category>
+      <description>&lt;p&gt;Стояла задача простая и ясная как летний день - сканировать Docker-образы в своём registry.&#xA;Но по мере работы стали проявляться нюансы, которые как Газманов забирали этот ясный день:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Тормозной и неудобный API Nexus (частная проблема, решается использованием Registry API);&lt;/li&gt;&#xA;&lt;li&gt;Большое количество и объем образов (3к+ образов и более 1.5Tb объема);&lt;/li&gt;&#xA;&lt;li&gt;Не все используют тэг latest;&lt;/li&gt;&#xA;&lt;li&gt;В роли сборщика репортов не подходил DefectDojo.&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>Карликовый сад для роботов. Ищем низко висящие фрукты в Android</title>
+      <link>http://localhost:1313/posts/a_dwarf_garden_for_robots_looking_for_low-hanging_fruit_in_android/</link>
+      <pubDate>Mon, 12 Feb 2024 11:23:13 +0300</pubDate>
+      <guid>http://localhost:1313/posts/a_dwarf_garden_for_robots_looking_for_low-hanging_fruit_in_android/</guid>
+      <category domain="http://localhost:1313/categories/android/">Android</category>
+      <description>&lt;p&gt;Внутренний мир Android-приложений часто интересует баг-хантеров, пентестеров и прочих безопасников. Но не каждый понимает, как подступиться к приложению, на русском языке материала не так много, а на английском далеко не всё бывает в актуальном состоянии. Так что хотелось пройти этот путь самому, заодно поделиться опытом, который может кому-то помочь.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>От NSE до CVE. Вооружаем nmap для поиска уязвимостей</title>
+      <link>http://localhost:1313/posts/from_nse_to_cve_arming_nmap/</link>
+      <pubDate>Sun, 24 Dec 2023 19:07:55 +0300</pubDate>
+      <guid>http://localhost:1313/posts/from_nse_to_cve_arming_nmap/</guid>
+      <category domain="http://localhost:1313/categories/nmap/">Nmap</category>
+      <description>&lt;p&gt;У nmap есть мощный инструмент, который незаслуженно обойден вниманием. И имя ему - NSE.&lt;br&gt;&#xA;Но сейчас мы не будем погружаться в глубины Lua, а рассмотрим те скрипты, которые нам уже доступны.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Делаем отчёты nmap дружелюбней</title>
+      <link>http://localhost:1313/posts/make_nmap_reports_friendly/</link>
+      <pubDate>Sun, 24 Dec 2023 17:00:40 +0300</pubDate>
+      <guid>http://localhost:1313/posts/make_nmap_reports_friendly/</guid>
+      <category domain="http://localhost:1313/categories/nmap/">Nmap</category>
+      <description>&lt;p&gt;Nmap инструмент мощный и гибкий, но его отчёты о сканировании далеко не всегда удобны для просмотра. Они не всегда наглядны, иногда их надо показывать людям, которые не готовы разглядывать вывод из stdin, а иногда и вовсе отчёт нужно конвертировать для дальнейшей обработки и\или хранения.&lt;br&gt;&#xA;Так же на nmap некоторые строят целые сканеры уязвимостей (например nerve) или инструменты для постройки майндмап, например &lt;a href=&#34;https://t.me/cultofwire/1128&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;NMapify&lt;/a&gt;, но это не всегда нужно, а порой и вовсе избыточно.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Утечка исходного кода через директорию .git</title>
+      <link>http://localhost:1313/posts/source_code_leak_through_git/</link>
+      <pubDate>Fri, 15 Dec 2023 00:15:26 +0300</pubDate>
+      <guid>http://localhost:1313/posts/source_code_leak_through_git/</guid>
+      <description>&lt;h2 id=&#34;intro&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;Intro&lt;/span&gt;&#xA;  &lt;a href=&#34;#intro&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;p&gt;Сегодня поговорим о раскрытии исходного кода через открытую директорию .git в веб-приложениях/рабочей среде.&lt;br&gt;&#xA;Хакеры могут использовать инструменты для загрузки/восстановления репозитория, чтобы получить доступ к исходному коду вашего приложения.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Забытый IoT как способ попасть в сеть.</title>
+      <link>http://localhost:1313/posts/iot_as_a_way_to_get_into_the_network/</link>
+      <pubDate>Tue, 31 Oct 2023 23:58:40 +0300</pubDate>
+      <guid>http://localhost:1313/posts/iot_as_a_way_to_get_into_the_network/</guid>
+      <description>&lt;p&gt;IoT штука удобная. Включать свет, двигать шторы, перекрывать воду и многое другое можно делать с телефона. Красота.&lt;br&gt;&#xA;Разумеется, заботливые производители привязывают свои железки к своим облачным сервисам, а неблагодарные пользователи не хотят и прошивают купленные на свои кровные устройства кастомными прошивками.&lt;br&gt;&#xA;Но, разумеется, и это перекрывает не все проблемы.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Пиджаки в облаках. AWS для ЦРУ.</title>
+      <link>http://localhost:1313/posts/cloud_jackets_aws_for_cia/</link>
+      <pubDate>Tue, 17 Oct 2023 22:47:38 +0300</pubDate>
+      <guid>http://localhost:1313/posts/cloud_jackets_aws_for_cia/</guid>
+      <description>&lt;p&gt;AWS большой облачный провайдер, с множеством дата-центров, регионов, сервисов и множеством удобных вещей.&lt;br&gt;&#xA;Но очевидно, что AWS это не только public cloud и free tier для VPN, но и множество вещей, скрытых от обычного пользователя.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Security RSS Feed</title>
+      <link>http://localhost:1313/posts/security-rss-feed/</link>
+      <pubDate>Wed, 04 Oct 2023 15:38:45 +0300</pubDate>
+      <guid>http://localhost:1313/posts/security-rss-feed/</guid>
+      <description>&lt;h3 id=&#34;securitylab&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;SecurityLab&lt;/span&gt;&#xA;  &lt;a href=&#34;#securitylab&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h3&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.securitylab.ru/_Services/Export/RSS/&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;SecurityLab: Основной RSS канал&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.securitylab.ru/_Services/Export/RSS/news/&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;SecurityLab: Новости&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.securitylab.ru/_Services/Export/RSS/vulnerabilities/&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;SecurityLab: Уязвимости&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.securitylab.ru/_Services/Export/RSS/contest/&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;SecurityLab: Конкурсы&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.securitylab.ru/_Services/Export/RSS/analytics/&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;SecurityLab: Статьи&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.securitylab.ru/_Services/Export/RSS/software/&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;SecurityLab: Софт&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>Подглядываем через Sourcemaps</title>
+      <link>http://localhost:1313/posts/podglyadivaem-cherez-sourcemaps/</link>
+      <pubDate>Sat, 09 Sep 2023 03:52:36 +0300</pubDate>
+      <guid>http://localhost:1313/posts/podglyadivaem-cherez-sourcemaps/</guid>
+      <description>&lt;h2 id=&#34;зачем-нужны-sourcemaps-в-javascript&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;Зачем нужны sourcemaps в JavaScript?&lt;/span&gt;&#xA;  &lt;a href=&#34;#%d0%b7%d0%b0%d1%87%d0%b5%d0%bc-%d0%bd%d1%83%d0%b6%d0%bd%d1%8b-sourcemaps-%d0%b2-javascript&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;p&gt;Файлы Source-map полезны при отладке минифицированных JavaScript-файлов.&#xA;Они работают путем сопоставления минифицированного кода с его неминифицированной версией. После этого можно отлаживать неминифицированный Javascript как обычно.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Скрещиваем ежа с ужом. Заводим репорты Nuclei в Defect Dojo</title>
+      <link>http://localhost:1313/posts/skreshivaem-esha-s-uzhom/</link>
+      <pubDate>Wed, 28 Jun 2023 11:27:01 +0300</pubDate>
+      <guid>http://localhost:1313/posts/skreshivaem-esha-s-uzhom/</guid>
+      <description>&lt;p&gt;Сканерами уязвимостей пользуются многие, и в обороне и в атаке. Кто-то использует дорогой SaaS, кто-то использует opensource-решения вроде OpenVAS или даже SaaS на его основе.&lt;br&gt;&#xA;Казалось бы, можно использовать готовые решения, но мы пойдём другим путём и будем заводить репорты Nuclei в Defect Dojo.&#xA;Как раз, поддержка репортов есть, нужно только ей воспользоваться.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>CTF не только полезен, но и вреден.</title>
+      <link>http://localhost:1313/posts/ne-vse-ctf-odinakovo-polezni/</link>
+      <pubDate>Wed, 28 Jun 2023 11:15:39 +0300</pubDate>
+      <guid>http://localhost:1313/posts/ne-vse-ctf-odinakovo-polezni/</guid>
+      <description>&lt;p&gt;CTF не только полезен, но и вреден.&lt;br&gt;&#xA;Как ни странно, но да.&lt;/p&gt;&#xA;&lt;p&gt;Стоит даже несколько переиначить эту фразу: не все CTF одинаково полезны.&lt;br&gt;&#xA;Условно CTF можно разделить на две категории:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Образовательные.&lt;/li&gt;&#xA;&lt;li&gt;Развлекательные.&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>Make Notes</title>
+      <link>http://localhost:1313/posts/make-notes/</link>
+      <pubDate>Fri, 19 May 2023 17:14:50 +0300</pubDate>
+      <guid>http://localhost:1313/posts/make-notes/</guid>
+      <description>&lt;p&gt;Вы делаете заметки во время  прохождения CTF?&lt;/p&gt;&#xA;&lt;p&gt;Я делаю, но большая их часть больше напоминает копипаст кода\команд с комментариями.&lt;/p&gt;&#xA;&lt;p&gt;Но куски копипаста превращаются в заметки, заметки могут стать целым walkthrough. Или что-то более полезное.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Obsidian for OSINT</title>
+      <link>http://localhost:1313/posts/obsidian-for-osint/</link>
+      <pubDate>Mon, 15 May 2023 19:26:40 +0300</pubDate>
+      <guid>http://localhost:1313/posts/obsidian-for-osint/</guid>
+      <description>&lt;img src=&#34;https://i0.wp.com/webbreacher.com/wp-content/uploads/2022/03/obsidian1.png&#34;  width=&#34;30%&#34; height=&#34;30%&#34;&gt;&#xA;&lt;p&gt;Obsidian для OSINT?&lt;/p&gt;&#xA;&lt;p&gt;Почему бы и нет?&#xA;В целом, Obsidian сравнительно неплохо для этого подходит.&#xA;Что может потребоваться от OSINT-инструмента?&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Запись по какой-то единице информации? Есть.&lt;/li&gt;&#xA;&lt;li&gt;Обогащение записей различным медиа (фото, аудио, видео)? Есть.&lt;/li&gt;&#xA;&lt;li&gt;Построение связей между записями? Тоже есть.&lt;/li&gt;&#xA;&lt;li&gt;Построение графа? В наличии.&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>Wazuh &#43; OpenCTI = Integration?</title>
+      <link>http://localhost:1313/posts/wazuh_opencti_integration/</link>
+      <pubDate>Wed, 03 May 2023 20:09:45 +0300</pubDate>
+      <guid>http://localhost:1313/posts/wazuh_opencti_integration/</guid>
+      <description>&lt;h2 id=&#34;разворачиваем-opencti-с-интеграцией-wazuh&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;Разворачиваем OpenCTI с интеграцией Wazuh&lt;/span&gt;&#xA;  &lt;a href=&#34;#%d1%80%d0%b0%d0%b7%d0%b2%d0%be%d1%80%d0%b0%d1%87%d0%b8%d0%b2%d0%b0%d0%b5%d0%bc-opencti-%d1%81-%d0%b8%d0%bd%d1%82%d0%b5%d0%b3%d1%80%d0%b0%d1%86%d0%b8%d0%b5%d0%b9-wazuh&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;p&gt;Дефендеры и прочие blue-team, а вы обогащаете данные в своем Wazuh?&lt;/p&gt;&#xA;&lt;p&gt;Разумеется, Wazuh используют не везде, но в силу бюджетов его можно встретить даже в крупном бизнесе.&lt;br&gt;&#xA;Сравнительно удобно, бесплатно и можно запихать в Docker.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>From LXC to etc</title>
+      <link>http://localhost:1313/posts/from-lxc-to-etc/</link>
+      <pubDate>Thu, 02 Jun 2022 18:16:29 +0300</pubDate>
+      <guid>http://localhost:1313/posts/from-lxc-to-etc/</guid>
+      <description>&lt;p&gt;Использование чистого lxc в природе сейчас встретишь не часто, но в некоторых дистрибутивах он есть, например в Ubuntu 20.04.&#xA;И раз у нас есть такая крутая штука, то странно ей не воспользоваться.&lt;br&gt;&#xA;Вообще это довольно интересный и своеобразный вектор атаки, и пишут про него не особо часто (ну да, ведь везде docker).&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Secure Docker</title>
+      <link>http://localhost:1313/posts/securim-docker/</link>
+      <pubDate>Tue, 31 May 2022 18:15:30 +0300</pubDate>
+      <guid>http://localhost:1313/posts/securim-docker/</guid>
+      <description>&lt;p&gt;Когда речь заходит про безопасность docker, то обычно сразу всплывает всякий сбор логов, мониторинг и &lt;del&gt;&amp;ldquo;надо было ставить линукс&amp;rdquo;&lt;/del&gt; &amp;ldquo;давайте запихаем агент Wazuh&amp;rdquo;.&#xA;Однако, как с вешалки начинается театр, так жизненный путь контейнера начинается с dockerfile. C них и начнем.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Get CVE via API</title>
+      <link>http://localhost:1313/posts/get-cve-via-api/</link>
+      <pubDate>Thu, 21 Apr 2022 18:14:36 +0300</pubDate>
+      <guid>http://localhost:1313/posts/get-cve-via-api/</guid>
+      <description>&lt;p&gt;Получаем информацию о CVE через &lt;a href=&#34;https://www.cve-search.org/api/&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;API&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>TCPick</title>
+      <link>http://localhost:1313/posts/tcpick/</link>
+      <pubDate>Fri, 25 Mar 2022 18:13:19 +0300</pubDate>
+      <guid>http://localhost:1313/posts/tcpick/</guid>
+      <description>&lt;p&gt;Чтобы не вылезая из консоли посмотреть содержимое дампа трафика в открытом виде можно использовать tcpick.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Little Detective Story</title>
+      <link>http://localhost:1313/posts/little-detective-story/</link>
+      <pubDate>Tue, 21 Dec 2021 18:06:32 +0300</pubDate>
+      <guid>http://localhost:1313/posts/little-detective-story/</guid>
+      <description>&lt;p&gt;Решил попробовать себя на фрилансе. И не на российском, а с зарубежными заказчиками поработать. И пал мой выбор на Upwork.&#xA;Хоть и отправлял кучу запросов на несложные задания, шли они все в никуда. И тут появился он - японец с Ethical Hacker Required, вордпрессом и сотней долларов за работу. А точнее с утерянными учетными данными.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

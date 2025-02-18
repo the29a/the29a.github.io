@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Secure Docker - 29a µ blog</title><meta name="author" content="the29a">
+<meta name="description" content="Когда речь заходит про безопасность docker, то обычно сразу всплывает всякий сбор логов, мониторинг и &ldquo;надо было ставить линукс&rdquo; &ldquo;давайте запихаем агент Wazuh&rdquo;. Однако, как с вешалки начинается театр, так жизненный путь контейнера начинается с dockerfile. C них и начнем.
+"><meta name="keywords" content='docker, security'>
+  <meta itemprop="name" content="Secure Docker">
+  <meta itemprop="description" content="Когда речь заходит про безопасность docker, то обычно сразу всплывает всякий сбор логов, мониторинг и “надо было ставить линукс” “давайте запихаем агент Wazuh”. Однако, как с вешалки начинается театр, так жизненный путь контейнера начинается с dockerfile. C них и начнем.">
+  <meta itemprop="datePublished" content="2022-05-31T18:15:30+03:00">
+  <meta itemprop="dateModified" content="2022-05-31T18:15:30+03:00">
+  <meta itemprop="wordCount" content="287">
+  <meta itemprop="image" content="http://localhost:1313/avatar.png">
+  <meta itemprop="keywords" content="Docker,Security"><meta property="og:url" content="http://localhost:1313/posts/securim-docker/">
+  <meta property="og:site_name" content="29a µ blog">
+  <meta property="og:title" content="Secure Docker">
+  <meta property="og:description" content="Когда речь заходит про безопасность docker, то обычно сразу всплывает всякий сбор логов, мониторинг и “надо было ставить линукс” “давайте запихаем агент Wazuh”. Однако, как с вешалки начинается театр, так жизненный путь контейнера начинается с dockerfile. C них и начнем.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-05-31T18:15:30+03:00">
+    <meta property="article:modified_time" content="2022-05-31T18:15:30+03:00">
+    <meta property="article:tag" content="Docker">
+    <meta property="article:tag" content="Security">
+    <meta property="og:image" content="http://localhost:1313/avatar.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/avatar.png">
+  <meta name="twitter:title" content="Secure Docker">
+  <meta name="twitter:description" content="Когда речь заходит про безопасность docker, то обычно сразу всплывает всякий сбор логов, мониторинг и “надо было ставить линукс” “давайте запихаем агент Wazuh”. Однако, как с вешалки начинается театр, так жизненный путь контейнера начинается с dockerfile. C них и начнем.">
+<meta name="application-name" content="29a µ blog">
+<meta name="apple-mobile-web-app-title" content="29a µ blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="http://localhost:1313/posts/securim-docker/" title="Secure Docker - 29a µ blog" /><link rel="prev" type="text/html" href="http://localhost:1313/posts/get-cve-via-api/" title="Get CVE via API" /><link rel="next" type="text/html" href="http://localhost:1313/projects/" title="Projects" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Secure Docker",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/posts\/securim-docker\/"
+    },"genre": "posts","keywords": "docker, security","wordcount":  287 ,
+    "url": "http:\/\/localhost:1313\/posts\/securim-docker\/","datePublished": "2022-05-31T18:15:30+03:00","dateModified": "2022-05-31T18:15:30+03:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "the29a"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item">
+              <a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item">
+              <a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item"><a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item"><a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="Collections"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Secure Docker</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      the29a</span></span></div><div class="post-meta-line"><span title="published on 2022-05-31 18:15:30"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-05-31">2022-05-31</time></span>&nbsp;<span title="287 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 300 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>2 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#hadolint"><a href="https://github.com/hadolint/hadolint">hadolint</a></a></li>
+    <li><a href="#trivy"><a href="https://github.com/aquasecurity/trivy">trivy</a></a></li>
+    <li><a href="#docker-bench-security"><a href="https://github.com/docker/docker-bench-security">docker-bench-security</a></a></li>
+    <li><a href="#dockle"><a href="https://github.com/goodwithtech/dockle">dockle</a></a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>Когда речь заходит про безопасность docker, то обычно сразу всплывает всякий сбор логов, мониторинг и <del>&ldquo;надо было ставить линукс&rdquo;</del> &ldquo;давайте запихаем агент Wazuh&rdquo;.
+Однако, как с вешалки начинается театр, так жизненный путь контейнера начинается с dockerfile. C них и начнем.</p>
+<p>Из простого: какой-нибудь линтер:
+Для ленивых -<a href="https://www.fromlatest.io"target="_blank" rel="external nofollow noopener noreferrer">fromlatest.io</a>
+Поправить синтаксис, теги, убрать всякий deprecated и вообще держать всё в удобочитаемом виде дело важное.</p>
+<h2 id="hadolint" class="heading-element"><span><a href="https://github.com/hadolint/hadolint"target="_blank" rel="external nofollow noopener noreferrer">hadolint</a></span>
+  <a href="#hadolint" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Локальный линтер, который можно запускать как в установленном виде, так и из докера. Может проверять как локальные докерфайлы, так и из registry.  Проверки репозитория нет, так что при необходимости придётся решать это костылями.</p>
+<p><a href="https://github.com/hadolint/hadolint"target="_blank" rel="external nofollow noopener noreferrer">Репозиторий</a><br>
+<a href="https://hadolint.github.io/hadolint/"target="_blank" rel="external nofollow noopener noreferrer">Web-версия</a></p>
+<hr>
+<p>Сканеры уязвимости:</p>
+<h2 id="trivy" class="heading-element"><span><a href="https://github.com/aquasecurity/trivy"target="_blank" rel="external nofollow noopener noreferrer">trivy</a></span>
+  <a href="#trivy" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>trivy - простой, но хороший сканер уязвимостей. Находит уязвимые версии софта в зависимостях, секреты, мисконфиги.
+Из удобств: можно использовать как standalone сканирование, например проверить репозиторий целиком, так и интегрировать в CI/CD (Jenkins, GitLab CI, GitHub Actions). Есть плагин для VSCode.</p>
+<p><a href="https://github.com/aquasecurity/trivy"target="_blank" rel="external nofollow noopener noreferrer">Репозиторий</a><br>
+<a href="https://github.com/aquasecurity/trivy-vscode-extension"target="_blank" rel="external nofollow noopener noreferrer">Плагин для VSCode</a></p>
+<h2 id="docker-bench-security" class="heading-element"><span><a href="https://github.com/docker/docker-bench-security"target="_blank" rel="external nofollow noopener noreferrer">docker-bench-security</a></span>
+  <a href="#docker-bench-security" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Набор bash скриптов для проверки безопасности конфигурации образов и  контейнеров. docker-bench-security больше рассчитан на интеграцию, standalone сканирование в целом есть, но не без страданий в работе.</p>
+<p>Могут быть проблемы с интерпритацией вывода, так как используется CIS Benchmark.</p>
+<p><a href="https://github.com/docker/docker-bench-security"target="_blank" rel="external nofollow noopener noreferrer">Репозиторий</a></p>
+<h2 id="dockle" class="heading-element"><span><a href="https://github.com/goodwithtech/dockle"target="_blank" rel="external nofollow noopener noreferrer">dockle</a></span>
+  <a href="#dockle" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>И линтер, и сканер.
+Ищет CVE в ПО образа, проверяет корректность и безопасность конкретного образа, анализируя его слои и конфигурацию.
+И вообще это лучший инструмент (по словам автора).</p>
+<p>Работает как отдельно, так и интегрируется с GitLab CI, Jenkins.</p>
+<p><a href="https://github.com/goodwithtech/dockle"target="_blank" rel="external nofollow noopener noreferrer">Репозиторий</a></p>
+<p>И немного дополню это всё, так как только инструментами всё не решается.</p>
+<p><a href="https://www.cisecurity.org/cis-benchmarks/"target="_blank" rel="external nofollow noopener noreferrer">CIS Benchmarks</a>,<br>
+<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/"target="_blank" rel="external nofollow noopener noreferrer">Best Practice</a><br>
+<a href="https://blog.aquasec.com/docker-security-best-practices"target="_blank" rel="external nofollow noopener noreferrer">Top 20 Docker Security Best Practices</a></p>
+<p>Да, кроме этого есть ещё и <a href="https://github.com/quay/clair"target="_blank" rel="external nofollow noopener noreferrer">clair</a>, <a href="https://cisofy.com/lynis/"target="_blank" rel="external nofollow noopener noreferrer">Lynis</a>, но первый довольно масштабный, и нужен не всем, а Lynis довольно своеобразен.</p>
+<p>Если вы не планируете интеграцию в CI/CD, то trivy отличный вариант.
+А в CI/CD можно и dockle или clair засунуть интегрировать.</p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="Updated on 2022-05-31 18:15:30">Updated on 2022-05-31&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="Share on X" data-sharer="twitter" data-url="http://localhost:1313/posts/securim-docker/" data-title="Secure Docker" data-hashtags="docker,security"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/securim-docker/" data-hashtag="docker"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/securim-docker/" data-title="Secure Docker"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/docker/" class="post-tag" title="Tags - Docker">Docker</a><a href="/tags/security/" class="post-tag" title="Tags - Security">Security</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/get-cve-via-api/" class="post-nav-item" rel="prev" title="Get CVE via API"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Get CVE via API</a><a href="/posts/from-lxc-to-etc/" class="post-nav-item" rel="next" title="From LXC to Etc">From LXC to Etc<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="Contents"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.144.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> | Theme - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.17-8b402129"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">the29a</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">This website works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"version":"v0.3.17-8b402129"};console.log('Page config:', window.config);</script><script src="/js/theme.min.js" defer></script></body>
+</html>

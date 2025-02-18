@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Делаем Отчёты Nmap Дружелюбней - 29a µ blog</title><meta name="author" content="">
+<meta name="description" content="Nmap инструмент мощный и гибкий, но его отчёты о сканировании далеко не всегда удобны для просмотра. Они не всегда наглядны, иногда их надо показывать людям, которые не готовы разглядывать вывод из stdin, а иногда и вовсе отчёт нужно конвертировать для дальнейшей обработки и\или хранения.
+Так же на nmap некоторые строят целые сканеры уязвимостей (например nerve) или инструменты для постройки майндмап, например NMapify, но это не всегда нужно, а порой и вовсе избыточно.
+"><meta name="keywords" content='nmap'>
+  <meta itemprop="name" content="Делаем отчёты nmap дружелюбней">
+  <meta itemprop="description" content="Nmap инструмент мощный и гибкий, но его отчёты о сканировании далеко не всегда удобны для просмотра. Они не всегда наглядны, иногда их надо показывать людям, которые не готовы разглядывать вывод из stdin, а иногда и вовсе отчёт нужно конвертировать для дальнейшей обработки и\или хранения.
+Так же на nmap некоторые строят целые сканеры уязвимостей (например nerve) или инструменты для постройки майндмап, например NMapify, но это не всегда нужно, а порой и вовсе избыточно.">
+  <meta itemprop="datePublished" content="2023-12-24T17:00:40+03:00">
+  <meta itemprop="dateModified" content="2023-12-24T17:00:40+03:00">
+  <meta itemprop="wordCount" content="484">
+  <meta itemprop="image" content="http://localhost:1313/avatar.png">
+  <meta itemprop="keywords" content="Nmap"><meta property="og:url" content="http://localhost:1313/posts/make_nmap_reports_friendly/">
+  <meta property="og:site_name" content="29a µ blog">
+  <meta property="og:title" content="Делаем отчёты nmap дружелюбней">
+  <meta property="og:description" content="Nmap инструмент мощный и гибкий, но его отчёты о сканировании далеко не всегда удобны для просмотра. Они не всегда наглядны, иногда их надо показывать людям, которые не готовы разглядывать вывод из stdin, а иногда и вовсе отчёт нужно конвертировать для дальнейшей обработки и\или хранения.
+Так же на nmap некоторые строят целые сканеры уязвимостей (например nerve) или инструменты для постройки майндмап, например NMapify, но это не всегда нужно, а порой и вовсе избыточно.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-12-24T17:00:40+03:00">
+    <meta property="article:modified_time" content="2023-12-24T17:00:40+03:00">
+    <meta property="article:tag" content="Nmap">
+    <meta property="og:image" content="http://localhost:1313/avatar.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/avatar.png">
+  <meta name="twitter:title" content="Делаем отчёты nmap дружелюбней">
+  <meta name="twitter:description" content="Nmap инструмент мощный и гибкий, но его отчёты о сканировании далеко не всегда удобны для просмотра. Они не всегда наглядны, иногда их надо показывать людям, которые не готовы разглядывать вывод из stdin, а иногда и вовсе отчёт нужно конвертировать для дальнейшей обработки и\или хранения.
+Так же на nmap некоторые строят целые сканеры уязвимостей (например nerve) или инструменты для постройки майндмап, например NMapify, но это не всегда нужно, а порой и вовсе избыточно.">
+<meta name="application-name" content="29a µ blog">
+<meta name="apple-mobile-web-app-title" content="29a µ blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="http://localhost:1313/posts/make_nmap_reports_friendly/" title="Делаем отчёты nmap дружелюбней - 29a µ blog" /><link rel="prev" type="text/html" href="http://localhost:1313/posts/source_code_leak_through_git/" title="Утечка исходного кода через директорию .git" /><link rel="next" type="text/html" href="http://localhost:1313/posts/from_nse_to_cve_arming_nmap/" title="От NSE до CVE. Вооружаем nmap для поиска уязвимостей" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Делаем отчёты nmap дружелюбней",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/posts\/make_nmap_reports_friendly\/"
+    },"genre": "posts","keywords": "nmap","wordcount":  484 ,
+    "url": "http:\/\/localhost:1313\/posts\/make_nmap_reports_friendly\/","datePublished": "2023-12-24T17:00:40+03:00","dateModified": "2023-12-24T17:00:40+03:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item">
+              <a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item">
+              <a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item"><a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item"><a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="Collections"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span title="Repost" class="icon-repost"><i class="fa-solid fa-share fa-fw" aria-hidden="true"></i></span><span>Делаем Отчёты Nmap Дружелюбней</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      Anonymous</span></span><span class="post-included-in">&nbsp;included in <a href="/categories/nmap/" class="post-category" title="Category - Nmap"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Nmap</a></span></div><div class="post-meta-line"><span title="published on 2023-12-24 17:00:40"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-12-24">2023-12-24</time></span>&nbsp;<span title="484 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 500 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>3 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#nmap2md">nmap2md</a></li>
+    <li><a href="#nmap-formater">nmap-formater</a></li>
+    <li><a href="#vscode-nmap-peek">vscode-nmap-peek</a></li>
+    <li><a href="#nmap-bootstrap-xsl">nmap-bootstrap-xsl</a></li>
+    <li><a href="#webmap">WebMap</a></li>
+    <li><a href="#nerve">nerve</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>Nmap инструмент мощный и гибкий, но его отчёты о сканировании далеко не всегда удобны для просмотра. Они не всегда наглядны, иногда их надо показывать людям, которые не готовы разглядывать вывод из stdin, а иногда и вовсе отчёт нужно конвертировать для дальнейшей обработки и\или хранения.<br>
+Так же на nmap некоторые строят целые сканеры уязвимостей (например nerve) или инструменты для постройки майндмап, например <a href="https://t.me/cultofwire/1128"target="_blank" rel="external nofollow noopener noreferrer">NMapify</a>, но это не всегда нужно, а порой и вовсе избыточно.</p>
+<p>Пойдем от простого к сложному:</p>
+<ul>
+<li>nmap2md</li>
+<li>nmap-formater</li>
+<li>vscode-nmap-peek</li>
+<li>WebMap</li>
+</ul>
+<p>И в рамках истории:</p>
+<ul>
+<li>nerve</li>
+</ul>
+<h2 id="nmap2md" class="heading-element"><span>nmap2md</span>
+  <a href="#nmap2md" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><a href="https://github.com/vdjagilev/nmap2md"target="_blank" rel="external nofollow noopener noreferrer">nmap2md</a> - небольшая утилита для преобразования xml-отчётов nmap в markdown. Cо сложным репортом может не работать, но для простого сканирования, вроде инвентаризации своей сети вполне подойдет.</p>
+<p>Проект заброшен, так что не стоит ожидать от nmap2md сложных вещей и исправлений багов.</p>
+<p>Репозиторий: <a href="https://github.com/vdjagilev/nmap2md"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/vdjagilev/nmap2md</a></p>
+<h2 id="nmap-formater" class="heading-element"><span>nmap-formater</span>
+  <a href="#nmap-formater" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><a href="https://github.com/vdjagilev/nmap-formatter"target="_blank" rel="external nofollow noopener noreferrer">nmap-formatter</a> - инструмент, позволяющий конвертировать xml-отчёт сканирования nmap в html, csv, json, markdown, graphviz  или sqlite. Функционал довольно гибкий, так что стоит глянуть их Wiki. nmap-formater так же доступен как библиотека в golang.</p>
+<p>Репозиторий: <a href="https://github.com/vdjagilev/nmap-formatter"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/vdjagilev/nmap-formatter</a><br>
+Wiki: <a href="https://github.com/vdjagilev/nmap-formatter/wiki/Usage"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/vdjagilev/nmap-formatter/wiki/Usage</a><br>
+Use as a library: <a href="https://github.com/vdjagilev/nmap-formatter/wiki/Use-as-a-library"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/vdjagilev/nmap-formatter/wiki/Use-as-a-library</a></p>
+<h2 id="vscode-nmap-peek" class="heading-element"><span>vscode-nmap-peek</span>
+  <a href="#vscode-nmap-peek" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Nmap-Peek - плагин для VSCode для просмотра xml-репортов Nmap. Плагин использует React, что (в теории) делает его менее тормозным. Кроме того, немного измененная версия плагина развернута на сайте автора, который отображает репорт в том же виде.</p>
+<ul>
+<li>Репозиторий: <a href="https://github.com/marduc812/vscode-nmap-peek"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/marduc812/vscode-nmap-peek</a></li>
+<li>VScode marketplace: <a href="https://marketplace.visualstudio.com/items?itemName=marduc812.nmap-peek"target="_blank" rel="external nofollow noopener noreferrer">https://marketplace.visualstudio.com/items?itemName=marduc812.nmap-peek</a></li>
+<li>Online версия: <a href="https://www.devoven.com/tools/nmap-viewer"target="_blank" rel="external nofollow noopener noreferrer">https://www.devoven.com/tools/nmap-viewer</a></li>
+</ul>
+<h2 id="nmap-bootstrap-xsl" class="heading-element"><span>nmap-bootstrap-xsl</span>
+  <a href="#nmap-bootstrap-xsl" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><a href="https://github.com/Haxxnet/nmap-bootstrap-xsl"target="_blank" rel="external nofollow noopener noreferrer">nmap-bootstrap-xsl</a> - реализация Nmap XSL на Bootstrap. Позволяет преобразовывать результаты сканирования  Nmap XML в  HTML-отчеты.</p>
+<p>Для конвертирования используется сам xls-файл и xsltproc:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># скачиваем  bootstrap xsl</span>
+</span></span><span class="line"><span class="cl">wget https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># конвертируем отчёт xml в html</span>
+</span></span><span class="line"><span class="cl">xsltproc -o report.html nmap-bootstrap.xsl nmap.xml</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Выглядит довольно громоздко, но при необходимости можно запускать сканирование с репортом в одну строку:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">nmap -sS -Pn --stylesheet https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl scanme.nmap.org</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Репозиторий: <a href="https://github.com/Haxxnet/nmap-bootstrap-xsl"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/Haxxnet/nmap-bootstrap-xsl</a><br>
+Демо-отчёт: <a href="https://haxxnet.github.io/nmap-bootstrap-xsl/report.html"target="_blank" rel="external nofollow noopener noreferrer">https://haxxnet.github.io/nmap-bootstrap-xsl/report.html</a></p>
+<h2 id="webmap" class="heading-element"><span>WebMap</span>
+  <a href="#webmap" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><a href="https://github.com/SabyasachiRana/WebMap"target="_blank" rel="external nofollow noopener noreferrer">WebMap</a> веб-дашборд для xml-репортов Nmap.
+Импортирует xml-отчёты и отрисовывает их в небольшой web-интерфейсе. Webmap удобно запускается из Docker, но можно собрать\запустить самому.</p>
+<p>Функционал:</p>
+<ul>
+<li>Импорт и парсинг XML-файлов Nmap</li>
+<li>Запуск и планирование сканирования Nmap</li>
+<li>Статистика и графики по обнаруженным службам, портам, ОС</li>
+<li>Вставка заметок для конкретного узла</li>
+<li>Создание отчета в формате PDF с графиками, подробной информацией, метками и заметками.</li>
+<li>Копирование в буфер обмена команд для Nikto, Curl или Telnet.</li>
+<li>Поиск CVE и эксплойтов на основе CPE, собранных Nmap</li>
+<li>RESTful API</li>
+</ul>
+<p>Проект давно не поддерживается, но вполне работоспособен и применим.</p>
+<ul>
+<li>Репозиторий: <a href="https://github.com/SabyasachiRana/WebMap"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/SabyasachiRana/WebMap</a></li>
+</ul>
+<h2 id="nerve" class="heading-element"><span>nerve</span>
+  <a href="#nerve" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><a href="https://github.com/PaytmLabs/nerve"target="_blank" rel="external nofollow noopener noreferrer">NERVE Continuous Vulnerability Scanner</a><br>
+NERVE - сканер уязвимостей, предназначенный для поиска уязвимостей уровня &ldquo;низковисящих фруктов&rdquo; в  приложениях, сетевых службах и непропатченных сервисах.</p>
+<p>NERVE предлагает следующие возможности:</p>
+<ul>
+<li>Web-интерфейс</li>
+<li>REST API</li>
+<li>Уведомления в Slack, на почту  и через вебхуки</li>
+</ul>
+<p>Возможности NERVE по обнаружению уязвимостей:</p>
+<ul>
+<li>панели администрирования (Solr, Django, PHPMyAdmin)</li>
+<li>Открытые репозитории</li>
+<li>Раскрытие информации</li>
+<li>Заброшенные / дефолтные веб-страницы</li>
+<li>Неправильная конфигурация служб (Nginx, Apache, IIS и т. д.)</li>
+<li>SSH-серверы</li>
+<li>Открытые базы данных</li>
+<li>Индексированые каталоги</li>
+</ul>
+<p>Последний коммит был три года назад, так что использование в текущее время большого смысла не имеет.</p>
+<p>Не могу сказать, что мир потерял &ldquo;феноменальный проект&rdquo;, но было бы приятно иметь альтернативы разным тяжеловесам и проприетарным сканерам.</p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="Updated on 2023-12-24 17:00:40">Updated on 2023-12-24&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="Share on X" data-sharer="twitter" data-url="http://localhost:1313/posts/make_nmap_reports_friendly/" data-title="Делаем Отчёты Nmap Дружелюбней" data-hashtags="nmap"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/make_nmap_reports_friendly/" data-hashtag="nmap"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/make_nmap_reports_friendly/" data-title="Делаем Отчёты Nmap Дружелюбней"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/nmap/" class="post-tag" title="Tags - Nmap">Nmap</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/source_code_leak_through_git/" class="post-nav-item" rel="prev" title="Утечка Исходного Кода Через Директорию .Git"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Утечка Исходного Кода Через Директорию .Git</a><a href="/posts/from_nse_to_cve_arming_nmap/" class="post-nav-item" rel="next" title="От NSE До CVE. Вооружаем Nmap Для Поиска Уязвимостей">От NSE До CVE. Вооружаем Nmap Для Поиска Уязвимостей<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="Contents"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.144.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> | Theme - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.17-8b402129"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">the29a</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">This website works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"version":"v0.3.17-8b402129"};console.log('Page config:', window.config);</script><script src="/js/theme.min.js" defer></script></body>
+</html>

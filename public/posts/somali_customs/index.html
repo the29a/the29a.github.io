@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Таможня По-Сомалийски. Вскрываем Контейнеры Docker - 29a µ blog</title><meta name="author" content="">
+<meta name="description" content="Intro Docker-контейнеры давно и плотно вошли в нашу жизнь, их можно встретить как в кровавом Enterprise и разработке, так и на роутерах (например Keenetik и Mikrotik на ARM) и встроенных устройствах. Однако у удобства есть и обратная сторона: не совсем очевидно, что же содержат эти образы. Да и редко кто проверяет содержимое образа, а порой и вовсе используют неофициальные образы от непонятных авторов. Или может утрачены исходники и нужно пересоздать образ. Или просто любопытно, что же в образе содержится.
+В любом случае, образ Docker это не чёрный ящик, и заглянуть под капот образа не большая проблема.
+"><meta name="keywords" content='security, docker'>
+  <meta itemprop="name" content="Таможня по-сомалийски. Вскрываем контейнеры Docker">
+  <meta itemprop="description" content="Intro Docker-контейнеры давно и плотно вошли в нашу жизнь, их можно встретить как в кровавом Enterprise и разработке, так и на роутерах (например Keenetik и Mikrotik на ARM) и встроенных устройствах. Однако у удобства есть и обратная сторона: не совсем очевидно, что же содержат эти образы. Да и редко кто проверяет содержимое образа, а порой и вовсе используют неофициальные образы от непонятных авторов. Или может утрачены исходники и нужно пересоздать образ. Или просто любопытно, что же в образе содержится.
+В любом случае, образ Docker это не чёрный ящик, и заглянуть под капот образа не большая проблема.">
+  <meta itemprop="datePublished" content="2025-02-08T16:48:43+03:00">
+  <meta itemprop="dateModified" content="2025-02-08T16:48:43+03:00">
+  <meta itemprop="wordCount" content="2108">
+  <meta itemprop="image" content="http://localhost:1313/avatar.png">
+  <meta itemprop="keywords" content="Security,Docker"><meta property="og:url" content="http://localhost:1313/posts/somali_customs/">
+  <meta property="og:site_name" content="29a µ blog">
+  <meta property="og:title" content="Таможня по-сомалийски. Вскрываем контейнеры Docker">
+  <meta property="og:description" content="Intro Docker-контейнеры давно и плотно вошли в нашу жизнь, их можно встретить как в кровавом Enterprise и разработке, так и на роутерах (например Keenetik и Mikrotik на ARM) и встроенных устройствах. Однако у удобства есть и обратная сторона: не совсем очевидно, что же содержат эти образы. Да и редко кто проверяет содержимое образа, а порой и вовсе используют неофициальные образы от непонятных авторов. Или может утрачены исходники и нужно пересоздать образ. Или просто любопытно, что же в образе содержится.
+В любом случае, образ Docker это не чёрный ящик, и заглянуть под капот образа не большая проблема.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-08T16:48:43+03:00">
+    <meta property="article:modified_time" content="2025-02-08T16:48:43+03:00">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Docker">
+    <meta property="og:image" content="http://localhost:1313/avatar.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/avatar.png">
+  <meta name="twitter:title" content="Таможня по-сомалийски. Вскрываем контейнеры Docker">
+  <meta name="twitter:description" content="Intro Docker-контейнеры давно и плотно вошли в нашу жизнь, их можно встретить как в кровавом Enterprise и разработке, так и на роутерах (например Keenetik и Mikrotik на ARM) и встроенных устройствах. Однако у удобства есть и обратная сторона: не совсем очевидно, что же содержат эти образы. Да и редко кто проверяет содержимое образа, а порой и вовсе используют неофициальные образы от непонятных авторов. Или может утрачены исходники и нужно пересоздать образ. Или просто любопытно, что же в образе содержится.
+В любом случае, образ Docker это не чёрный ящик, и заглянуть под капот образа не большая проблема.">
+<meta name="application-name" content="29a µ blog">
+<meta name="apple-mobile-web-app-title" content="29a µ blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="http://localhost:1313/posts/somali_customs/" title="Таможня по-сомалийски. Вскрываем контейнеры Docker - 29a µ blog" /><link rel="prev" type="text/html" href="http://localhost:1313/posts/not_so_trivial/" title="Not so (trivy)al. Как использовать trivy на большом скоупе и не поехать кукухой (нет)" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Таможня по-сомалийски. Вскрываем контейнеры Docker",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/posts\/somali_customs\/"
+    },"genre": "posts","keywords": "security, docker","wordcount":  2108 ,
+    "url": "http:\/\/localhost:1313\/posts\/somali_customs\/","datePublished": "2025-02-08T16:48:43+03:00","dateModified": "2025-02-08T16:48:43+03:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item">
+              <a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item">
+              <a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item"><a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item"><a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="Collections"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Таможня По-Сомалийски. Вскрываем Контейнеры Docker</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      Anonymous</span></span><span class="post-included-in">&nbsp;included in <a href="/categories/docker/" class="post-category" title="Category - Docker"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Docker</a>&ensp;<a href="/categories/vulnerabilities/" class="post-category" title="Category - Vulnerabilities"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Vulnerabilities</a></span></div><div class="post-meta-line"><span title="published on 2025-02-08 16:48:43"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-02-08">2025-02-08</time></span>&nbsp;<span title="2108 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 2200 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>10 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#тестовый-образ">Тестовый образ</a>
+      <ul>
+        <li><a href="#подготовка-тестового-образа">Подготовка тестового образа</a>
+          <ul>
+            <li><a href="#использование-готового-образа">Использование готового образа</a></li>
+            <li><a href="#сборка-образа">Сборка образа</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#общая-информация-и-переменные-окружения">Общая информация и переменные окружения</a></li>
+    <li><a href="#история-слоёв">История слоёв</a>
+      <ul>
+        <li><a href="#docker-history">docker history</a></li>
+        <li><a href="#dedockify">dedockify</a></li>
+        <li><a href="#zarva">zarva</a></li>
+        <li><a href="#dive">dive</a></li>
+      </ul>
+    </li>
+    <li><a href="#извлекаем-файлы">Извлекаем файлы</a>
+      <ul>
+        <li><a href="#подготовка-к-вскрытию">Подготовка к вскрытию</a></li>
+        <li><a href="#что-внутри">Что внутри</a></li>
+        <li><a href="#копирование-из-контейнера">Копирование из контейнера</a></li>
+      </ul>
+    </li>
+    <li><a href="#outro">Outro</a></li>
+    <li><a href="#ссылки">Ссылки</a>
+      <ul>
+        <li><a href="#инструменты">Инструменты</a></li>
+        <li><a href="#статья-на-схожую-тему">Статья на схожую тему</a></li>
+        <li><a href="#прочее">Прочее</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="intro" class="heading-element"><span>Intro</span>
+  <a href="#intro" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Docker-контейнеры давно и плотно вошли в нашу жизнь, их можно встретить как в кровавом Enterprise и разработке, так и на роутерах (например Keenetik и Mikrotik на ARM) и встроенных устройствах. Однако у удобства есть и обратная сторона: не совсем очевидно, что же содержат эти образы. Да и редко кто проверяет содержимое образа, а порой и вовсе используют неофициальные образы от непонятных авторов.
+Или может утрачены исходники и нужно пересоздать образ. Или просто любопытно, что же в образе содержится.</p>
+<p>В любом случае, образ Docker это не чёрный ящик, и заглянуть под капот образа не большая проблема.</p>
+<h2 id="тестовый-образ" class="heading-element"><span>Тестовый образ</span>
+  <a href="#%d1%82%d0%b5%d1%81%d1%82%d0%be%d0%b2%d1%8b%d0%b9-%d0%be%d0%b1%d1%80%d0%b0%d0%b7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Для начала нам нужен образ, который будет выступать в роли подопытного. Базовый образ нам не подойдёт в силу малого количества слоёв. Мы будем использовать специально подготовленный тестовый образ.</p>
+<p>Тестовый образ мы можем получить двумя путями:</p>
+<ul>
+<li>Спуллить мой готовый образ:</li>
+<li>Собрать самостоятельно, напишем Dockerfile сами добавим файлов, секретов, а после соберём и разберем его.</li>
+</ul>
+<p>В роли наполнения образа будем использовать:</p>
+<ul>
+<li>небольшой бинарный файл</li>
+<li>небольшое веб-приложение с Python/Flask/Sqlite (взял <a href="https://github.com/rcormie/python-flask-sqlite-app-docker"target="_blank" rel="external nofollow noopener noreferrer">тут</a>, но с исправлениями от DeepSeek)</li>
+<li><code>.env</code> с тестовыми секретами</li>
+<li>секреты в <code>Dockerfile</code></li>
+</ul>
+<blockquote>
+<p>Для желающих повторить все файлы будут в репозитории: <a href="https://github.com/the29a/somali_customs"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/the29a/somali_customs</a></p></blockquote>
+<h3 id="подготовка-тестового-образа" class="heading-element"><span>Подготовка тестового образа</span>
+  <a href="#%d0%bf%d0%be%d0%b4%d0%b3%d0%be%d1%82%d0%be%d0%b2%d0%ba%d0%b0-%d1%82%d0%b5%d1%81%d1%82%d0%be%d0%b2%d0%be%d0%b3%d0%be-%d0%be%d0%b1%d1%80%d0%b0%d0%b7%d0%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="использование-готового-образа" class="heading-element"><span>Использование готового образа</span>
+  <a href="#%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-%d0%b3%d0%be%d1%82%d0%be%d0%b2%d0%be%d0%b3%d0%be-%d0%be%d0%b1%d1%80%d0%b0%d0%b7%d0%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Забираем образ с ghcr:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker pull ghcr.io/the29a/somali_customs:latest</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Если вы будете использовать готовый образ, то процесс сборки можно пропустить.</p>
+<h4 id="сборка-образа" class="heading-element"><span>Сборка образа</span>
+  <a href="#%d1%81%d0%b1%d0%be%d1%80%d0%ba%d0%b0-%d0%be%d0%b1%d1%80%d0%b0%d0%b7%d0%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Создадим бинарь:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Задаём строку, которую можно будет посмотреть strings
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">initial</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&#34;$3cr3t_$tring&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Чтобы был какой-то функционал, пусть выводит Hello, Cult of Wire
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Hello, Cult of Wire</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Скомпилируем:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">gcc findme.c -o findme</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Добавим .env:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">SECRET_1</span><span class="o">=</span><span class="s2">&#34;578cb981-12b1-4931-9b74-9ff97b540b1e&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SECRET_2</span><span class="o">=</span><span class="s2">&#34;c7784065-c83d-4275-8580-7f241f173d40&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Соберём всё в Dockerfile:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> ubuntu:20.04</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">LABEL</span> <span class="nv">maintainer</span><span class="o">=</span><span class="s2">&#34;the29a&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Добавляем тестовые переменные</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">USER</span><span class="o">=</span><span class="s2">&#34;super_user&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">PASSWORD</span><span class="o">=</span><span class="s2">&#34;super_secret_password&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">API_TOKEN</span><span class="o">=</span><span class="s2">&#34;71738e41-a648-41c8-9bcf-755dcf970788&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Устанавливаем переменные окружения для веб-приложения</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">FLASK_ENV</span><span class="o">=</span>development
+</span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">FLASK_APP</span><span class="o">=</span>/src/app.py<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">DATABASE</span><span class="o">=</span>/src/database.db<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> findme /usr/local/bin/findme<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> .env .env<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Устанавливаем рабочую директорию</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /src</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Копируем исходный код в контейнер</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> ./src /src<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Устанавливаем необходимые пакеты</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    apt-get install -y <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    python3 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    python3-pip <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    sqlite3 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    curl <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    pip3 install --upgrade <span class="nv">pip</span><span class="o">==</span>23.1.2 <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    pip3 install -r /src/requirements.txt<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Открываем порт 5000</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 5000</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Запускаем приложение с помощью Gunicorn</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;gunicorn&#34;</span><span class="p">,</span> <span class="s2">&#34;--bind&#34;</span><span class="p">,</span> <span class="s2">&#34;0.0.0.0:5000&#34;</span><span class="p">,</span> <span class="s2">&#34;--workers&#34;</span><span class="p">,</span> <span class="s2">&#34;4&#34;</span><span class="p">,</span> <span class="s2">&#34;app:app&#34;</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>И соберём наш образ:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker build -t somali_customs .  </span></span></code></pre></td></tr></table>
+</div>
+</div><p>(Опционально) Можно запустить и потыкать:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run -p 5000:5000 somali_customs</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="общая-информация-и-переменные-окружения" class="heading-element"><span>Общая информация и переменные окружения</span>
+  <a href="#%d0%be%d0%b1%d1%89%d0%b0%d1%8f-%d0%b8%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%b8-%d0%bf%d0%b5%d1%80%d0%b5%d0%bc%d0%b5%d0%bd%d0%bd%d1%8b%d0%b5-%d0%be%d0%ba%d1%80%d1%83%d0%b6%d0%b5%d0%bd%d0%b8%d1%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>А теперь когда у нас есть образ, представим, что его собирали не мы (если брали готовый образ, разумеется). Мы о нём ничего не знаем, нашли его в приватном или публичном registry и нам нужно извлечь какие-то данные или пересоздать образ.</p>
+<p>Для начала, мы можем посмотреть информацию о нашем образе:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker inspect somali_customs</span></span></code></pre></td></tr></table>
+</div>
+</div><p>И в ответ мы получим множество информации, вроде тэга, даты создания, а так же переменные окружения, которые были указаны в Dockerfile.</p>
+<p>Либо мы сразу можем посмотреть, что указано в env:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># Так</span>
+</span></span><span class="line"><span class="cl">docker inspect somali_customs --format <span class="s1">&#39;{{.Config.Env}}&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Или так</span>
+</span></span><span class="line"><span class="cl">docker inspect somali_customs <span class="p">|</span> jq -r <span class="s1">&#39;.[].Config.Env[]&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>В ответ получим переменные окружения, в том числе и секреты, указанные в Dockerfile.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nv">PATH</span><span class="o">=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+</span></span><span class="line"><span class="cl"><span class="nv">USER</span><span class="o">=</span>super_user
+</span></span><span class="line"><span class="cl"><span class="nv">PASSWORD</span><span class="o">=</span>super_secret_password
+</span></span><span class="line"><span class="cl"><span class="nv">API_TOKEN</span><span class="o">=</span>71738e41-a648-41c8-9bcf-755dcf970788
+</span></span><span class="line"><span class="cl"><span class="nv">FLASK_ENV</span><span class="o">=</span>development
+</span></span><span class="line"><span class="cl"><span class="nv">FLASK_APP</span><span class="o">=</span>/src/app.py
+</span></span><span class="line"><span class="cl"><span class="nv">DATABASE</span><span class="o">=</span>/src/database.db</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>По этой причине и не рекомендуется передавать секреты в Dockerfile.</p></blockquote>
+<p>Но секретов из env недостаточно, или их может не быть вовсе.
+Так что мы идём дальше.
+<img loading="lazy" src="../../static/20250212181500.png" alt="../../static/20250212181500.png" srcset="../../static/20250212181500.png?size=small, ../../static/20250212181500.png?size=medium 1.5x, ../../static/20250212181500.png?size=large 2x" data-title="../../static/20250212181500.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="история-слоёв" class="heading-element"><span>История слоёв</span>
+  <a href="#%d0%b8%d1%81%d1%82%d0%be%d1%80%d0%b8%d1%8f-%d1%81%d0%bb%d0%be%d1%91%d0%b2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Для того, чтобы восстановить порядок действий, мы можем посмотреть историю слоёв. В history попадает не всё, например <code>FROM</code> отображаться не будет. Это связано с тем, что <code>FROM</code> - это инструкция Dockerfile, которая указывает базовый образ, но она не создает отдельный слой в финальном образе. Вместо этого история слоев начинается с первого слоя, который был добавлен поверх базового образа.</p>
+<p>Для просмотра history у нас есть несколько вариантов:</p>
+<h3 id="docker-history" class="heading-element"><span>docker history</span>
+  <a href="#docker-history" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Для начала мы можем посмотреть историю с помощью <code>docker history</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker <span class="nb">history</span> somali_customs
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">IMAGE          CREATED        CREATED BY                                      SIZE      COMMENT
+</span></span><span class="line"><span class="cl">6dead3c50500   <span class="m">2</span> hours ago    CMD <span class="o">[</span><span class="s2">&#34;gunicorn&#34;</span> <span class="s2">&#34;--bind&#34;</span> <span class="s2">&#34;0.0.0.0:5000&#34;</span> <span class="s2">&#34;--w…   0B        buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    EXPOSE map[5000/tcp:{}]                         0B        buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    RUN /bin/sh -c apt-get update &amp;&amp;     apt-get…   417MB     buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    COPY ./src /src # buildkit                      17kB      buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    WORKDIR /src                                    0B        buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    ADD .env .env # buildkit                        96B       buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    ADD findme /usr/local/bin/findme # buildkit     16kB      buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    ENV DATABASE=/src/database.db                   0B        buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    ENV FLASK_APP=/src/app.py                       0B        buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    ENV FLASK_ENV=development                       0B        buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    ENV API_TOKEN=71738e41-a648-41c8-9bcf-755dcf…   0B        buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    ENV PASSWORD=super_secret_password              0B        buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    ENV USER=super_user                             0B        buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      2 hours ago    LABEL maintainer=the29a                         0B        buildkit.dockerfile.v0
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      4 months ago   /bin/sh -c #(nop)  CMD [&#34;</span>/bin/bash<span class="s2">&#34;]            0B        
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      4 months ago   /bin/sh -c #(nop) ADD file:7486147a645d8835a…   72.8MB    
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      4 months ago   /bin/sh -c #(nop)  LABEL org.opencontainers.…   0B        
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      4 months ago   /bin/sh -c #(nop)  LABEL org.opencontainers.…   0B        
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      4 months ago   /bin/sh -c #(nop)  ARG LAUNCHPAD_BUILD_ARCH     0B        
+</span></span></span><span class="line"><span class="cl"><span class="s2">&lt;missing&gt;      4 months ago   /bin/sh -c #(nop)  ARG RELEASE                  0B  </span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Данных не очень много, они идут снизу вверх. В целом малопригодно и требуется обработка.
+Так же вы могли обратить внимание на <code>&lt;missing&gt;</code>, с 2016 года это ожидаемое поведение.
+Если интересно, то стоит почитать статью Нигеля Брауна <a href="https://windsock.io/explaining-docker-image-ids/"target="_blank" rel="external nofollow noopener noreferrer">Explaining Docker Image IDs</a> (или в частичном переводе <a href="https://questu.ru/questions/35310212/"target="_blank" rel="external nofollow noopener noreferrer">тут</a>)
+Краткая цитата:</p>
+<blockquote>
+<p>Я думаю, это ожидаемо; хранилище с адресацией к содержимому больше не использует «родительские» изображения для объединения слоев изображений.</p></blockquote>
+<p>Но эту проблему мы сможем решить с помощью dive, о котором чуть позже.</p>
+<h3 id="dedockify" class="heading-element"><span>dedockify</span>
+  <a href="#dedockify" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://github.com/mrhavens/Dedockify/"target="_blank" rel="external nofollow noopener noreferrer">Dedockify</a> - небольшой скрипт, позволяющий получить список слоёв из history через Docker API. Можно использовать как из контейнера, так и сам py-скрипт:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git clone https://github.com/mrhavens/Dedockify.git 
+</span></span><span class="line"><span class="cl"><span class="c1"># для запуска требуется передавать image_id, а не имя/тэг</span>
+</span></span><span class="line"><span class="cl">python3 dedockify.py 6dead3c50500 </span></span></code></pre></td></tr></table>
+</div>
+</div><p>На выходе получаем обработанный список действий, из которого уже можно собирать Dockerfile.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> ghcr.io/the29a/somali_customs:latest</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ARG</span> RELEASE<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ARG</span> LAUNCHPAD_BUILD_ARCH<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">LABEL</span> org.opencontainers.image.ref.name<span class="o">=</span>ubuntu<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">LABEL</span> org.opencontainers.image.version<span class="o">=</span>20.04<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> file:7486147a645d8835a5181c79f00a3606c6b714c83bcbfcd8862221eb14690f9e in /<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;/bin/bash&#34;</span><span class="p">]</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> LABEL <span class="nv">maintainer</span><span class="o">=</span>the29a<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> ENV <span class="nv">USER</span><span class="o">=</span>super_user<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> ENV <span class="nv">PASSWORD</span><span class="o">=</span>super_secret_password<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> ENV <span class="nv">API_TOKEN</span><span class="o">=</span>71738e41-a648-41c8-9bcf-755dcf970788<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> ENV <span class="nv">FLASK_ENV</span><span class="o">=</span>development<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> ENV <span class="nv">FLASK_APP</span><span class="o">=</span>/src/app.py<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> ENV <span class="nv">DATABASE</span><span class="o">=</span>/src/database.db<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> ADD findme /usr/local/bin/findme <span class="c1"># buildkit</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> ADD .env .env <span class="c1"># buildkit</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> WORKDIR /src<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> COPY ./src /src <span class="c1"># buildkit</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> RUN /bin/sh -c apt-get update <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span>     apt-get install -y     python3     python3-pip     sqlite3     curl <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span>     pip3 install --upgrade <span class="nv">pip</span><span class="o">==</span>23.1.2 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span>     pip3 install -r /src/requirements.txt <span class="c1"># buildkit</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> EXPOSE map<span class="o">[</span>5000/tcp:<span class="o">{}]</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> CMD <span class="o">[</span><span class="s2">&#34;gunicorn&#34;</span> <span class="s2">&#34;--bind&#34;</span> <span class="s2">&#34;0.0.0.0:5000&#34;</span> <span class="s2">&#34;--workers&#34;</span> <span class="s2">&#34;4&#34;</span> <span class="s2">&#34;app:app&#34;</span><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="zarva" class="heading-element"><span>zarva</span>
+  <a href="#zarva" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://github.com/the29a/zarva"target="_blank" rel="external nofollow noopener noreferrer">zarva</a> - мой небольшой скрипт, работающий через Docker API. Работает из Docker-контейнера и самостоятельным скриптом.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git clone https://github.com/the29a/zarva.git <span class="o">&amp;&amp;</span> <span class="nb">cd</span> zarva
+</span></span><span class="line"><span class="cl">python3 zarva.py -lh somali_customs</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Выхлоп выглядит чуть похуже, но в целом тоже пригодно для работы.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">ARG</span> RELEASE<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ARG</span> LAUNCHPAD_BUILD_ARCH<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">LABEL</span> org.opencontainers.image.ref.name<span class="o">=</span>ubuntu<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">LABEL</span> org.opencontainers.image.version<span class="o">=</span>20.04<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> file:7486147a645d8835a5181c79f00a3606c6b714c83bcbfcd8862221eb14690f9e in /<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;/bin/bash&#34;</span><span class="p">]</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">LABEL</span> <span class="nv">maintainer</span><span class="o">=</span>the29a
+</span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">USER</span><span class="o">=</span>super_user
+</span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">PASSWORD</span><span class="o">=</span>super_secret_password
+</span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">API_TOKEN</span><span class="o">=</span>71738e41-a648-41c8-9bcf-755dcf970788<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">FLASK_ENV</span><span class="o">=</span>development
+</span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">FLASK_APP</span><span class="o">=</span>/src/app.py<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">DATABASE</span><span class="o">=</span>/src/database.db<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> findme /usr/local/bin/findme <span class="c1"># buildkit</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> .env .env <span class="c1"># buildkit</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /src</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> ./src /src <span class="c1"># buildkit</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> /bin/sh -c apt-get update <span class="o">&amp;&amp;</span>     apt-get install -y     python3     python3-pip     sqlite3     curl <span class="o">&amp;&amp;</span>     pip3 install --upgrade <span class="nv">pip</span><span class="o">==</span>23.1.2 <span class="o">&amp;&amp;</span>     pip3 install -r /src/requirements.txt <span class="c1"># buildkit</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> map[5000/tcp:{}]</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;gunicorn&#34;</span> <span class="s2">&#34;--bind&#34;</span> <span class="s2">&#34;0.0.0.0:5000&#34;</span> <span class="s2">&#34;--workers&#34;</span> <span class="s2">&#34;4&#34;</span> <span class="s2">&#34;app:app&#34;</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="dive" class="heading-element"><span>dive</span>
+  <a href="#dive" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://github.com/wagoodman/dive"target="_blank" rel="external nofollow noopener noreferrer">dive</a> - инструмент для анализа образов Docker. Готовый Dockerfile он нам не выдаст, но он решит проблему <code>&lt;missing&gt;</code> дайджеста образа.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dive somali_customs:latest</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="../../static/Screenshot_2025-02-13_01-21-30.png" alt="../../static/Screenshot_2025-02-13_01-21-30.png" srcset="../../static/Screenshot_2025-02-13_01-21-30.png?size=small, ../../static/Screenshot_2025-02-13_01-21-30.png?size=medium 1.5x, ../../static/Screenshot_2025-02-13_01-21-30.png?size=large 2x" data-title="../../static/Screenshot_2025-02-13_01-21-30.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="извлекаем-файлы" class="heading-element"><span>Извлекаем файлы</span>
+  <a href="#%d0%b8%d0%b7%d0%b2%d0%bb%d0%b5%d0%ba%d0%b0%d0%b5%d0%bc-%d1%84%d0%b0%d0%b9%d0%bb%d1%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="подготовка-к-вскрытию" class="heading-element"><span>Подготовка к вскрытию</span>
+  <a href="#%d0%bf%d0%be%d0%b4%d0%b3%d0%be%d1%82%d0%be%d0%b2%d0%ba%d0%b0-%d0%ba-%d0%b2%d1%81%d0%ba%d1%80%d1%8b%d1%82%d0%b8%d1%8e" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Для извлечения файлов у нас есть два пути:</p>
+<ul>
+<li>извлечение файлов из образа, предварительно сохранив его как архив</li>
+<li>копирование из запущенного контейнера</li>
+</ul>
+<p>Для того, чтобы добраться до файлов в образе, нам будет достаточно встроенных средств. Для этого нужно сохранить образ как tar-архив и распаковать его.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># Если собирали образ самостоятельно</span>
+</span></span><span class="line"><span class="cl">docker save somali_customs -o somali_customs.tar
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Для образа с ghcr</span>
+</span></span><span class="line"><span class="cl">docker save ghcr.io/the29a/somali_customs  -o somali_customs.tar
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mkdir -p somali_customs
+</span></span><span class="line"><span class="cl">tar xfv somali_customs.tar -C somali_customs</span></span></code></pre></td></tr></table>
+</div>
+</div><p>И после распаковки нас ждёт следующая картина:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ls -lah
+</span></span><span class="line"><span class="cl">total 28K
+</span></span><span class="line"><span class="cl">drwxrwxr-x <span class="m">3</span> the29a the29a 4.0K Feb <span class="m">12</span> 23:33 .
+</span></span><span class="line"><span class="cl">drwxrwxr-x <span class="m">4</span> the29a the29a 4.0K Feb <span class="m">12</span> 23:33 ..
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">3</span> the29a the29a 4.0K Feb <span class="m">12</span> 20:41 blobs
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a  <span class="m">370</span> Feb <span class="m">12</span> 23:32 index.json
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a 2.0K Jan  <span class="m">1</span>  <span class="m">1970</span> manifest.json
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a   <span class="m">31</span> Jan  <span class="m">1</span>  <span class="m">1970</span> oci-layout
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a   <span class="m">96</span> Jan  <span class="m">1</span>  <span class="m">1970</span> repositories</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="что-внутри" class="heading-element"><span>Что внутри</span>
+  <a href="#%d1%87%d1%82%d0%be-%d0%b2%d0%bd%d1%83%d1%82%d1%80%d0%b8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>И что же у нас под капотом?</p>
+<ul>
+<li><code>blobs</code> содержит все данные, связанные с образом, упакованные в виде объектов. Эти объекты хранятся в поддиректориях, названных по их хэшу</li>
+<li><code>index.json</code> является точкой входа для описания образа. Он содержит ссылки на манифесты (файлы <code>manifest.json</code>), которые, в свою очередь, описывают структуру образа.</li>
+<li><code>manifest.json</code> описывает структуру конкретного образа. Он связывает слои (из <code>blobs</code>) с конфигурацией образа</li>
+<li><code>oci-layout</code> указывает, что данная директория соответствует спецификации OCI. Он содержит минимальную информацию о версии спецификации</li>
+<li><code>repositories</code> содержит информацию о тэгах образов. Он связывает имена образов и тэгов с соответствующими манифестами</li>
+</ul>
+<p>Нас интересует blobs. blobs содержит три основных типа объектов:</p>
+<ul>
+<li>Слои: файлы, представляющие изменения файловой системы (добавление файлов, установка пакетов)</li>
+<li>Конфигурации: JSON-файлы, описывающие метаданные образа (например, команды <code>CMD</code>, переменные окружения <code>ENV</code>, рабочая директория <code>WORKDIR</code> и т.д.).</li>
+<li>Манифесты: JSON-файлы, описывающие структуру образа и связывающие слои с конфигурациями.</li>
+</ul>
+<p>Содержимое blobs выглядит примерно так:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a <span class="m">424665600</span> Feb <span class="m">12</span> 20:41 21784e90071f6def6f38213e1bb1b5aaf59334e9e7044cb56d726d8b65dbe9f9
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a      <span class="m">1246</span> Feb <span class="m">12</span> 20:41 2c35ff2f5c0f1f315b5200a967ce0c5e5f30267e15497eda6ffe34de9285c6db
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a       <span class="m">482</span> Feb <span class="m">12</span> 20:41 53e6285237a453ff289810309a0658b8bb2daaa95f57195cd2841e4a7dd3d7c8
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a       <span class="m">482</span> Feb <span class="m">12</span> 20:41 5c0360e4bb03e58b69958f55afcd7a248d3993d23d25aa7043e4f65200a5b32d
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a      <span class="m">4122</span> Feb <span class="m">12</span> 20:41 6dead3c505007b4d2d80fc6cc19d3f8cc28650784a93477421936f17eb401d57
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a       <span class="m">482</span> Feb <span class="m">12</span> 20:41 7a2aea30127354ab1b44ed67a62f92d6c8cc71b46ef26c7f752fa5b3612df25c
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a       <span class="m">406</span> Feb <span class="m">12</span> 20:41 8c746c362d60c315f77e6cadeeb65a4ef38bf7d2ba3746f0ee7bed227ccf8a26
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a     <span class="m">23040</span> Feb <span class="m">12</span> 20:41 918282f295a57899a4c3071457fc62d15c962e76f9a84cb7247dbfc3f81228e0
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a     <span class="m">19456</span> Feb <span class="m">12</span> 20:41 adcede8a99681fb55938bc0aa1bc69704300c9c17efc129cd4f04fb66c8ebefa
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a      <span class="m">1159</span> Jan  <span class="m">1</span>  <span class="m">1970</span> af187335483809b3e75feb10365c504c9120df31c89d59e7232fb752cd34f68f
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a      <span class="m">1536</span> Feb <span class="m">12</span> 20:41 e1803fc36b88d0fa86a30df1998e1a8db2c354c02a3a6830d04bb6a5f4317111
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a       <span class="m">482</span> Feb <span class="m">12</span> 20:41 e24771e2ed761daa950df0097e84756bd7bf17d238b7d665aef0879f7c51217e
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a      <span class="m">2048</span> Feb <span class="m">12</span> 20:41 f1080c8ed328be869717458a91a9bb4b0562f2cb31eea0beeee841af0e2cc56f
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> the29a the29a  <span class="m">75190784</span> Feb <span class="m">12</span> 20:41 fffe76c64ef2dee2d80a8bb3ad13d65d596d04a45510b1956a976a69215dae92</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Чтобы было немного проще, можем задать расширение файлам небольшим скриптом:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> file in *<span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">[[</span> <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">&#34;</span> !<span class="o">=</span> *.json <span class="o">&amp;&amp;</span> <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">&#34;</span> !<span class="o">=</span> *.tar <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> file <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">&#34;</span> <span class="p">|</span> grep -q <span class="s2">&#34;JSON text data&#34;</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            mv <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">.json&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> file <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">&#34;</span> <span class="p">|</span> grep -q <span class="s2">&#34;tar archive&#34;</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            mv <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$file</span><span class="s2">.tar&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">fi</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Что нам делать дальше? А дальше всё довольно просто: мы знаем Digest слоя (если не указан в history, то мы можем посмотреть в dive), а дальше распаковываем как обычный tar.
+Например, слой с командой <code>ADD .env .env</code> имеет Digest <code>f1080c8ed328be869717458a91a9bb4b0562f2cb31eea0beeee841af0e2cc56f</code></p>
+<p>Извлекаем файл и смотрим наш .env:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">tar xfv f1080c8ed328be869717458a91a9bb4b0562f2cb31eea0beeee841af0e2cc56f.tar 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cat .env                     
+</span></span><span class="line"><span class="cl"><span class="nv">SECRET_1</span><span class="o">=</span><span class="s2">&#34;578cb981-12b1-4931-9b74-9ff97b540b1e&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SECRET_2</span><span class="o">=</span><span class="s2">&#34;c7784065-c83d-4275-8580-7f241f173d40&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Так же находим наш findme в <code>6136ad49dff9e25bb042db7fbc9efecdd182620d0cb9af0503b7018638635df3</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">tar xfv 6136ad49dff9e25bb042db7fbc9efecdd182620d0cb9af0503b7018638635df3.tar 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">strings usr/local/bin/findme <span class="p">|</span> sed <span class="s1">&#39;13,14!d&#39;</span>
+</span></span><span class="line"><span class="cl">Hello, Cult of Wire
+</span></span><span class="line"><span class="cl"><span class="nv">$3</span>cr3t_<span class="nv">$tring</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="копирование-из-контейнера" class="heading-element"><span>Копирование из контейнера</span>
+  <a href="#%d0%ba%d0%be%d0%bf%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-%d0%b8%d0%b7-%d0%ba%d0%be%d0%bd%d1%82%d0%b5%d0%b9%d0%bd%d0%b5%d1%80%d0%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Запускаем контейнер:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run -td ghcr.io/the29a/somali_customs                                    
+</span></span><span class="line"><span class="cl">f31355d24c80bac47d661c53db38adc17aa594df850864812fb37e1c7be9c6c9</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Проверяем, что контейнер  не упал и работает:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker ps -a 
+</span></span><span class="line"><span class="cl">CONTAINER ID   IMAGE                           COMMAND                  CREATED          STATUS          PORTS      NAMES
+</span></span><span class="line"><span class="cl">f31355d24c80   ghcr.io/the29a/somali_customs   <span class="s2">&#34;gunicorn --bind 0.0…&#34;</span>   <span class="m">12</span> minutes ago   Up <span class="m">12</span> minutes   5000/tcp   magical_ritchie</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Имея под рукой dive и\или зная, какие файлы у нас есть, мы просто копируем их из контейнера на хостовую машину:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker cp f31355d24c80:.env .
+</span></span><span class="line"><span class="cl">Successfully copied 2.05kB to /home/the29a/Dev/somali_customs/.</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Проверяем полученный <code>.env</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">cat .env        
+</span></span><span class="line"><span class="cl"><span class="nv">SECRET_1</span><span class="o">=</span><span class="s2">&#34;578cb981-12b1-4931-9b74-9ff97b540b1e&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SECRET_2</span><span class="o">=</span><span class="s2">&#34;c7784065-c83d-4275-8580-7f241f173d40&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Так же поступаем с нашим бинарником:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker cp f31355d24c80:/usr/local/bin/findme .    
+</span></span><span class="line"><span class="cl">Successfully copied 17.9kB to /home/the29a/test/.</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Проверяем содержимое:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">strings findme <span class="p">|</span> sed <span class="s1">&#39;13,14!d&#39;</span> 
+</span></span><span class="line"><span class="cl">Hello, Cult of Wire
+</span></span><span class="line"><span class="cl"><span class="nv">$3</span>cr3t_<span class="nv">$tring</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="outro" class="heading-element"><span>Outro</span>
+  <a href="#outro" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Как мы смогли убедиться, в образах Docker нет магии, а в извлечении полезной для нас информации особой сложности нет. Да, в силу особенностей это немного не очевидно, но вполне решаемо. Упомянутые в статье инструменты хоть и не дают готовое решение из коробки, но сильно помогают в нашей задаче.</p>
+<h2 id="ссылки" class="heading-element"><span>Ссылки</span>
+  <a href="#%d1%81%d1%81%d1%8b%d0%bb%d0%ba%d0%b8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="инструменты" class="heading-element"><span>Инструменты</span>
+  <a href="#%d0%b8%d0%bd%d1%81%d1%82%d1%80%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d1%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://github.com/mrhavens/Dedockify/"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/mrhavens/Dedockify/</a><br>
+<a href="https://github.com/wagoodman/dive"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/wagoodman/dive</a><br>
+<a href="https://github.com/the29a/zarva"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/the29a/zarva</a><br>
+<a href="https://github.com/containers/skopeo"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/containers/skopeo</a><br>
+<a href="https://docker-py.readthedocs.io/en/stable/"target="_blank" rel="external nofollow noopener noreferrer">Docker SDK for Python</a></p>
+<h3 id="статья-на-схожую-тему" class="heading-element"><span>Статья на схожую тему</span>
+  <a href="#%d1%81%d1%82%d0%b0%d1%82%d1%8c%d1%8f-%d0%bd%d0%b0-%d1%81%d1%85%d0%be%d0%b6%d1%83%d1%8e-%d1%82%d0%b5%d0%bc%d1%83" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://gcore.com/learning/reverse-engineer-docker-images-into-dockerfiles-with-dedockify/"target="_blank" rel="external nofollow noopener noreferrer">Gcore: Reverse Engineer Docker Images into Dockerfiles</a></p>
+<h3 id="прочее" class="heading-element"><span>Прочее</span>
+  <a href="#%d0%bf%d1%80%d0%be%d1%87%d0%b5%d0%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://windsock.io/explaining-docker-image-ids/"target="_blank" rel="external nofollow noopener noreferrer">Explaining Docker Image IDs</a><br>
+<a href="https://github.com/rcormie/python-flask-sqlite-app-docker"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/rcormie/python-flask-sqlite-app-docker</a></p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="Updated on 2025-02-08 16:48:43">Updated on 2025-02-08&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="Share on X" data-sharer="twitter" data-url="http://localhost:1313/posts/somali_customs/" data-title="Таможня По-Сомалийски. Вскрываем Контейнеры Docker" data-hashtags="security,docker"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/somali_customs/" data-hashtag="security"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/somali_customs/" data-title="Таможня По-Сомалийски. Вскрываем Контейнеры Docker"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/security/" class="post-tag" title="Tags - Security">Security</a><a href="/tags/docker/" class="post-tag" title="Tags - Docker">Docker</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/not_so_trivial/" class="post-nav-item" rel="prev" title="Not So (Trivy)al. Как Использовать Trivy На Большом Скоупе И Не Поехать Кукухой (Нет)"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Not So (Trivy)al. Как Использовать Trivy На Большом Скоупе И Не Поехать Кукухой (Нет)</a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="Contents"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.144.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> | Theme - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.17-8b402129"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">the29a</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">This website works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"version":"v0.3.17-8b402129"};console.log('Page config:', window.config);</script><script src="/js/theme.min.js" defer></script></body>
+</html>

@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Wazuh &#43; OpenCTI = Integration? - 29a µ blog</title><meta name="author" content="the29a">
+<meta name="description" content="Разворачиваем OpenCTI с интеграцией Wazuh Дефендеры и прочие blue-team, а вы обогащаете данные в своем Wazuh?
+Разумеется, Wazuh используют не везде, но в силу бюджетов его можно встретить даже в крупном бизнесе.
+Сравнительно удобно, бесплатно и можно запихать в Docker.
+"><meta name="keywords" content='wazuh, opencti'>
+  <meta itemprop="name" content="Wazuh &#43; OpenCTI = Integration?">
+  <meta itemprop="description" content="Разворачиваем OpenCTI с интеграцией Wazuh Дефендеры и прочие blue-team, а вы обогащаете данные в своем Wazuh?
+Разумеется, Wazuh используют не везде, но в силу бюджетов его можно встретить даже в крупном бизнесе.
+Сравнительно удобно, бесплатно и можно запихать в Docker.">
+  <meta itemprop="datePublished" content="2023-05-03T20:09:45+03:00">
+  <meta itemprop="dateModified" content="2023-05-03T20:09:45+03:00">
+  <meta itemprop="wordCount" content="1595">
+  <meta itemprop="image" content="http://localhost:1313/avatar.png">
+  <meta itemprop="keywords" content="Wazuh,Opencti"><meta property="og:url" content="http://localhost:1313/posts/wazuh_opencti_integration/">
+  <meta property="og:site_name" content="29a µ blog">
+  <meta property="og:title" content="Wazuh &#43; OpenCTI = Integration?">
+  <meta property="og:description" content="Разворачиваем OpenCTI с интеграцией Wazuh Дефендеры и прочие blue-team, а вы обогащаете данные в своем Wazuh?
+Разумеется, Wazuh используют не везде, но в силу бюджетов его можно встретить даже в крупном бизнесе.
+Сравнительно удобно, бесплатно и можно запихать в Docker.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-05-03T20:09:45+03:00">
+    <meta property="article:modified_time" content="2023-05-03T20:09:45+03:00">
+    <meta property="article:tag" content="Wazuh">
+    <meta property="article:tag" content="Opencti">
+    <meta property="og:image" content="http://localhost:1313/avatar.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/avatar.png">
+  <meta name="twitter:title" content="Wazuh &#43; OpenCTI = Integration?">
+  <meta name="twitter:description" content="Разворачиваем OpenCTI с интеграцией Wazuh Дефендеры и прочие blue-team, а вы обогащаете данные в своем Wazuh?
+Разумеется, Wazuh используют не везде, но в силу бюджетов его можно встретить даже в крупном бизнесе.
+Сравнительно удобно, бесплатно и можно запихать в Docker.">
+<meta name="application-name" content="29a µ blog">
+<meta name="apple-mobile-web-app-title" content="29a µ blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="http://localhost:1313/posts/wazuh_opencti_integration/" title="Wazuh &#43; OpenCTI = Integration? - 29a µ blog" /><link rel="prev" type="text/html" href="http://localhost:1313/about/" title="about" /><link rel="next" type="text/html" href="http://localhost:1313/posts/obsidian-for-osint/" title="Obsidian for OSINT" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Wazuh + OpenCTI = Integration?",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/posts\/wazuh_opencti_integration\/"
+    },"genre": "posts","keywords": "wazuh, opencti","wordcount":  1595 ,
+    "url": "http:\/\/localhost:1313\/posts\/wazuh_opencti_integration\/","datePublished": "2023-05-03T20:09:45+03:00","dateModified": "2023-05-03T20:09:45+03:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "the29a"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item">
+              <a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item">
+              <a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item"><a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item"><a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="Collections"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Wazuh &#43; OpenCTI = Integration?</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      the29a</span></span></div><div class="post-meta-line"><span title="published on 2023-05-03 20:09:45"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-05-03">2023-05-03</time></span>&nbsp;<span title="1595 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 1600 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>8 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#типы-событий--группы-правил-возможные-для-отработки-с-opencti-api">Типы событий / группы правил возможные для отработки с OpenCTI API</a></li>
+    <li><a href="#тестовое-развертывание">Тестовое развертывание</a>
+      <ul>
+        <li><a href="#получаем-api-ключ-alienvault-otx">Получаем API-ключ <a href="https://otx.alienvault.com">Alienvault OTX</a></a></li>
+        <li><a href="#разворачиваем-opencti">Разворачиваем <a href="https://github.com/OpenCTI-Platform/opencti">OpenCTI</a></a></li>
+        <li><a href="#запускаем-opencti">Запускаем OpenCTI</a></li>
+        <li><a href="#запускаем-wazuh">Запускаем Wazuh</a></li>
+        <li><a href="#разворачиваем-windows-и-ставим-sysmon">Разворачиваем Windows и ставим sysmon</a></li>
+        <li><a href="#тестирование">Тестирование</a></li>
+        <li><a href="#возможные-проблемы">Возможные проблемы:</a></li>
+        <li><a href="#итог">Итог</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="разворачиваем-opencti-с-интеграцией-wazuh" class="heading-element"><span>Разворачиваем OpenCTI с интеграцией Wazuh</span>
+  <a href="#%d1%80%d0%b0%d0%b7%d0%b2%d0%be%d1%80%d0%b0%d1%87%d0%b8%d0%b2%d0%b0%d0%b5%d0%bc-opencti-%d1%81-%d0%b8%d0%bd%d1%82%d0%b5%d0%b3%d1%80%d0%b0%d1%86%d0%b8%d0%b5%d0%b9-wazuh" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Дефендеры и прочие blue-team, а вы обогащаете данные в своем Wazuh?</p>
+<p>Разумеется, Wazuh используют не везде, но в силу бюджетов его можно встретить даже в крупном бизнесе.<br>
+Сравнительно удобно, бесплатно и можно запихать в Docker.</p>
+<p>Так вот, переходим к теме.<br>
+Представим, что правила у нас написаны, алерты настроены и от вечного внедрения уже можно перейти к добавлению функционала.<br>
+Например, алерты при обнаружении IoC. А для этого нам нужна какая-то Threat Intelligence платформа.<br>
+В голову приходят только MISP и OpenCTI, последний мы и будем использовать.</p>
+<h2 id="типы-событий--группы-правил-возможные-для-отработки-с-opencti-api" class="heading-element"><span>Типы событий / группы правил возможные для отработки с OpenCTI API</span>
+  <a href="#%d1%82%d0%b8%d0%bf%d1%8b-%d1%81%d0%be%d0%b1%d1%8b%d1%82%d0%b8%d0%b9--%d0%b3%d1%80%d1%83%d0%bf%d0%bf%d1%8b-%d0%bf%d1%80%d0%b0%d0%b2%d0%b8%d0%bb-%d0%b2%d0%be%d0%b7%d0%bc%d0%be%d0%b6%d0%bd%d1%8b%d0%b5-%d0%b4%d0%bb%d1%8f-%d0%be%d1%82%d1%80%d0%b0%d0%b1%d0%be%d1%82%d0%ba%d0%b8-%d1%81-opencti-api" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>Event type</th>
+          <th>metadata</th>
+          <th>Rationale</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>sysmon event1</td>
+          <td>win.eventdata.hashes</td>
+          <td>Check existing IoC in process image file hash</td>
+      </tr>
+      <tr>
+          <td>sysmon event3</td>
+          <td>win.eventdata.hashes</td>
+          <td>Check existing IoC in in destination IP</td>
+      </tr>
+      <tr>
+          <td>sysmon event6</td>
+          <td>win.eventdata.hashes</td>
+          <td>Check existing IoC in in loaded driver file hash</td>
+      </tr>
+      <tr>
+          <td>sysmon event7</td>
+          <td>win.eventdata.hashes</td>
+          <td>Check existing IoC in loaded DLL file hash</td>
+      </tr>
+      <tr>
+          <td>sysmon event 15</td>
+          <td>win.eventdata.hashes</td>
+          <td>Check existing IoC in downloaded file hash</td>
+      </tr>
+      <tr>
+          <td>sysmon event 22</td>
+          <td>win.eventdata.queryName</td>
+          <td>Check existing IoC in queried hostname</td>
+      </tr>
+      <tr>
+          <td>sysmon event 23</td>
+          <td>win.eventdata.hashes</td>
+          <td>Check existing IoC in deleted file hash</td>
+      </tr>
+      <tr>
+          <td>sysmon event 24</td>
+          <td>win.eventdata.hashes</td>
+          <td>Check existing IoC in clipboard content file hash</td>
+      </tr>
+      <tr>
+          <td>sysmon event 25</td>
+          <td>win.eventdata.hashes</td>
+          <td>Check existing IoC in process file hash</td>
+      </tr>
+      <tr>
+          <td>sysmon process-anomalies</td>
+          <td>win.eventdata.hashes</td>
+          <td>&ndash;</td>
+      </tr>
+      <tr>
+          <td>ids</td>
+          <td>dest_ip, src_ip</td>
+          <td>&ndash;</td>
+      </tr>
+      <tr>
+          <td>osquery, osquery_file</td>
+          <td>osquery.columns.sha256</td>
+          <td>&ndash;</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="тестовое-развертывание" class="heading-element"><span>Тестовое развертывание</span>
+  <a href="#%d1%82%d0%b5%d1%81%d1%82%d0%be%d0%b2%d0%be%d0%b5-%d1%80%d0%b0%d0%b7%d0%b2%d0%b5%d1%80%d1%82%d1%8b%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Для теста потребуется:</p>
+<ol>
+<li>API-ключ <a href="https://otx.alienvault.com"target="_blank" rel="external nofollow noopener noreferrer">Alienvault OTX</a></li>
+<li>Wazuh
+<ul>
+<li>Например <a href="https://github.com/wazuh/wazuh-docker"target="_blank" rel="external nofollow noopener noreferrer">wazuh-docker</a></li>
+</ul>
+</li>
+<li>OpenCTI
+<ul>
+<li><a href="https://www.filigran.io/en/products/opencti/"target="_blank" rel="external nofollow noopener noreferrer">OpenCTI</a></li>
+<li><a href="https://github.com/OpenCTI-Platform/opencti"target="_blank" rel="external nofollow noopener noreferrer">OpenCTI GitHub</a></li>
+</ul>
+</li>
+<li>Интеграция OpenCTI с Wazuh
+<ul>
+<li><a href="https://github.com/misje/wazuh-opencti"target="_blank" rel="external nofollow noopener noreferrer">Github OpenCTI Integration</a></li>
+</ul>
+</li>
+<li>Windows машина с sysmon и wazuh-agent</li>
+</ol>
+<h3 id="получаем-api-ключ-alienvault-otx" class="heading-element"><span>Получаем API-ключ <a href="https://otx.alienvault.com"target="_blank" rel="external nofollow noopener noreferrer">Alienvault OTX</a></span>
+  <a href="#%d0%bf%d0%be%d0%bb%d1%83%d1%87%d0%b0%d0%b5%d0%bc-api-%d0%ba%d0%bb%d1%8e%d1%87-alienvault-otx" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Регистрируемся на <a href="https://otx.alienvault.com"target="_blank" rel="external nofollow noopener noreferrer">Alienvault OTX</a>, переходим в <a href="https://otx.alienvault.com/api"target="_blank" rel="external nofollow noopener noreferrer">alienvault.com/api</a> и забраем наш ключ.</li>
+</ul>
+<h3 id="разворачиваем-opencti" class="heading-element"><span>Разворачиваем <a href="https://github.com/OpenCTI-Platform/opencti"target="_blank" rel="external nofollow noopener noreferrer">OpenCTI</a></span>
+  <a href="#%d1%80%d0%b0%d0%b7%d0%b2%d0%be%d1%80%d0%b0%d1%87%d0%b8%d0%b2%d0%b0%d0%b5%d0%bc-opencti" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Клонируем репозиторий</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/OpenCTI-Platform/docker.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> docker</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Настраиваем переменные:<br>
+Устанавливаем jq:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install -y jq</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Добавляем переменные в <code>.env</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> ~/docker
+</span></span><span class="line"><span class="cl"><span class="o">(</span>cat <span class="s">&lt;&lt; EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">OPENCTI_ADMIN_EMAIL=admin@opencti.io
+</span></span></span><span class="line"><span class="cl"><span class="s">OPENCTI_ADMIN_PASSWORD=CHANGE_ME
+</span></span></span><span class="line"><span class="cl"><span class="s">OPENCTI_ADMIN_TOKEN=GENERATE_UUID
+</span></span></span><span class="line"><span class="cl"><span class="s">OPENCTI_BASE_URL=http://localhost:8080
+</span></span></span><span class="line"><span class="cl"><span class="s">MINIO_ROOT_USER=opencti
+</span></span></span><span class="line"><span class="cl"><span class="s">MINIO_ROOT_PASSWORD=CHANGE_ME
+</span></span></span><span class="line"><span class="cl"><span class="s">RABBITMQ_DEFAULT_USER=opencti
+</span></span></span><span class="line"><span class="cl"><span class="s">RABBITMQ_DEFAULT_PASS=CHANGE_ME
+</span></span></span><span class="line"><span class="cl"><span class="s">CONNECTOR_EXPORT_FILE_STIX_ID=dd817c8b-abae-460a-9ebc-97b1551e70e6
+</span></span></span><span class="line"><span class="cl"><span class="s">CONNECTOR_EXPORT_FILE_CSV_ID=7ba187fb-fde8-4063-92b5-c3da34060dd7
+</span></span></span><span class="line"><span class="cl"><span class="s">CONNECTOR_EXPORT_FILE_TXT_ID=ca715d9c-bd64-4351-91db-33a8d728a58b
+</span></span></span><span class="line"><span class="cl"><span class="s">CONNECTOR_IMPORT_FILE_STIX_ID=72327164-0b35-482b-b5d6-a5a3f76b845f
+</span></span></span><span class="line"><span class="cl"><span class="s">CONNECTOR_IMPORT_DOCUMENT_ID=c3970f8a-ce4b-4497-a381-20b7256f56f0
+</span></span></span><span class="line"><span class="cl"><span class="s">SMTP_HOSTNAME=localhost
+</span></span></span><span class="line"><span class="cl"><span class="s">ELASTIC_MEMORY_SIZE=4G
+</span></span></span><span class="line"><span class="cl"><span class="s">ALIENVAULT_API_KEY=API_KEY
+</span></span></span><span class="line"><span class="cl"><span class="s">ALIENVAULT_CONNECTOR_ID=GENERATE_UUID
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl"> <span class="o">)</span> &gt; .env</span></span></code></pre></td></tr></table>
+</div>
+</div><p>В полученный файл необходимо добавить свои переменные, будь это API-токен, почта или что-то ещё.
+Можно указать прямо в файле, но лучше, если сами переменные хранятся в глобальном окружении.</p>
+<p>Так же не забываем заменить GENERATE_UUID на валидные UUID, которые можно сгенерировать либо с помощью утилиты <code>uuidgen</code> или онлайн-генератором <a href="https://www.uuidgenerator.net/version4"target="_blank" rel="external nofollow noopener noreferrer">uuidgenerator.net</a>.</p>
+<ul>
+<li>Добавлю сразу, что помимо самого OpenCTI и интеграции в Wazuh нам необходимы т.н. <a href="https://github.com/OpenCTI-Platform/connectors/tree/master/external-import"target="_blank" rel="external nofollow noopener noreferrer">external-import connectors</a>, и для примера будем использовать <a href="https://github.com/OpenCTI-Platform/connectors/tree/master/external-import/alienvault"target="_blank" rel="external nofollow noopener noreferrer">коннектор от alienvault</a></li>
+<li>Чтобы не плодить множество compose-файлов, забираем <a href="https://raw.githubusercontent.com/OpenCTI-Platform/connectors/master/external-import/alienvault/docker-compose.yml"target="_blank" rel="external nofollow noopener noreferrer">отсюда</a> часть от <code>connector-alienvault:</code> до  <code>restart: always</code>, так же добавляем часть в конец</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    depends_on:
+</span></span><span class="line"><span class="cl">      - opencti </span></span></code></pre></td></tr></table>
+</div>
+</div><p>Что у нас должно получиться <a href="https://gist.github.com/the29a/9cac7e57ec99b35000453b0b0e50a1dc"target="_blank" rel="external nofollow noopener noreferrer">(GIST)</a>:</p>
+<p><details class="spoiler "  id="spoiler-0">
+  <summary>Click to view the spoiler</summary>
+  <p><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redis</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">redis:7.0.9</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">redisdata:/data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">elasticsearch</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker.elastic.co/elasticsearch/elasticsearch:8.6.2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">esdata:/usr/share/elasticsearch/data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># Comment out the line below for single-node</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">discovery.type=single-node</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># Uncomment line below below for a cluster of multiple nodes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># - cluster.name=docker-cluster</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">xpack.ml.enabled=false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">xpack.security.enabled=false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;ES_JAVA_OPTS=-Xms${ELASTIC_MEMORY_SIZE} -Xmx${ELASTIC_MEMORY_SIZE}&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ulimits</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">memlock</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">soft</span><span class="p">:</span><span class="w"> </span>-<span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">hard</span><span class="p">:</span><span class="w"> </span>-<span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">nofile</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">soft</span><span class="p">:</span><span class="w"> </span><span class="m">65536</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">hard</span><span class="p">:</span><span class="w"> </span><span class="m">65536</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">minio</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">minio/minio:RELEASE.2023-02-27T18-10-45Z</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">s3data:/data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;9000:9000&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">MINIO_ROOT_USER</span><span class="p">:</span><span class="w"> </span><span class="l">${MINIO_ROOT_USER}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">MINIO_ROOT_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l">${MINIO_ROOT_PASSWORD}    </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">server /data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;CMD&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;curl&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;-f&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;http://localhost:9000/minio/health/live&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l">30s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l">20s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">rabbitmq</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">rabbitmq:3.11-management</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">amqpdata:/var/lib/rabbitmq</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">opencti</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">opencti/platform:5.7.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">NODE_OPTIONS=--max-old-space-size=8096</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">APP__PORT=8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">APP__BASE_URL=${OPENCTI_BASE_URL}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">APP__ADMIN__EMAIL=${OPENCTI_ADMIN_EMAIL}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">APP__ADMIN__PASSWORD=${OPENCTI_ADMIN_PASSWORD}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">APP__ADMIN__TOKEN=${OPENCTI_ADMIN_TOKEN}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">APP__APP_LOGS__LOGS_LEVEL=error</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">REDIS__HOSTNAME=redis</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">REDIS__PORT=6379</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ELASTICSEARCH__URL=http://elasticsearch:9200</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">MINIO__ENDPOINT=minio</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">MINIO__PORT=9000</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">MINIO__USE_SSL=false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">MINIO__ACCESS_KEY=${MINIO_ROOT_USER}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">MINIO__SECRET_KEY=${MINIO_ROOT_PASSWORD}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RABBITMQ__HOSTNAME=rabbitmq</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RABBITMQ__PORT=5672</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RABBITMQ__PORT_MANAGEMENT=15672</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RABBITMQ__MANAGEMENT_SSL=false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RABBITMQ__USERNAME=${RABBITMQ_DEFAULT_USER}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RABBITMQ__PASSWORD=${RABBITMQ_DEFAULT_PASS}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">SMTP__HOSTNAME=${SMTP_HOSTNAME}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">SMTP__PORT=25</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">PROVIDERS__LOCAL__STRATEGY=LocalStrategy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;8080:8080&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">redis</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">elasticsearch</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">minio</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">rabbitmq</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">worker</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">opencti/worker:5.7.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_URL=http://opencti:8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">WORKER_LOG_LEVEL=info</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">opencti</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">deploy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l">replicated</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">connector-export-file-stix</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">opencti/connector-export-file-stix:5.7.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_URL=http://opencti:8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_ID=${CONNECTOR_EXPORT_FILE_STIX_ID}</span><span class="w"> </span><span class="c"># Valid UUIDv4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_TYPE=INTERNAL_EXPORT_FILE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_NAME=ExportFileStix2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_SCOPE=application/json</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_CONFIDENCE_LEVEL=15</span><span class="w"> </span><span class="c"># From 0 (Unknown) to 100 (Fully trusted)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_LOG_LEVEL=info</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">opencti</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">connector-export-file-csv</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">opencti/connector-export-file-csv:5.7.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_URL=http://opencti:8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_ID=${CONNECTOR_EXPORT_FILE_CSV_ID}</span><span class="w"> </span><span class="c"># Valid UUIDv4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_TYPE=INTERNAL_EXPORT_FILE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_NAME=ExportFileCsv</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_SCOPE=text/csv</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_CONFIDENCE_LEVEL=15</span><span class="w"> </span><span class="c"># From 0 (Unknown) to 100 (Fully trusted)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_LOG_LEVEL=info</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">opencti</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">connector-export-file-txt</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">opencti/connector-export-file-txt:5.7.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_URL=http://opencti:8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_ID=${CONNECTOR_EXPORT_FILE_TXT_ID}</span><span class="w"> </span><span class="c"># Valid UUIDv4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_TYPE=INTERNAL_EXPORT_FILE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_NAME=ExportFileTxt</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_SCOPE=text/plain</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_CONFIDENCE_LEVEL=15</span><span class="w"> </span><span class="c"># From 0 (Unknown) to 100 (Fully trusted)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_LOG_LEVEL=info</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">opencti</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">connector-import-file-stix</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">opencti/connector-import-file-stix:5.7.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_URL=http://opencti:8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_ID=${CONNECTOR_IMPORT_FILE_STIX_ID}</span><span class="w"> </span><span class="c"># Valid UUIDv4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_TYPE=INTERNAL_IMPORT_FILE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_NAME=ImportFileStix</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_VALIDATE_BEFORE_IMPORT=true</span><span class="w"> </span><span class="c"># Validate any bundle before import</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_SCOPE=application/json,text/xml</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_AUTO=true</span><span class="w"> </span><span class="c"># Enable/disable auto-import of file</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_CONFIDENCE_LEVEL=15</span><span class="w"> </span><span class="c"># From 0 (Unknown) to 100 (Fully trusted)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_LOG_LEVEL=info</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">opencti</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">connector-import-document</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">opencti/connector-import-document:5.7.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_URL=http://opencti:8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_ID=${CONNECTOR_IMPORT_DOCUMENT_ID}</span><span class="w"> </span><span class="c"># Valid UUIDv4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_TYPE=INTERNAL_IMPORT_FILE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_NAME=ImportDocument</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_VALIDATE_BEFORE_IMPORT=true</span><span class="w"> </span><span class="c"># Validate any bundle before import</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_SCOPE=application/pdf,text/plain,text/html</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_AUTO=true</span><span class="w"> </span><span class="c"># Enable/disable auto-import of file</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_ONLY_CONTEXTUAL=false</span><span class="w"> </span><span class="c"># Only extract data related to an entity (a report, a threat actor, etc.)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_CONFIDENCE_LEVEL=15</span><span class="w"> </span><span class="c"># From 0 (Unknown) to 100 (Fully trusted)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_LOG_LEVEL=info</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">IMPORT_DOCUMENT_CREATE_INDICATOR=true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">opencti</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">connector-alienvault</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">opencti/connector-alienvault:5.7.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_URL=http://opencti:8080</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_ID=${ALIENVAULT_CONNECTOR_ID}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_TYPE=EXTERNAL_IMPORT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_NAME=AlienVault</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_SCOPE=alienvault</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_CONFIDENCE_LEVEL=15</span><span class="w"> </span><span class="c"># From 0 (Unknown) to 100 (Fully trusted)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_UPDATE_EXISTING_DATA=false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">CONNECTOR_LOG_LEVEL=info</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_BASE_URL=https://otx.alienvault.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_API_KEY=${ALIENVAULT_API_KEY}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_TLP=White</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_CREATE_OBSERVABLES=true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_CREATE_INDICATORS=true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_PULSE_START_TIMESTAMP=2020-05-01T00:00:00                 </span><span class="w"> </span><span class="c"># BEWARE! Could be a lot of pulses!</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_REPORT_TYPE=threat-report</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_REPORT_STATUS=New</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_GUESS_MALWARE=false                                       </span><span class="w"> </span><span class="c"># Use tags to guess malware.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_GUESS_CVE=false                                           </span><span class="w"> </span><span class="c"># Use tags to guess CVE.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_EXCLUDED_PULSE_INDICATOR_TYPES=FileHash-MD5,FileHash-SHA1 </span><span class="w"> </span><span class="c"># Excluded Pulse indicator types.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_ENABLE_RELATIONSHIPS=true                                 </span><span class="w"> </span><span class="c"># Enable/Disable relationship creation between SDOs.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_ENABLE_ATTACK_PATTERNS_INDICATES=true                     </span><span class="w"> </span><span class="c"># Enable/Disable &#34;indicates&#34; relationships between indicators and attack patterns</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ALIENVAULT_INTERVAL_SEC=1800</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">opencti  </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">esdata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">s3data</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">redisdata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="l">amqpdata:</span></span></span></code></pre></td></tr></table>
+</div>
+</div></p>
+</details>
+<br></p>
+<h3 id="запускаем-opencti" class="heading-element"><span>Запускаем OpenCTI</span>
+  <a href="#%d0%b7%d0%b0%d0%bf%d1%83%d1%81%d0%ba%d0%b0%d0%b5%d0%bc-opencti" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Подгружаем переменные:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">set</span> -a <span class="p">;</span> <span class="nb">source</span> .env</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Запускаем контейнеры:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose up -d</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="запускаем-wazuh" class="heading-element"><span>Запускаем Wazuh</span>
+  <a href="#%d0%b7%d0%b0%d0%bf%d1%83%d1%81%d0%ba%d0%b0%d0%b5%d0%bc-wazuh" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Если нет Wazuh, то разворачиваем его в <a href="https://github.com/wazuh/wazuh-docker"target="_blank" rel="external nofollow noopener noreferrer">Docker</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/wazuh/wazuh-docker
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /wazuh-docker/single-node/
+</span></span><span class="line"><span class="cl">docker-compose up</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Добавляем интеграцию <a href="https://github.com/misje/wazuh-opencti"target="_blank" rel="external nofollow noopener noreferrer">wazuh-opencti</a>:</p>
+<ul>
+<li>Из интергации нам потребуются два файла, которые необходимо расположить в <code>/var/ossec/integrations</code>. Если позволяет навык, можно добавить из через отдельный volume, либо забрать напрямую из контейнера в с помощью wget.</li>
+</ul>
+<p>Запускаем из контейнера:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl https://raw.githubusercontent.com/misje/wazuh-opencti/main/custom-opencti.py -o /var/ossec/integrations/custom-opencti.py
+</span></span><span class="line"><span class="cl">curl https://raw.githubusercontent.com/misje/wazuh-opencti/main/custom-opencti -o /var/ossec/integrations/custom-opencti</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Добавляем настройки в wazuh-manager:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">  <span class="c">&lt;!-- OpenCTI Integration --&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;integration&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>custom-opencti<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;group&gt;</span>sysmon_eid1_detections,sysmon_eid3_detections,sysmon_eid7_detections,sysmon_eid22_detections,syscheck_file,osquery_file,ids,sysmon_process-anomalies<span class="nt">&lt;/group&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;alert_format&gt;</span>json<span class="nt">&lt;/alert_format&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;api_key&gt;</span>YOUR_TOKEN_HERE<span class="nt">&lt;/api_key&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;hook_url&gt;</span>http://<span class="nt">&lt;YOUR-OPENCTI-HOST&gt;</span>:8080/graphql<span class="nt">&lt;/hook_url&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/integration&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Добавляем правила обнаружения:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;group</span> <span class="na">name=</span><span class="s">&#34;threat_intel,&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;rule</span> <span class="na">id=</span><span class="s">&#34;100210&#34;</span> <span class="na">level=</span><span class="s">&#34;10&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&#34;integration&#34;</span><span class="nt">&gt;</span>opencti<span class="nt">&lt;/field&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;description&gt;</span>OpenCTI<span class="nt">&lt;/description&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;group&gt;</span>opencti,<span class="nt">&lt;/group&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;/rule&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;rule</span> <span class="na">id=</span><span class="s">&#34;100211&#34;</span> <span class="na">level=</span><span class="s">&#34;5&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;if_sid&gt;</span>100210<span class="nt">&lt;/if_sid&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&#34;opencti.error&#34;</span><span class="nt">&gt;</span>\.+<span class="nt">&lt;/field&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;description&gt;</span>OpenCTI: Failed to connect to API<span class="nt">&lt;/description&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;options&gt;</span>no_full_log<span class="nt">&lt;/options&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;group&gt;</span>opencti,opencti_error,<span class="nt">&lt;/group&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&lt;/rule&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;rule</span> <span class="na">id=</span><span class="s">&#34;100212&#34;</span> <span class="na">level=</span><span class="s">&#34;12&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;if_sid&gt;</span>100210<span class="nt">&lt;/if_sid&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&#34;opencti.id&#34;</span><span class="nt">&gt;</span>\.+<span class="nt">&lt;/field&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;description&gt;</span>OpenCTI: IoC found in threat intel: $(opencti.x_opencti_description)<span class="nt">&lt;/description&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;options&gt;</span>no_full_log<span class="nt">&lt;/options&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;group&gt;</span>opencti,opencti_alert,<span class="nt">&lt;/group&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;/rule&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/group&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Дополнительно добавим небольшое правило для логирования событий запроса DNS:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;group</span> <span class="na">name=</span><span class="s">&#34;sysmon,sysmon_eid22_detections,windows,&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;rule</span> <span class="na">id=</span><span class="s">&#34;100140&#34;</span> <span class="na">level=</span><span class="s">&#34;3&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;if_sid&gt;</span>61650<span class="nt">&lt;/if_sid&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;description&gt;</span>DNS query for $(win.eventdata.queryName)<span class="nt">&lt;/description&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;/rule&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/group&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Особое внимание уделите группам правил, в вашем случае они могут отличаться.</p></blockquote>
+<h3 id="разворачиваем-windows-и-ставим-sysmon" class="heading-element"><span>Разворачиваем Windows и ставим sysmon</span>
+  <a href="#%d1%80%d0%b0%d0%b7%d0%b2%d0%be%d1%80%d0%b0%d1%87%d0%b8%d0%b2%d0%b0%d0%b5%d0%bc-windows-%d0%b8-%d1%81%d1%82%d0%b0%d0%b2%d0%b8%d0%bc-sysmon" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Запускаем powershell от администратора и запускаем установку sysmon:</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Set-Location</span> <span class="n">C:</span><span class="p">\</span><span class="n">Windows</span><span class="p">\</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="n">https</span><span class="err">:</span><span class="p">//</span><span class="n">download</span><span class="p">.</span><span class="py">sysinternals</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">files</span><span class="p">/</span><span class="n">Sysmon</span><span class="p">.</span><span class="py">zip</span> <span class="n">-Outfile</span> <span class="n">Sysmon</span><span class="p">.</span><span class="py">zip</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Expand-Archive</span> <span class="n">Sysmon</span><span class="p">.</span><span class="py">zip</span> <span class="n">-force</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Write-Host</span> <span class="s2">&#34;Unzip Complete.&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="n">https</span><span class="err">:</span><span class="p">//</span><span class="n">raw</span><span class="p">.</span><span class="py">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">SwiftOnSecurity</span><span class="p">/</span><span class="nb">sysmon-config</span><span class="p">/</span><span class="n">master</span><span class="p">/</span><span class="nb">sysmonconfig-export</span><span class="p">.</span><span class="py">xml</span>  <span class="n">-OutFile</span> <span class="nb">sysmonconfig-export</span><span class="p">.</span><span class="py">xml</span>
+</span></span><span class="line"><span class="cl"><span class="p">./</span><span class="n">Sysmon</span><span class="p">/</span><span class="n">sysmon64</span><span class="p">.</span><span class="py">exe</span> <span class="n">-accepteula</span> <span class="n">-i</span> <span class="nb">sysmonconfig-export</span><span class="p">.</span><span class="n">xml</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Устанавливаем Wazuh Agent</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="n">https</span><span class="err">:</span><span class="p">//</span><span class="n">packages</span><span class="p">.</span><span class="py">wazuh</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="mf">4</span><span class="p">.</span><span class="n">x</span><span class="p">/</span><span class="n">windows</span><span class="p">/</span><span class="nb">wazuh-agent</span><span class="p">-</span><span class="mf">4.4</span><span class="p">.</span><span class="mf">1</span><span class="p">-</span><span class="mf">1</span><span class="p">.</span><span class="py">msi</span> <span class="n">-OutFile</span> <span class="p">${</span><span class="n">env</span><span class="err">:</span><span class="n">tmp</span><span class="p">}\</span><span class="nb">wazuh-agent</span><span class="p">.</span><span class="n">msi</span><span class="p">;</span> <span class="n">msiexec</span><span class="p">.</span><span class="py">exe</span> <span class="p">/</span><span class="n">i</span> <span class="p">${</span><span class="n">env</span><span class="err">:</span><span class="n">tmp</span><span class="p">}\</span><span class="nb">wazuh-agent</span><span class="p">.</span><span class="py">msi</span> <span class="p">/</span><span class="n">q</span> <span class="n">WAZUH_MANAGER</span><span class="p">=</span><span class="s1">&#39;192.168.93.97&#39;</span> <span class="n">WAZUH_REGISTRATION_SERVER</span><span class="p">=</span><span class="s1">&#39;192.168.93.97&#39;</span> <span class="n">WAZUH_AGENT_GROUP</span><span class="p">=</span><span class="s1">&#39;default&#39;</span> <span class="n">WAZUH_AGENT_NAME</span><span class="p">=</span><span class="s1">&#39;test_win&#39;</span> </span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Добавляем настройки в ossec.conf</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">  <span class="c">&lt;!-- Sysmon Config --&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;localfile&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;location&gt;</span>Microsoft-Windows-Sysmon/Operational<span class="nt">&lt;/location&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;log_format&gt;</span>eventchannel<span class="nt">&lt;/log_format&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/localfile&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Запускаем wazuh-agent</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">NET START WazuhSvc</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="тестирование" class="heading-element"><span>Тестирование</span>
+  <a href="#%d1%82%d0%b5%d1%81%d1%82%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Так как у нас есть правила на ICMP запросы, их мы и проверим:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">ping</span> <span class="n">rad</span><span class="p">.</span><span class="py">geewkmy</span><span class="p">.</span><span class="n">com</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="../../static/zeepow3thae0yoh5ez2E.png" alt="Ping" srcset="../../static/zeepow3thae0yoh5ez2E.png?size=small, ../../static/zeepow3thae0yoh5ez2E.png?size=medium 1.5x, ../../static/zeepow3thae0yoh5ez2E.png?size=large 2x" data-title="Ping" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>В случае корректной настройки в Security Events мы увидим следующее:
+<img loading="lazy" src="../../static/Ia6ooNguanie7Mi7teeR.png" alt="Event" srcset="../../static/Ia6ooNguanie7Mi7teeR.png?size=small, ../../static/Ia6ooNguanie7Mi7teeR.png?size=medium 1.5x, ../../static/Ia6ooNguanie7Mi7teeR.png?size=large 2x" data-title="Event" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h3 id="возможные-проблемы" class="heading-element"><span>Возможные проблемы:</span>
+  <a href="#%d0%b2%d0%be%d0%b7%d0%bc%d0%be%d0%b6%d0%bd%d1%8b%d0%b5-%d0%bf%d1%80%d0%be%d0%b1%d0%bb%d0%b5%d0%bc%d1%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>При развертывании Wazuh в Docker нет python3 и request:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install python3 python3-pip
+</span></span><span class="line"><span class="cl">pip3 install requests</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Возможно, для production не лучший выход, но для тестового развертывания подойдет.</p>
+<h3 id="итог" class="heading-element"><span>Итог</span>
+  <a href="#%d0%b8%d1%82%d0%be%d0%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Данная статья не претендует на звание исчерпывающего руководства, и больше преследовалась цель показать, что сравнительно небольших усилиях можно сильно упростить себе жизнь.
+Разумеется, ICMP-запросами это не ограничивается, но для этого нужно писать правила.</p>
+<hr>
+<p>Reference:<br>
+<a href="https://github.com/OpenCTI-Platform/connectors"target="_blank" rel="external nofollow noopener noreferrer">OpenCTI Connectors</a>
+<a href="https://github.com/OpenCTI-Platform/datasets"target="_blank" rel="external nofollow noopener noreferrer">OpenCTI Datasets</a><br>
+<a href="https://filigran.notion.site/OpenCTI-Public-Knowledge-Base-d411e5e477734c59887dad3649f20518"target="_blank" rel="external nofollow noopener noreferrer">OpenCTI Public Knowledge Base</a><br>
+<a href="https://youtu.be/_7TuBYdOo7k"target="_blank" rel="external nofollow noopener noreferrer">OpenCTI Data Connectors - Add Data Connectors to Your OpenCTI Stack!</a><br>
+<a href="https://socfortress.medium.com/wazuh-siem-opencti-threat-intel-integration-4cb1a3810250"target="_blank" rel="external nofollow noopener noreferrer">Wazuh SIEM — OpenCTI Threat Intel Integration</a><br>
+<a href="https://github.com/juaromu/wazuh-opencti"target="_blank" rel="external nofollow noopener noreferrer">Github OpenCTI Integration (Not work)</a><br>
+<a href="https://filigran.notion.site/Using-Docker-03d5c0592b9d4547800cc9f4ff7be2b8"target="_blank" rel="external nofollow noopener noreferrer">Running OpenCTI using Docker</a></p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="Updated on 2023-05-03 20:09:45">Updated on 2023-05-03&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="Share on X" data-sharer="twitter" data-url="http://localhost:1313/posts/wazuh_opencti_integration/" data-title="Wazuh &#43; OpenCTI = Integration?" data-hashtags="wazuh,opencti"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/wazuh_opencti_integration/" data-hashtag="wazuh"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/wazuh_opencti_integration/" data-title="Wazuh &#43; OpenCTI = Integration?"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/wazuh/" class="post-tag" title="Tags - Wazuh">Wazuh</a><a href="/tags/opencti/" class="post-tag" title="Tags - Opencti">Opencti</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/from-lxc-to-etc/" class="post-nav-item" rel="prev" title="From LXC to Etc"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>From LXC to Etc</a><a href="/posts/obsidian-for-osint/" class="post-nav-item" rel="next" title="Obsidian for OSINT">Obsidian for OSINT<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="Contents"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.144.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> | Theme - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.17-8b402129"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">the29a</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">This website works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"version":"v0.3.17-8b402129"};console.log('Page config:', window.config);</script><script src="/js/theme.min.js" defer></script></body>
+</html>

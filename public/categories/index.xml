@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories - Category - 29a µ blog</title>
+    <link>http://localhost:1313/categories/</link>
+    <description>infosec and something else</description>
+    <generator>Hugo 0.144.0 &amp; FixIt v0.3.17-8b402129</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 08 Feb 2025 16:48:43 +0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker</title>
+      <link>http://localhost:1313/categories/docker/</link>
+      <pubDate>Sat, 08 Feb 2025 16:48:43 +0300</pubDate>
+      <guid>http://localhost:1313/categories/docker/</guid>
+      <description>Docker</description>
+    </item>
+    <item>
+      <title>Vulnerabilities</title>
+      <link>http://localhost:1313/categories/vulnerabilities/</link>
+      <pubDate>Sat, 08 Feb 2025 16:48:43 +0300</pubDate>
+      <guid>http://localhost:1313/categories/vulnerabilities/</guid>
+      <description>Vulnerabilities</description>
+    </item>
+    <item>
+      <title>Android</title>
+      <link>http://localhost:1313/categories/android/</link>
+      <pubDate>Mon, 12 Feb 2024 11:23:13 +0300</pubDate>
+      <guid>http://localhost:1313/categories/android/</guid>
+      <description>Android</description>
+    </item>
+    <item>
+      <title>Nmap</title>
+      <link>http://localhost:1313/categories/nmap/</link>
+      <pubDate>Sun, 24 Dec 2023 19:07:55 +0300</pubDate>
+      <guid>http://localhost:1313/categories/nmap/</guid>
+      <description>Nmap</description>
+    </item>
+  </channel>
+</rss>

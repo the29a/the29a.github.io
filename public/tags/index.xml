@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags - Tag - 29a µ blog</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>infosec and something else</description>
+    <generator>Hugo 0.144.0 &amp; FixIt v0.3.17-8b402129</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 08 Feb 2025 16:48:43 +0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker</title>
+      <link>http://localhost:1313/tags/docker/</link>
+      <pubDate>Sat, 08 Feb 2025 16:48:43 +0300</pubDate>
+      <guid>http://localhost:1313/tags/docker/</guid>
+      <description>Docker</description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>http://localhost:1313/tags/security/</link>
+      <pubDate>Sat, 08 Feb 2025 16:48:43 +0300</pubDate>
+      <guid>http://localhost:1313/tags/security/</guid>
+      <description>Security</description>
+    </item>
+    <item>
+      <title>Trivy</title>
+      <link>http://localhost:1313/tags/trivy/</link>
+      <pubDate>Fri, 08 Nov 2024 16:48:43 +0300</pubDate>
+      <guid>http://localhost:1313/tags/trivy/</guid>
+      <description>Trivy</description>
+    </item>
+    <item>
+      <title>Android</title>
+      <link>http://localhost:1313/tags/android/</link>
+      <pubDate>Mon, 12 Feb 2024 11:23:13 +0300</pubDate>
+      <guid>http://localhost:1313/tags/android/</guid>
+      <description>Android</description>
+    </item>
+    <item>
+      <title>Apktool</title>
+      <link>http://localhost:1313/tags/apktool/</link>
+      <pubDate>Mon, 12 Feb 2024 11:23:13 +0300</pubDate>
+      <guid>http://localhost:1313/tags/apktool/</guid>
+      <description>Apktool</description>
+    </item>
+    <item>
+      <title>Hacking</title>
+      <link>http://localhost:1313/tags/hacking/</link>
+      <pubDate>Mon, 12 Feb 2024 11:23:13 +0300</pubDate>
+      <guid>http://localhost:1313/tags/hacking/</guid>
+      <description>Hacking</description>
+    </item>
+    <item>
+      <title>Jadx</title>
+      <link>http://localhost:1313/tags/jadx/</link>
+      <pubDate>Mon, 12 Feb 2024 11:23:13 +0300</pubDate>
+      <guid>http://localhost:1313/tags/jadx/</guid>
+      <description>Jadx</description>
+    </item>
+    <item>
+      <title>Nmap</title>
+      <link>http://localhost:1313/tags/nmap/</link>
+      <pubDate>Sun, 24 Dec 2023 19:07:55 +0300</pubDate>
+      <guid>http://localhost:1313/tags/nmap/</guid>
+      <description>Nmap</description>
+    </item>
+    <item>
+      <title>Git</title>
+      <link>http://localhost:1313/tags/git/</link>
+      <pubDate>Fri, 15 Dec 2023 00:15:26 +0300</pubDate>
+      <guid>http://localhost:1313/tags/git/</guid>
+      <description>Git</description>
+    </item>
+    <item>
+      <title>Iot</title>
+      <link>http://localhost:1313/tags/iot/</link>
+      <pubDate>Tue, 31 Oct 2023 23:58:40 +0300</pubDate>
+      <guid>http://localhost:1313/tags/iot/</guid>
+      <description>Iot</description>
+    </item>
+    <item>
+      <title>Aws</title>
+      <link>http://localhost:1313/tags/aws/</link>
+      <pubDate>Tue, 17 Oct 2023 22:47:38 +0300</pubDate>
+      <guid>http://localhost:1313/tags/aws/</guid>
+      <description>Aws</description>
+    </item>
+    <item>
+      <title>Feed</title>
+      <link>http://localhost:1313/tags/feed/</link>
+      <pubDate>Wed, 04 Oct 2023 15:38:45 +0300</pubDate>
+      <guid>http://localhost:1313/tags/feed/</guid>
+      <description>Feed</description>
+    </item>
+    <item>
+      <title>Rss</title>
+      <link>http://localhost:1313/tags/rss/</link>
+      <pubDate>Wed, 04 Oct 2023 15:38:45 +0300</pubDate>
+      <guid>http://localhost:1313/tags/rss/</guid>
+      <description>Rss</description>
+    </item>
+    <item>
+      <title>Web</title>
+      <link>http://localhost:1313/tags/web/</link>
+      <pubDate>Sat, 09 Sep 2023 03:52:36 +0300</pubDate>
+      <guid>http://localhost:1313/tags/web/</guid>
+      <description>Web</description>
+    </item>
+    <item>
+      <title>Ctf</title>
+      <link>http://localhost:1313/tags/ctf/</link>
+      <pubDate>Wed, 28 Jun 2023 11:15:39 +0300</pubDate>
+      <guid>http://localhost:1313/tags/ctf/</guid>
+      <description>Ctf</description>
+    </item>
+    <item>
+      <title>Learning</title>
+      <link>http://localhost:1313/tags/learning/</link>
+      <pubDate>Fri, 19 May 2023 17:14:50 +0300</pubDate>
+      <guid>http://localhost:1313/tags/learning/</guid>
+      <description>Learning</description>
+    </item>
+    <item>
+      <title>Notes</title>
+      <link>http://localhost:1313/tags/notes/</link>
+      <pubDate>Fri, 19 May 2023 17:14:50 +0300</pubDate>
+      <guid>http://localhost:1313/tags/notes/</guid>
+      <description>Notes</description>
+    </item>
+    <item>
+      <title>Obsidian</title>
+      <link>http://localhost:1313/tags/obsidian/</link>
+      <pubDate>Fri, 19 May 2023 17:14:50 +0300</pubDate>
+      <guid>http://localhost:1313/tags/obsidian/</guid>
+      <description>Obsidian</description>
+    </item>
+    <item>
+      <title>Osint</title>
+      <link>http://localhost:1313/tags/osint/</link>
+      <pubDate>Mon, 15 May 2023 19:26:40 +0300</pubDate>
+      <guid>http://localhost:1313/tags/osint/</guid>
+      <description>Osint</description>
+    </item>
+    <item>
+      <title>Opencti</title>
+      <link>http://localhost:1313/tags/opencti/</link>
+      <pubDate>Wed, 03 May 2023 20:09:45 +0300</pubDate>
+      <guid>http://localhost:1313/tags/opencti/</guid>
+      <description>Opencti</description>
+    </item>
+    <item>
+      <title>Wazuh</title>
+      <link>http://localhost:1313/tags/wazuh/</link>
+      <pubDate>Wed, 03 May 2023 20:09:45 +0300</pubDate>
+      <guid>http://localhost:1313/tags/wazuh/</guid>
+      <description>Wazuh</description>
+    </item>
+    <item>
+      <title>Lxc</title>
+      <link>http://localhost:1313/tags/lxc/</link>
+      <pubDate>Thu, 02 Jun 2022 18:16:29 +0300</pubDate>
+      <guid>http://localhost:1313/tags/lxc/</guid>
+      <description>Lxc</description>
+    </item>
+    <item>
+      <title>CVE</title>
+      <link>http://localhost:1313/tags/cve/</link>
+      <pubDate>Thu, 21 Apr 2022 18:14:36 +0300</pubDate>
+      <guid>http://localhost:1313/tags/cve/</guid>
+      <description>CVE</description>
+    </item>
+    <item>
+      <title>Networks</title>
+      <link>http://localhost:1313/tags/networks/</link>
+      <pubDate>Fri, 25 Mar 2022 18:13:19 +0300</pubDate>
+      <guid>http://localhost:1313/tags/networks/</guid>
+      <description>Networks</description>
+    </item>
+    <item>
+      <title>Tcpick</title>
+      <link>http://localhost:1313/tags/tcpick/</link>
+      <pubDate>Fri, 25 Mar 2022 18:13:19 +0300</pubDate>
+      <guid>http://localhost:1313/tags/tcpick/</guid>
+      <description>Tcpick</description>
+    </item>
+    <item>
+      <title>Story</title>
+      <link>http://localhost:1313/tags/story/</link>
+      <pubDate>Tue, 21 Dec 2021 18:06:32 +0300</pubDate>
+      <guid>http://localhost:1313/tags/story/</guid>
+      <description>Story</description>
+    </item>
+  </channel>
+</rss>

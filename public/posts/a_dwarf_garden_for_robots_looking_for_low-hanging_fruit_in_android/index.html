@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Карликовый Сад Для Роботов. Ищем Низко Висящие Фрукты В Android - 29a µ blog</title><meta name="author" content="">
+<meta name="description" content="Внутренний мир Android-приложений часто интересует баг-хантеров, пентестеров и прочих безопасников. Но не каждый понимает, как подступиться к приложению, на русском языке материала не так много, а на английском далеко не всё бывает в актуальном состоянии. Так что хотелось пройти этот путь самому, заодно поделиться опытом, который может кому-то помочь.
+"><meta name="keywords" content='android, security, hacking, jadx, apktool'>
+  <meta itemprop="name" content="Карликовый сад для роботов. Ищем низко висящие фрукты в Android">
+  <meta itemprop="description" content="Внутренний мир Android-приложений часто интересует баг-хантеров, пентестеров и прочих безопасников. Но не каждый понимает, как подступиться к приложению, на русском языке материала не так много, а на английском далеко не всё бывает в актуальном состоянии. Так что хотелось пройти этот путь самому, заодно поделиться опытом, который может кому-то помочь.">
+  <meta itemprop="datePublished" content="2024-02-12T11:23:13+03:00">
+  <meta itemprop="dateModified" content="2024-02-12T11:23:13+03:00">
+  <meta itemprop="wordCount" content="1320">
+  <meta itemprop="image" content="http://localhost:1313/avatar.png">
+  <meta itemprop="keywords" content="Android,Security,Hacking,Jadx,Apktool"><meta property="og:url" content="http://localhost:1313/posts/a_dwarf_garden_for_robots_looking_for_low-hanging_fruit_in_android/">
+  <meta property="og:site_name" content="29a µ blog">
+  <meta property="og:title" content="Карликовый сад для роботов. Ищем низко висящие фрукты в Android">
+  <meta property="og:description" content="Внутренний мир Android-приложений часто интересует баг-хантеров, пентестеров и прочих безопасников. Но не каждый понимает, как подступиться к приложению, на русском языке материала не так много, а на английском далеко не всё бывает в актуальном состоянии. Так что хотелось пройти этот путь самому, заодно поделиться опытом, который может кому-то помочь.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-02-12T11:23:13+03:00">
+    <meta property="article:modified_time" content="2024-02-12T11:23:13+03:00">
+    <meta property="article:tag" content="Android">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Hacking">
+    <meta property="article:tag" content="Jadx">
+    <meta property="article:tag" content="Apktool">
+    <meta property="og:image" content="http://localhost:1313/avatar.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/avatar.png">
+  <meta name="twitter:title" content="Карликовый сад для роботов. Ищем низко висящие фрукты в Android">
+  <meta name="twitter:description" content="Внутренний мир Android-приложений часто интересует баг-хантеров, пентестеров и прочих безопасников. Но не каждый понимает, как подступиться к приложению, на русском языке материала не так много, а на английском далеко не всё бывает в актуальном состоянии. Так что хотелось пройти этот путь самому, заодно поделиться опытом, который может кому-то помочь.">
+<meta name="application-name" content="29a µ blog">
+<meta name="apple-mobile-web-app-title" content="29a µ blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="http://localhost:1313/posts/a_dwarf_garden_for_robots_looking_for_low-hanging_fruit_in_android/" title="Карликовый сад для роботов. Ищем низко висящие фрукты в Android - 29a µ blog" /><link rel="prev" type="text/html" href="http://localhost:1313/posts/from_nse_to_cve_arming_nmap/" title="От NSE до CVE. Вооружаем nmap для поиска уязвимостей" /><link rel="next" type="text/html" href="http://localhost:1313/posts/not_so_trivial/" title="Not so (trivy)al. Как использовать trivy на большом скоупе и не поехать кукухой (нет)" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Карликовый сад для роботов. Ищем низко висящие фрукты в Android",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/posts\/a_dwarf_garden_for_robots_looking_for_low-hanging_fruit_in_android\/"
+    },"genre": "posts","keywords": "android, security, hacking, jadx, apktool","wordcount":  1320 ,
+    "url": "http:\/\/localhost:1313\/posts\/a_dwarf_garden_for_robots_looking_for_low-hanging_fruit_in_android\/","datePublished": "2024-02-12T11:23:13+03:00","dateModified": "2024-02-12T11:23:13+03:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item">
+              <a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item">
+              <a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item"><a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item"><a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="Collections"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span title="Repost" class="icon-repost"><i class="fa-solid fa-share fa-fw" aria-hidden="true"></i></span><span>Карликовый Сад Для Роботов. Ищем Низко Висящие Фрукты В Android</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      Anonymous</span></span><span class="post-included-in">&nbsp;included in <a href="/categories/android/" class="post-category" title="Category - Android"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Android</a></span></div><div class="post-meta-line"><span title="published on 2024-02-12 11:23:13"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-02-12">2024-02-12</time></span>&nbsp;<span title="1320 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 1400 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>7 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#получение-apk-файла">Получение apk-файла</a>
+      <ul>
+        <li><a href="#получаем-приложение-с-телефона-по-adb">Получаем приложение с телефона по adb</a></li>
+        <li><a href="#скачиваем-apk-из-магазина-приложений">Скачиваем apk из магазина приложений</a></li>
+      </ul>
+    </li>
+    <li><a href="#распаковка-apk">Распаковка apk</a>
+      <ul>
+        <li><a href="#apktool"><a href="https://github.com/iBotPeaches/Apktool">apktool</a></a></li>
+        <li><a href="#jadx"><a href="https://github.com/skylot/jadx">jadx</a></a></li>
+        <li><a href="#что-лучше-jadx-vs-apktool">Что лучше: jadx vs. apktool</a>
+          <ul>
+            <li><a href="#apktool-1">apktool</a></li>
+            <li><a href="#jadx-1">jadx</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#собираем-низковисящие-фрукты">Собираем низковисящие фрукты</a>
+      <ul>
+        <li><a href="#ручной-поиск">Ручной поиск</a></li>
+        <li><a href="#sast">SAST</a>
+          <ul>
+            <li><a href="#semgrep">semgrep</a></li>
+          </ul>
+        </li>
+        <li><a href="#скрипты-и-инструменты">Скрипты и инструменты</a>
+          <ul>
+            <li><a href="#apk2url">apk2url</a></li>
+            <li><a href="#apkleaks">apkleaks</a></li>
+          </ul>
+        </li>
+        <li><a href="#фреймворки">Фреймворки</a>
+          <ul>
+            <li><a href="#apkhunt">APKHunt</a></li>
+            <li><a href="#mobfs">MobFS</a></li>
+          </ul>
+        </li>
+        <li><a href="#иные-инструменты">Иные инструменты</a>
+          <ul>
+            <li><a href="#mobileaudit">mobileAudit</a></li>
+            <li><a href="#drozer">Drozer</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#тренируемся-на-уязвимых-приложениях">Тренируемся на уязвимых приложениях</a></li>
+    <li><a href="#что-почитать">Что почитать</a>
+      <ul>
+        <li><a href="#материалы-от-owasp">Материалы от OWASP</a></li>
+        <li><a href="#статьи">Статьи</a></li>
+        <li><a href="#telegram-каналы">Telegram-каналы</a></li>
+        <li><a href="#github-репозитории">Github-репозитории</a></li>
+      </ul>
+    </li>
+    <li><a href="#outro">Outro</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>Внутренний мир Android-приложений часто интересует баг-хантеров, пентестеров и прочих безопасников. Но не каждый понимает, как подступиться к приложению, на русском языке материала не так много, а на английском далеко не всё бывает в актуальном состоянии. Так что хотелось пройти этот путь самому, заодно поделиться опытом, который может кому-то помочь.</p>
+<blockquote>
+<p>Я не являюсь профессиональным реверсером или Android разработчиком. Но хотел понять, что можно получить из Android-приложения не имея специальных навыков.</p></blockquote>
+<p>Как выглядит процесс анализа:</p>
+<ul>
+<li>Получение apk-файла. Вариантов множество. Можно с телефона, скачать из F-Droid, воспользоваться утилитой вроде apkeep или apkpull .</li>
+<li>Декомпилируем apk. Можно использовать apktool или jadx. Декомпилированный код можно выгрузить в виде проекта для Android Studio или иной IDE и в ней же открыть.</li>
+<li>Анализируем исходники на предмет интересных конфигов (папка assets), строк (res/values/*) и всего, за что зацепится глаз.</li>
+<li>?????</li>
+<li>Profit</li>
+</ul>
+<h2 id="получение-apk-файла" class="heading-element"><span>Получение apk-файла</span>
+  <a href="#%d0%bf%d0%be%d0%bb%d1%83%d1%87%d0%b5%d0%bd%d0%b8%d0%b5-apk-%d1%84%d0%b0%d0%b9%d0%bb%d0%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>В первую очередь нам нужно как-то получить сам apk-файл, для этого нам нужно знать <a href="https://support.google.com/admob/answer/9972781?hl=ru"target="_blank" rel="external nofollow noopener noreferrer">название пакета приложения</a>, например мы можем его узнать из url магазина приложений, например Google Play.</p>
+<p>Пример ссылки:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">https://play.google.com/store/apps/details?id=com.example.app</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Дальше у нас есть два пути: получить apk с телефона, или скачать и магазина приложений.
+С первым вариантом могут быть сложности, так как может потребоваться root.</p>
+<h3 id="получаем-приложение-с-телефона-по-adb" class="heading-element"><span>Получаем приложение с телефона по adb</span>
+  <a href="#%d0%bf%d0%be%d0%bb%d1%83%d1%87%d0%b0%d0%b5%d0%bc-%d0%bf%d1%80%d0%b8%d0%bb%d0%be%d0%b6%d0%b5%d0%bd%d0%b8%d0%b5-%d1%81-%d1%82%d0%b5%d0%bb%d0%b5%d1%84%d0%be%d0%bd%d0%b0-%d0%bf%d0%be-adb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Запрашиваем список установленных приложений:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">adb shell pm list packages
+</span></span><span class="line"><span class="cl"><span class="c1"># Можно использовать grep для удобства</span>
+</span></span><span class="line"><span class="cl">adb shell pm list packages <span class="p">|</span> grep example
+</span></span><span class="line"><span class="cl">package:com.example.app</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Получаем полный путь до желаемого apk</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">adb shell pm path com.example.app
+</span></span><span class="line"><span class="cl"><span class="c1"># Должно получиться что-то вроде такого</span>
+</span></span><span class="line"><span class="cl">package:/data/app/~~fD3m3SCkscvlQCc3IpncKw<span class="o">==</span>/com.example.app-K7_gdHCjcFTAyLk94z3Ttg<span class="o">==</span>/base.apk
+</span></span><span class="line"><span class="cl">package:/data/app/~~fD3m3SCkscvlQCc3IpncKw<span class="o">==</span>/com.example.app-K7_gdHCjcFTAyLk94z3Ttg<span class="o">==</span>/split_config.arm64_v8a.apk
+</span></span><span class="line"><span class="cl">package:/data/app/~~fD3m3SCkscvlQCc3IpncKw<span class="o">==</span>/com.example.app-K7_gdHCjcFTAyLk94z3Ttg<span class="o">==</span>/split_config.ru.apk
+</span></span><span class="line"><span class="cl">package:/data/app/~~fD3m3SCkscvlQCc3IpncKw<span class="o">==</span>/com.example.app-K7_gdHCjcFTAyLk94z3Ttg<span class="o">==</span>/split_config.xxhdpi.apk</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Скачиваем нужный apk-файл:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">adb pull /data/app/~~fD3m3SCkscvlQCc3IpncKw<span class="o">==</span>/com.example.app-K7_gdHCjcFTAyLk94z3Ttg<span class="o">==</span>/base.apk</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Так же можно использовать и готовые инструменты вроде <a href="https://github.com/david-lev/apkpull"target="_blank" rel="external nofollow noopener noreferrer">APKpull</a>, который работает поверх adb.<br>
+Для удобства можно использовать однострочник:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">curl -sL bit.ly/apkpull <span class="p">|</span> bash -s -- com.example.app</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="скачиваем-apk-из-магазина-приложений" class="heading-element"><span>Скачиваем apk из магазина приложений</span>
+  <a href="#%d1%81%d0%ba%d0%b0%d1%87%d0%b8%d0%b2%d0%b0%d0%b5%d0%bc-apk-%d0%b8%d0%b7-%d0%bc%d0%b0%d0%b3%d0%b0%d0%b7%d0%b8%d0%bd%d0%b0-%d0%bf%d1%80%d0%b8%d0%bb%d0%be%d0%b6%d0%b5%d0%bd%d0%b8%d0%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Этот пункт сильно проще, мы его можем скачать руками из:</p>
+<ul>
+<li><a href="https://f-droid.org"target="_blank" rel="external nofollow noopener noreferrer">F-Droid</a> (если оно там есть)</li>
+<li><a href="https://apksfull.com/"target="_blank" rel="external nofollow noopener noreferrer">APKsFULL</a></li>
+<li><a href="https://apkpure.net/"target="_blank" rel="external nofollow noopener noreferrer">APKPure</a></li>
+</ul>
+<p>Можно скачать используя готовые инструменты:</p>
+<ul>
+<li><a href="https://github.com/EngineerDanny/apk-downloader/"target="_blank" rel="external nofollow noopener noreferrer">apk-downloader</a> (использует APKsFULL)</li>
+<li><a href="https://github.com/EFForg/apkeep"target="_blank" rel="external nofollow noopener noreferrer">apkeep</a> (скачивает с Play Store,  APKPure, F-Droid, Huawei AppGallery)</li>
+</ul>
+<h2 id="распаковка-apk" class="heading-element"><span>Распаковка apk</span>
+  <a href="#%d1%80%d0%b0%d1%81%d0%bf%d0%b0%d0%ba%d0%be%d0%b2%d0%ba%d0%b0-apk" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Вне зависимости от цели анализа приложения, без этапа декомпиляции или распаковки не обойтись. В принципе, мы можем распаковать его как обычный архив (<code>unzip example.apk -d extract_dir</code>), но так ничего интересного мы не получим, и нам потребуются декомпиляторы.</p>
+<p>Инструментов может быть много, но мы будем использовать два основных:</p>
+<ul>
+<li><a href="https://github.com/iBotPeaches/Apktool"target="_blank" rel="external nofollow noopener noreferrer">apktool</a></li>
+<li><a href="https://github.com/skylot/jadx"target="_blank" rel="external nofollow noopener noreferrer">jadx</a></li>
+</ul>
+<h3 id="apktool" class="heading-element"><span><a href="https://github.com/iBotPeaches/Apktool"target="_blank" rel="external nofollow noopener noreferrer">apktool</a></span>
+  <a href="#apktool" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">apktool d example.apk -o examlpe_apk_dir</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="jadx" class="heading-element"><span><a href="https://github.com/skylot/jadx"target="_blank" rel="external nofollow noopener noreferrer">jadx</a></span>
+  <a href="#jadx" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># По какой-то причине jadx не понимает относительные пути, только абсолютные, возможно проблема только у меня</span>
+</span></span><span class="line"><span class="cl">jadx -d /home/the29a/examlpe_apk_dir /home/the29a/example.apk</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Так же можно сразу открыть apk с помощью jadx-gui и сохранить как проект Gradle:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">File -&gt; Save as gradle project</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="что-лучше-jadx-vs-apktool" class="heading-element"><span>Что лучше: jadx vs. apktool</span>
+  <a href="#%d1%87%d1%82%d0%be-%d0%bb%d1%83%d1%87%d1%88%d0%b5-jadx-vs-apktool" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Вопрос хороший. Иметь лучше оба инструмента и уметь ими пользоваться. И желательно знать их особенности.</p>
+<h4 id="apktool-1" class="heading-element"><span>apktool</span>
+  <a href="#apktool-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>Разбирает ресурсы до состояния, близкого к оригиналу и позволяет получить как можно больше ресурсов из приложения</li>
+<li>Apktool декомпилирует APK в Smali, что позволяет модифицировать и пересобрать apk</li>
+<li>Нет gui, быстрого просмотра структуры/файлов/текста.</li>
+</ul>
+<h4 id="jadx-1" class="heading-element"><span>jadx</span>
+  <a href="#jadx-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>Позволяет увидеть структуру приложения после декомпиляции</li>
+<li>jadx может декомпилировать файлы .dex в файлы классов Java, обеспечивая читабельность кода и возможность проверки кода SAST</li>
+<li>Возможность сохранения декомпилированного приложения в виде проекта Gradle</li>
+<li>Декомпиляция приложения может завершиться неудачей, если в приложении используются символы, отличные от ASCII</li>
+</ul>
+<h2 id="собираем-низковисящие-фрукты" class="heading-element"><span>Собираем низковисящие фрукты</span>
+  <a href="#%d1%81%d0%be%d0%b1%d0%b8%d1%80%d0%b0%d0%b5%d0%bc-%d0%bd%d0%b8%d0%b7%d0%ba%d0%be%d0%b2%d0%b8%d1%81%d1%8f%d1%89%d0%b8%d0%b5-%d1%84%d1%80%d1%83%d0%ba%d1%82%d1%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>В ходе анализа можно пройтись как обычными инструментами, там и специализированными. Например для анализа кода мы можем использовать какой-нибудь удобный для нас SAST (в моём случае это <a href="https://t.me/cultofwire/1179"target="_blank" rel="external nofollow noopener noreferrer">semgrep</a>), а так же разными инструментами, рассчитанными на работу с Android приложениями.
+Но для начала не будет лишним пробежаться самому, возможно в ходе ручного поиска найдется что-то интересное, что упустят инструменты.</p>
+<h3 id="ручной-поиск" class="heading-element"><span>Ручной поиск</span>
+  <a href="#%d1%80%d1%83%d1%87%d0%bd%d0%be%d0%b9-%d0%bf%d0%be%d0%b8%d1%81%d0%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Автоматизированный поиск может пропустить некоторые интересные моменты, например секреты в <code>res/values/strings.xml</code>. Прочие xml-файлы в <code>res/values</code> тоже имеет смысл проверить самостоятельно.
+Так же нам может быть интересен AndroidManifest.xml, файлы с расширением .sqlite и .db, содержимое директории assets.</p>
+<h3 id="sast" class="heading-element"><span>SAST</span>
+  <a href="#sast" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="semgrep" class="heading-element"><span>semgrep</span>
+  <a href="#semgrep" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/semgrep/semgrep/"target="_blank" rel="external nofollow noopener noreferrer">semgrep</a> - довольно известный SAST-инструмент. Пройтись по коду каким-либо SAST лишним не будет. Не факт, что это будут простые или эксплуатируемые уязвимости, но находки могут быть интересными.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">semgrep scan --config auto -o example_semgrep.log examlpe_apk_dir/</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Есть отдельный репозиторий с правилами для Android - <a href="https://github.com/mindedsecurity/semgrep-rules-android-security"target="_blank" rel="external nofollow noopener noreferrer">github.com/mindedsecurity/semgrep-rules-android-security</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/mindedsecurity/semgrep-rules-android-security
+</span></span><span class="line"><span class="cl">jadx -d examlpe_apk_dir target.apk
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> semgrep-rules-android-security/
+</span></span><span class="line"><span class="cl">semgrep -c ./rules/ ..examlpe_apk_dir</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Правила работают не предсказуемо. На момент написания статьи правила могли вызывать ошибку:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">TypeError: unhashable type: &#39;list&#39;</span></span></code></pre></td></tr></table>
+</div>
+</div><p>jadx 1.4.7<br>
+semgrep 1.55.0 и1.59.0</p></blockquote>
+<h3 id="скрипты-и-инструменты" class="heading-element"><span>Скрипты и инструменты</span>
+  <a href="#%d1%81%d0%ba%d1%80%d0%b8%d0%bf%d1%82%d1%8b-%d0%b8-%d0%b8%d0%bd%d1%81%d1%82%d1%80%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d1%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Начнем с обычных инструментов, переходя от простого к сложному.</p>
+<h4 id="apk2url" class="heading-element"><span>apk2url</span>
+  <a href="#apk2url" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/n0mi1k/apk2url"target="_blank" rel="external nofollow noopener noreferrer">apk2url</a> извлекает URL и IP конечных точек из APK-файла и выполняет фильтрацию в выходной файл .txt.<br>
+Стоит учесть тот момент, что apk2url декомпилирует apk используя <a href="https://github.com/skylot/jadx"target="_blank" rel="external nofollow noopener noreferrer">jadx</a>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git clone https://github.com/n0mi1k/apk2url
+</span></span><span class="line"><span class="cl">./apk2url.sh /home/the29a/example.apk</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="apkleaks" class="heading-element"><span>apkleaks</span>
+  <a href="#apkleaks" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/dwisiswant0/apkleaks"target="_blank" rel="external nofollow noopener noreferrer">apkleaks</a> - cканирует APK на наличие URI/URL эндпоинтов и секретов. Инструмент давно не обновлялся, но всё ещё применим и актуален.<br>
+apkleaks так же использует <a href="https://github.com/skylot/jadx"target="_blank" rel="external nofollow noopener noreferrer">jadx</a> для декомпиляции apk.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># Можно установить с помощью pip</span>
+</span></span><span class="line"><span class="cl">pip3 install apkleaks
+</span></span><span class="line"><span class="cl"><span class="c1"># Или использовать в виде docker-контейнера</span>
+</span></span><span class="line"><span class="cl">docker pull dwisiswant0/apkleaks:latest</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">apkleaks -f /home/the29a/example.apk
+</span></span><span class="line"><span class="cl"><span class="c1"># Можно запустить сразу с репортом в файл</span>
+</span></span><span class="line"><span class="cl">apkleaks -f /home/the29a/example.apk -o apkleaks.report </span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="фреймворки" class="heading-element"><span>Фреймворки</span>
+  <a href="#%d1%84%d1%80%d0%b5%d0%b9%d0%bc%d0%b2%d0%be%d1%80%d0%ba%d0%b8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="apkhunt" class="heading-element"><span>APKHunt</span>
+  <a href="#apkhunt" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/Cyber-Buddy/APKHunt"target="_blank" rel="external nofollow noopener noreferrer">APKHunt</a> - это комплексный инструмент статического анализа кода приложений для Android, основанный на фреймворке <a href="https://mobile-security.gitbook.io/masvs/"target="_blank" rel="external nofollow noopener noreferrer">OWASP MASVS</a> v1.5.0.
+APKHunt охватывает большинство тестовых случаев SAST связанных с OWASP MASVS и обеспечивает низкий процент ложных срабатываний.</p>
+<p>Сам распакует (jadx), сам проверит и выдаст подробный отчёт.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git clone https://github.com/Cyber-Buddy/APKHunt.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> APKHunt
+</span></span><span class="line"><span class="cl">go run apkhunt.go -p ~/example.apk</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Но в силу особенностей, APKHunt работает только в Linux.</p>
+<p><a href="https://user-images.githubusercontent.com/32319538/211979260-194e858b-373a-4911-8c56-78d1d568d3aa.mp4"target="_blank" rel="external nofollow noopener noreferrer">Видео-демо работы</a>.</p>
+<h4 id="mobfs" class="heading-element"><span>MobFS</span>
+  <a href="#mobfs" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/MobSF/Mobile-Security-Framework-MobSF"target="_blank" rel="external nofollow noopener noreferrer">MobSF</a> - это автоматизированная система для тестирования мобильных приложений (Android/iOS/Windows), анализа вредоносного ПО и оценки безопасности, выполняющая статический и динамический анализ.</p>
+<p>У MobFS есть удобный веб-интерфейс, что позволяет держать все результаты сканирования в одном месте, а так же работать с множеством приложений.
+Так же при желании он интегрируется в CI/CD.</p>
+<p>Разворачивается в docker:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker pull opensecurity/mobile-security-framework-mobsf:latest
+</span></span><span class="line"><span class="cl">docker run -it --rm -p 8000:8000 opensecurity/mobile-security-framework-mobsf:latest</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Документация: <a href="https://mobsf.github.io/docs/"target="_blank" rel="external nofollow noopener noreferrer">mobsf.github.io/docs/</a>.<br>
+Пощупать на тестовом приложении можно онлайн на <a href="https://mobsf.live/"target="_blank" rel="external nofollow noopener noreferrer">mobsf.live</a>.</p>
+<h3 id="иные-инструменты" class="heading-element"><span>Иные инструменты</span>
+  <a href="#%d0%b8%d0%bd%d1%8b%d0%b5-%d0%b8%d0%bd%d1%81%d1%82%d1%80%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d1%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Не мог обойти внимание инструменты которые хоть и будут бесполезны для новичков на начальных этапах, в дальнейшем могут стать полезными помощниками в работе.</p>
+<h4 id="mobileaudit" class="heading-element"><span>mobileAudit</span>
+  <a href="#mobileaudit" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/mpast/mobileAudit"target="_blank" rel="external nofollow noopener noreferrer">MobileAudit</a> - SAST для APK. MobileAudit фокусируется не только на тестировании безопасности и защитных сценариях и больше применим для анализа малвари:</p>
+<ul>
+<li>Статический анализ (SAST): Выполняет полную декомпиляцию APK и извлекает из него всю возможную информацию. Он сообщает о различных уязвимостях и находках в исходном коде, сгруппированных по различным категориям. Также имеется полная поддержка триажа находок.</li>
+<li>Анализ вредоносного ПО: находит опасные разрешения и подозрительный код.</li>
+<li>Best Practices of Secure Android Coding: подсказывает разработчикам, в каких частях кода они пишут безопасно, а в каких - нет.</li>
+</ul>
+<p><a href="https://owasp.org/www-project-mobile-audit/"target="_blank" rel="external nofollow noopener noreferrer">OWASP Mobile Audit</a></p>
+<h4 id="drozer" class="heading-element"><span>Drozer</span>
+  <a href="#drozer" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a href="https://github.com/WithSecureLabs/drozer"target="_blank" rel="external nofollow noopener noreferrer">Drozer</a> -  система аудита безопасности и атак для Android.
+Drozer позволяет получить информацию о приложении, запустить его активности, подключиться к <a href="https://developer.android.com/guide/topics/providers/content-providers"target="_blank" rel="external nofollow noopener noreferrer">ContentProvider</a>, отправить сообщения сервису, предоставляя инструменты для использования публичных эксплойтов для Android.<br>
+Всё, чтобы вытащить из приложения информацию или заставить его сделать то, что нам нужно через стандартные API и каналы коммуникации.</p>
+<p>Для взаимодействия drozer использует агент (который будет использоваться как RAT/reverse shell), устанавливаемый на телефон/эмулятор.<br>
+Drozer давно не обновлялся, поэтому могут быть проблемы с установкой.</p>
+<p><a href="https://labs.withsecure.com/tools/drozer"target="_blank" rel="external nofollow noopener noreferrer">Withsecure: Drozer</a><br>
+<a href="https://github.com/Yogehi/Drozer-Docker"target="_blank" rel="external nofollow noopener noreferrer">Github: Drozer-Docker</a><br>
+<a href="https://book.hacktricks.xyz/mobile-pentesting/android-app-pentesting/drozer-tutorial"target="_blank" rel="external nofollow noopener noreferrer">hacktricks.xyz: Drozer Tutorial</a><br>
+<a href="https://habr.com/ru/companies/alexhost/articles/535396/"target="_blank" rel="external nofollow noopener noreferrer">Habr: Проверяем безопасность приложений с помощью Drozer</a></p>
+<h2 id="тренируемся-на-уязвимых-приложениях" class="heading-element"><span>Тренируемся на уязвимых приложениях</span>
+  <a href="#%d1%82%d1%80%d0%b5%d0%bd%d0%b8%d1%80%d1%83%d0%b5%d0%bc%d1%81%d1%8f-%d0%bd%d0%b0-%d1%83%d1%8f%d0%b7%d0%b2%d0%b8%d0%bc%d1%8b%d1%85-%d0%bf%d1%80%d0%b8%d0%bb%d0%be%d0%b6%d0%b5%d0%bd%d0%b8%d1%8f%d1%85" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Никто не запрещает работать сразу c приложениями из маркетов, но находить более сложные уязвимости вряд ли выйдет. Для этого есть специальные уязвимые приложения, написанные для образовательных целей.<br>
+На чём потренироваться:<br>
+<a href="https://github.com/payatu/diva-android"target="_blank" rel="external nofollow noopener noreferrer">Github: DIVA Android - Damn Insecure and vulnerable App for Android</a><br>
+<a href="https://github.com/rewanthtammana/Damn-Vulnerable-Bank"target="_blank" rel="external nofollow noopener noreferrer">Github: Damn Vulnerable Bank</a><br>
+<a href="https://github.com/jaiswalakshansh/Vuldroid"target="_blank" rel="external nofollow noopener noreferrer">Github: Vuldroid - Vulnerable Android Application</a></p>
+<h2 id="что-почитать" class="heading-element"><span>Что почитать</span>
+  <a href="#%d1%87%d1%82%d0%be-%d0%bf%d0%be%d1%87%d0%b8%d1%82%d0%b0%d1%82%d1%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="материалы-от-owasp" class="heading-element"><span>Материалы от OWASP</span>
+  <a href="#%d0%bc%d0%b0%d1%82%d0%b5%d1%80%d0%b8%d0%b0%d0%bb%d1%8b-%d0%be%d1%82-owasp" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://mas.owasp.org/"target="_blank" rel="external nofollow noopener noreferrer">OWASP Mobile Application Security</a><br>
+<a href="https://mobile-security.gitbook.io/mobile-security-testing-guide"target="_blank" rel="external nofollow noopener noreferrer">OWASP Mobile Application Security Testing Guide</a></p>
+<h3 id="статьи" class="heading-element"><span>Статьи</span>
+  <a href="#%d1%81%d1%82%d0%b0%d1%82%d1%8c%d0%b8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://fi5t.xyz/posts/how-to-join-mobilesec-2024/"target="_blank" rel="external nofollow noopener noreferrer">fi5t: Как вкатиться в безопасность android приложений в 2024</a><br>
+<a href="https://book.hacktricks.xyz/mobile-pentesting/android-checklist"target="_blank" rel="external nofollow noopener noreferrer">hacktricks: Android APK Checklist</a></p>
+<h3 id="telegram-каналы" class="heading-element"><span>Telegram-каналы</span>
+  <a href="#telegram-%d0%ba%d0%b0%d0%bd%d0%b0%d0%bb%d1%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://t.me/mobile_appsec_world"target="_blank" rel="external nofollow noopener noreferrer">Mobile AppSec World</a><br>
+<a href="https://t.me/android_guards_today"target="_blank" rel="external nofollow noopener noreferrer">Android Guards</a></p>
+<h3 id="github-репозитории" class="heading-element"><span>Github-репозитории</span>
+  <a href="#github-%d1%80%d0%b5%d0%bf%d0%be%d0%b7%d0%b8%d1%82%d0%be%d1%80%d0%b8%d0%b8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://github.com/saeidshirazi/awesome-android-security"target="_blank" rel="external nofollow noopener noreferrer">Github: awesome-android-security</a><br>
+<a href="https://github.com/user1342/Awesome-Android-Reverse-Engineering"target="_blank" rel="external nofollow noopener noreferrer">Github: Awesome Android Reverse Engineering</a></p>
+<h2 id="outro" class="heading-element"><span>Outro</span>
+  <a href="#outro" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Процесс реверса Android-приложений можно описать кратким &ldquo;Easy To Learn But Hard To Master&rdquo;, так как без знания Java/Kotlin и знания разработки под Android сложно углубиться в поиск уязвимостей. Но для того, чтобы начать их искать нужно не так и много: желание, любопытство и пара инструментов.</p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="Updated on 2024-02-12 11:23:13">Updated on 2024-02-12&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="Share on X" data-sharer="twitter" data-url="http://localhost:1313/posts/a_dwarf_garden_for_robots_looking_for_low-hanging_fruit_in_android/" data-title="Карликовый Сад Для Роботов. Ищем Низко Висящие Фрукты В Android" data-hashtags="android,security,hacking,jadx,apktool"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/a_dwarf_garden_for_robots_looking_for_low-hanging_fruit_in_android/" data-hashtag="android"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/a_dwarf_garden_for_robots_looking_for_low-hanging_fruit_in_android/" data-title="Карликовый Сад Для Роботов. Ищем Низко Висящие Фрукты В Android"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/android/" class="post-tag" title="Tags - Android">Android</a><a href="/tags/security/" class="post-tag" title="Tags - Security">Security</a><a href="/tags/hacking/" class="post-tag" title="Tags - Hacking">Hacking</a><a href="/tags/jadx/" class="post-tag" title="Tags - Jadx">Jadx</a><a href="/tags/apktool/" class="post-tag" title="Tags - Apktool">Apktool</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/from_nse_to_cve_arming_nmap/" class="post-nav-item" rel="prev" title="От NSE До CVE. Вооружаем Nmap Для Поиска Уязвимостей"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>От NSE До CVE. Вооружаем Nmap Для Поиска Уязвимостей</a><a href="/posts/not_so_trivial/" class="post-nav-item" rel="next" title="Not So (Trivy)al. Как Использовать Trivy На Большом Скоупе И Не Поехать Кукухой (Нет)">Not So (Trivy)al. Как Использовать Trivy На Большом Скоупе И Не Поехать Кукухой (Нет)<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="Contents"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.144.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> | Theme - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.17-8b402129"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">the29a</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">This website works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"version":"v0.3.17-8b402129"};console.log('Page config:', window.config);</script><script src="/js/theme.min.js" defer></script></body>
+</html>

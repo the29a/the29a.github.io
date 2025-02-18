@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Скрещиваем Ежа С Ужом. Заводим Репорты Nuclei В Defect Dojo - 29a µ blog</title><meta name="author" content="the29a">
+<meta name="description" content="Сканерами уязвимостей пользуются многие, и в обороне и в атаке. Кто-то использует дорогой SaaS, кто-то использует opensource-решения вроде OpenVAS или даже SaaS на его основе.
+Казалось бы, можно использовать готовые решения, но мы пойдём другим путём и будем заводить репорты Nuclei в Defect Dojo. Как раз, поддержка репортов есть, нужно только ей воспользоваться.
+"><meta name="keywords" content='security'>
+  <meta itemprop="name" content="Скрещиваем ежа с ужом. Заводим репорты Nuclei в Defect Dojo">
+  <meta itemprop="description" content="Сканерами уязвимостей пользуются многие, и в обороне и в атаке. Кто-то использует дорогой SaaS, кто-то использует opensource-решения вроде OpenVAS или даже SaaS на его основе.
+Казалось бы, можно использовать готовые решения, но мы пойдём другим путём и будем заводить репорты Nuclei в Defect Dojo. Как раз, поддержка репортов есть, нужно только ей воспользоваться.">
+  <meta itemprop="datePublished" content="2023-06-28T11:27:01+03:00">
+  <meta itemprop="dateModified" content="2023-06-28T11:27:01+03:00">
+  <meta itemprop="wordCount" content="761">
+  <meta itemprop="image" content="http://localhost:1313/avatar.png">
+  <meta itemprop="keywords" content="Security"><meta property="og:url" content="http://localhost:1313/posts/skreshivaem-esha-s-uzhom/">
+  <meta property="og:site_name" content="29a µ blog">
+  <meta property="og:title" content="Скрещиваем ежа с ужом. Заводим репорты Nuclei в Defect Dojo">
+  <meta property="og:description" content="Сканерами уязвимостей пользуются многие, и в обороне и в атаке. Кто-то использует дорогой SaaS, кто-то использует opensource-решения вроде OpenVAS или даже SaaS на его основе.
+Казалось бы, можно использовать готовые решения, но мы пойдём другим путём и будем заводить репорты Nuclei в Defect Dojo. Как раз, поддержка репортов есть, нужно только ей воспользоваться.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-06-28T11:27:01+03:00">
+    <meta property="article:modified_time" content="2023-06-28T11:27:01+03:00">
+    <meta property="article:tag" content="Security">
+    <meta property="og:image" content="http://localhost:1313/avatar.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/avatar.png">
+  <meta name="twitter:title" content="Скрещиваем ежа с ужом. Заводим репорты Nuclei в Defect Dojo">
+  <meta name="twitter:description" content="Сканерами уязвимостей пользуются многие, и в обороне и в атаке. Кто-то использует дорогой SaaS, кто-то использует opensource-решения вроде OpenVAS или даже SaaS на его основе.
+Казалось бы, можно использовать готовые решения, но мы пойдём другим путём и будем заводить репорты Nuclei в Defect Dojo. Как раз, поддержка репортов есть, нужно только ей воспользоваться.">
+<meta name="application-name" content="29a µ blog">
+<meta name="apple-mobile-web-app-title" content="29a µ blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="http://localhost:1313/posts/skreshivaem-esha-s-uzhom/" title="Скрещиваем ежа с ужом. Заводим репорты Nuclei в Defect Dojo - 29a µ blog" /><link rel="prev" type="text/html" href="http://localhost:1313/posts/ne-vse-ctf-odinakovo-polezni/" title="CTF не только полезен, но и вреден." /><link rel="next" type="text/html" href="http://localhost:1313/posts/podglyadivaem-cherez-sourcemaps/" title="Подглядываем через Sourcemaps" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Скрещиваем ежа с ужом. Заводим репорты Nuclei в Defect Dojo",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/posts\/skreshivaem-esha-s-uzhom\/"
+    },"genre": "posts","keywords": "security","wordcount":  761 ,
+    "url": "http:\/\/localhost:1313\/posts\/skreshivaem-esha-s-uzhom\/","datePublished": "2023-06-28T11:27:01+03:00","dateModified": "2023-06-28T11:27:01+03:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "the29a"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item">
+              <a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item">
+              <a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item"><a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item"><a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="Collections"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Скрещиваем Ежа С Ужом. Заводим Репорты Nuclei В Defect Dojo</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      the29a</span></span></div><div class="post-meta-line"><span title="published on 2023-06-28 11:27:01"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-06-28">2023-06-28</time></span>&nbsp;<span title="761 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 800 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>4 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#используемые-инструменты">Используемые инструменты</a>
+      <ul>
+        <li><a href="#defect-dojo">Defect Dojo</a>
+          <ul>
+            <li><a href="#1-получаем-api-token">1. Получаем api-token</a></li>
+            <li><a href="#2-создаём-product">2. Создаём product</a></li>
+          </ul>
+        </li>
+        <li><a href="#nuclei">Nuclei</a>
+          <ul>
+            <li><a href="#подготовка">Подготовка</a>
+              <ul>
+                <li><a href="#пример-конфига">Пример конфига:</a></li>
+              </ul>
+            </li>
+            <li><a href="#использование">Использование</a>
+              <ul>
+                <li><a href="#пример-скрипта">Пример скрипта:</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#итог">Итог</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>Сканерами уязвимостей пользуются многие, и в обороне и в атаке. Кто-то использует дорогой SaaS, кто-то использует opensource-решения вроде OpenVAS или даже SaaS на его основе.<br>
+Казалось бы, можно использовать готовые решения, но мы пойдём другим путём и будем заводить репорты Nuclei в Defect Dojo.
+Как раз, поддержка репортов есть, нужно только ей воспользоваться.</p>
+<p>Можно конечно использовать <a href="https://github.com/yogeshojha/rengine"target="_blank" rel="external nofollow noopener noreferrer">Rengine</a>, и это бы решило часть проблем. Но задача стояла в сборе уязвимостей не только от nuclei, но и других инструментов, вроде <a href="https://github.com/aquasecurity/trivy"target="_blank" rel="external nofollow noopener noreferrer">trivy</a>.</p>
+<p>Так же не могу сказать, что я в восторге от Defect Dojo, но замены ему я не нашёл. По крайней мере из opensource.</p>
+<p>Отдельно отмечу, что это тестовый пример и на руководство на полноценное внедрение он не тянет.<br>
+Рекомендую для тестов поднять заведомо уязвимый хост, чтобы удостоверится в работоспособности.</p>
+<h2 id="используемые-инструменты" class="heading-element"><span>Используемые инструменты</span>
+  <a href="#%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d1%83%d0%b5%d0%bc%d1%8b%d0%b5-%d0%b8%d0%bd%d1%81%d1%82%d1%80%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d1%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Нам потребуются:<br>
+docker-compose &gt;= 1.28
+bash<br>
+<a href="https://github.com/DefectDojo/django-DefectDojo"target="_blank" rel="external nofollow noopener noreferrer">Defect Dojo</a><br>
+<a href="https://github.com/projectdiscovery/nuclei"target="_blank" rel="external nofollow noopener noreferrer">Nuclei</a></p>
+<h3 id="defect-dojo" class="heading-element"><span>Defect Dojo</span>
+  <a href="#defect-dojo" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://github.com/DefectDojo/django-DefectDojo#quick-start"target="_blank" rel="external nofollow noopener noreferrer">Разворачиваем Defect Dojo</a>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">git clone https://github.com/DefectDojo/django-DefectDojo
+</span></span><span class="line"><span class="cl">cd django-DefectDojo
+</span></span><span class="line"><span class="cl"># Собираем
+</span></span><span class="line"><span class="cl">./dc-build.sh
+</span></span><span class="line"><span class="cl"># Запускаем (будем собирать так, но другие профили сборки можно посмотреть в документации https://github.com/DefectDojo/django-DefectDojo/blob/dev/readme-docs/DOCKER.md)
+</span></span><span class="line"><span class="cl">./dc-up.sh postgres-redis
+</span></span><span class="line"><span class="cl"># Или запускаем в фоне 
+</span></span><span class="line"><span class="cl">./dc-up-d.sh postgres-redis
+</span></span><span class="line"><span class="cl"># пароль пользователя admin будет в логах при запуске, так что будем грепать
+</span></span><span class="line"><span class="cl">docker-compose logs initializer | grep &#34;Admin password:&#34;</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Если всё запустилось, то на <a href="http://localhost:8080/"target="_blank" rel="external nofollow noopener noreferrer">http://localhost:8080/</a> нас будет ждать Defect Dojo.</p>
+<p>Нам от него нужно:</p>
+<ol>
+<li>Получить api-token пользователя</li>
+<li>Создать product</li>
+</ol>
+<h4 id="1-получаем-api-token" class="heading-element"><span>1. Получаем api-token</span>
+  <a href="#1-%d0%bf%d0%be%d0%bb%d1%83%d1%87%d0%b0%d0%b5%d0%bc-api-token" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>В правом верхнем углу нажимаем на &ldquo;человечка&rdquo;, нажимаем на API v2 Key. Готово.</p>
+<h4 id="2-создаём-product" class="heading-element"><span>2. Создаём product</span>
+  <a href="#2-%d1%81%d0%be%d0%b7%d0%b4%d0%b0%d1%91%d0%bc-product" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>В левой панели &ldquo;Products&rdquo; выбираем &ldquo;Add Product&rdquo;, где заполняем необходимые поля.</p>
+<blockquote>
+<p>Важно, что в данном примере у нас будет имя <code>Nuclei Test Scan</code>, так как оно будет использоваться и далее.</p></blockquote>
+<p>В дальнейшем стоит создать отдельный Product Type и указывать его, но в данном случае будем использовать стандартный.<br>
+Ещё нам потребуется product id, который мы можем увидеть в адресной строке. Он нам так же понадобится.</p>
+<h3 id="nuclei" class="heading-element"><span>Nuclei</span>
+  <a href="#nuclei" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a href="https://github.com/projectdiscovery/nuclei#install-nuclei"target="_blank" rel="external nofollow noopener noreferrer">Установить nuclei</a> можно <a href="https://nuclei.projectdiscovery.io/nuclei/get-started/"target="_blank" rel="external nofollow noopener noreferrer">множеством способов</a>, но проще всего скачать архив с бинарником со <a href="https://github.com/projectdiscovery/nuclei/releases"target="_blank" rel="external nofollow noopener noreferrer">страницы релизов</a>.</p>
+<h4 id="подготовка" class="heading-element"><span>Подготовка</span>
+  <a href="#%d0%bf%d0%be%d0%b4%d0%b3%d0%be%d1%82%d0%be%d0%b2%d0%ba%d0%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Перед началом сканирования стоит сделать отдельный конфиг, чтобы использовать только конкретные шаблоны для поиска CVE, уязвимостей и мисконфигов.
+Так же стоит использовать дополнительные хидеры, чтобы используемый вами сканер можно было отделить от кучи других запросов.
+И разумеется, выставляем допустимый <code>rate-limit</code>.</p>
+<h5 id="пример-конфига" class="heading-element"><span>Пример конфига:</span>
+  <a href="#%d0%bf%d1%80%d0%b8%d0%bc%d0%b5%d1%80-%d0%ba%d0%be%d0%bd%d1%84%d0%b8%d0%b3%d0%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h5><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="c1"># Headers to include with all HTTP request</span>
+</span></span><span class="line"><span class="cl"><span class="n">header</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="o">-</span> <span class="s1">&#39;X-sec-tools: secops/nuclei&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">-</span> <span class="s1">&#39;User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) / nuclei&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Directory based template execution</span>
+</span></span><span class="line"><span class="cl"><span class="n">templates</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="o">-</span> <span class="n">cves</span><span class="o">/</span>
+</span></span><span class="line"><span class="cl">  <span class="o">-</span> <span class="n">vulnerabilities</span><span class="o">/</span>
+</span></span><span class="line"><span class="cl">  <span class="o">-</span> <span class="n">misconfiguration</span><span class="o">/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Template Filters</span>
+</span></span><span class="line"><span class="cl"><span class="n">tags</span><span class="p">:</span> <span class="n">exposures</span><span class="p">,</span><span class="n">cve</span>
+</span></span><span class="line"><span class="cl"><span class="n">severity</span><span class="p">:</span> <span class="n">critical</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">medium</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Template Denylist</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## Tag based exclusion</span>
+</span></span><span class="line"><span class="cl"><span class="n">exclude</span><span class="o">-</span><span class="n">tags</span><span class="p">:</span> <span class="n">info</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Rate Limit configuration</span>
+</span></span><span class="line"><span class="cl"><span class="n">rate</span><span class="o">-</span><span class="n">limit</span><span class="p">:</span> <span class="mi">50</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Сохраняем конфиг в файл <code>nuclei.conf</code> и оставляем его рядом с бинарником.</p>
+<h4 id="использование" class="heading-element"><span>Использование</span>
+  <a href="#%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>В целом, у нас всё готово, но без скрипта запускать nuclei с множеством опций это сомнительное удовольствие.<br>
+Так же, к этому моменту уже можно собрать список хостов для сканирования.</p>
+<p>Небольшие пояснения по скрипту:</p>
+<ul>
+<li>В секции <code>Defect Dojo</code> мы указываем хост, порт и токен. Так же идут эндпоинты api, их мы не меняем.</li>
+<li>Далее идёт время, обовление nuclei и его теплейтов (опционально, можно закомментить) и сам запуск nuclei с опциями.</li>
+<li>В секции <code>Create engagement</code> указываем необходимый product id (<code>product</code>), про который говорилось выше.</li>
+<li>И наконец секция Send result to defect dojo, где мы указываем <code>product_name</code>.</li>
+</ul>
+<h5 id="пример-скрипта" class="heading-element"><span>Пример скрипта:</span>
+  <a href="#%d0%bf%d1%80%d0%b8%d0%bc%d0%b5%d1%80-%d1%81%d0%ba%d1%80%d0%b8%d0%bf%d1%82%d0%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h5><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Defect Dojo</span>
+</span></span><span class="line"><span class="cl"><span class="nv">defect_dojo_host</span><span class="o">=</span><span class="s2">&#34;localhost&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">defect_dojo_port</span><span class="o">=</span><span class="s2">&#34;8080&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">defect_dojo_auth_token</span><span class="o">=</span><span class="s2">&#34;bb671699482fe665a021745e34671d2eb45eba5c&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">defect_dojo_api_import_scan</span><span class="o">=</span><span class="s2">&#34;api/v2/import-scan&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">defect_dojo_api_engagement</span><span class="o">=</span><span class="s2">&#34;api/v2/engagements&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Other VARs</span>
+</span></span><span class="line"><span class="cl"><span class="nv">date</span><span class="o">=</span><span class="k">$(</span>date +<span class="s1">&#39;%Y-%m-%d&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Check updates (may be useless in containers)</span>
+</span></span><span class="line"><span class="cl">./nuclei -up
+</span></span><span class="line"><span class="cl">./nuclei -ut
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run scan</span>
+</span></span><span class="line"><span class="cl">./nuclei -l targets.txt -config ./nuclei.conf -j -o result.json
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create engagement</span>
+</span></span><span class="line"><span class="cl">curl -X POST <span class="s2">&#34;http://</span><span class="nv">$defect_dojo_host</span><span class="s2">:</span><span class="nv">$defect_dojo_port</span><span class="s2">/</span><span class="nv">$defect_dojo_api_engagement</span><span class="s2">/&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-H <span class="s2">&#34;Authorization: Token </span><span class="nv">$defect_dojo_auth_token</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-F <span class="s2">&#34;name=Nuclei </span><span class="nv">$date</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-F <span class="s2">&#34;product=2&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-F <span class="s2">&#34;target_start=</span><span class="nv">$date</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-F <span class="s2">&#34;target_end=</span><span class="nv">$date</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Send result to defect dojo</span>
+</span></span><span class="line"><span class="cl">curl -X POST <span class="s2">&#34;http://</span><span class="nv">$defect_dojo_host</span><span class="s2">:</span><span class="nv">$defect_dojo_port</span><span class="s2">/</span><span class="nv">$defect_dojo_api_import_scan</span><span class="s2">/&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;accept: application/json&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Content-Type: multipart/form-data&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -H <span class="s2">&#34;Authorization: Token </span><span class="nv">$defect_dojo_auth_token</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -F <span class="s2">&#34;minimum_severity=Info&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -F <span class="s2">&#34;active=true&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -F <span class="s2">&#34;verified=true&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -F <span class="s2">&#34;scan_type=Nuclei Scan&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -F <span class="s2">&#34;close_old_findings=false&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -F <span class="s2">&#34;push_to_jira=false&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -F <span class="s2">&#34;file=@./result.json&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -F <span class="s2">&#34;product_name=Nuclei Test Scan&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -F <span class="s2">&#34;scan_date=2023-05-02&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -F <span class="s2">&#34;engagement_name=Nuclei </span><span class="nv">$date</span><span class="s2">&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Запускаем, смотрим Engagements в нашем продукте, и если всё отработало верно, то там нас будут ждать находки в виде CVE и\или уязвимостей.</p>
+<h2 id="итог" class="heading-element"><span>Итог</span>
+  <a href="#%d0%b8%d1%82%d0%be%d0%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Разумеется, есть куда стремится. Ручное указание product id это не удобно, решению не хватает гибкости.<br>
+Но решение есть и оно работает, что уже хорошо.</p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="Updated on 2023-06-28 11:27:01">Updated on 2023-06-28&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="Share on X" data-sharer="twitter" data-url="http://localhost:1313/posts/skreshivaem-esha-s-uzhom/" data-title="Скрещиваем Ежа С Ужом. Заводим Репорты Nuclei В Defect Dojo" data-hashtags="security"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/skreshivaem-esha-s-uzhom/" data-hashtag="security"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/skreshivaem-esha-s-uzhom/" data-title="Скрещиваем Ежа С Ужом. Заводим Репорты Nuclei В Defect Dojo"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/security/" class="post-tag" title="Tags - Security">Security</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/ne-vse-ctf-odinakovo-polezni/" class="post-nav-item" rel="prev" title="CTF Не Только Полезен, Но И Вреден."><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>CTF Не Только Полезен, Но И Вреден.</a><a href="/posts/podglyadivaem-cherez-sourcemaps/" class="post-nav-item" rel="next" title="Подглядываем Через Sourcemaps">Подглядываем Через Sourcemaps<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="Contents"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.144.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> | Theme - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.17-8b402129"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">the29a</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">This website works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"version":"v0.3.17-8b402129"};console.log('Page config:', window.config);</script><script src="/js/theme.min.js" defer></script></body>
+</html>

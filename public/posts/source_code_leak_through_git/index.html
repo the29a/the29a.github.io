@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Утечка Исходного Кода Через Директорию .Git - 29a µ blog</title><meta name="author" content="the29a">
+<meta name="description" content="Утечка исходного кода через директорию .git"><meta name="keywords" content='git, hacking, security'>
+  <meta itemprop="name" content="Утечка исходного кода через директорию .git">
+  <meta itemprop="description" content="Утечка исходного кода через директорию .git">
+  <meta itemprop="datePublished" content="2023-12-15T00:15:26+03:00">
+  <meta itemprop="dateModified" content="2023-12-15T00:15:26+03:00">
+  <meta itemprop="wordCount" content="595">
+  <meta itemprop="image" content="http://localhost:1313/avatar.png">
+  <meta itemprop="keywords" content="Git,Hacking,Security"><meta property="og:url" content="http://localhost:1313/posts/source_code_leak_through_git/">
+  <meta property="og:site_name" content="29a µ blog">
+  <meta property="og:title" content="Утечка исходного кода через директорию .git">
+  <meta property="og:description" content="Утечка исходного кода через директорию .git">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-12-15T00:15:26+03:00">
+    <meta property="article:modified_time" content="2023-12-15T00:15:26+03:00">
+    <meta property="article:tag" content="Git">
+    <meta property="article:tag" content="Hacking">
+    <meta property="article:tag" content="Security">
+    <meta property="og:image" content="http://localhost:1313/avatar.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/avatar.png">
+  <meta name="twitter:title" content="Утечка исходного кода через директорию .git">
+  <meta name="twitter:description" content="Утечка исходного кода через директорию .git">
+<meta name="application-name" content="29a µ blog">
+<meta name="apple-mobile-web-app-title" content="29a µ blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="http://localhost:1313/posts/source_code_leak_through_git/" title="Утечка исходного кода через директорию .git - 29a µ blog" /><link rel="prev" type="text/html" href="http://localhost:1313/posts/iot_as_a_way_to_get_into_the_network/" title="Забытый IoT как способ попасть в сеть." /><link rel="next" type="text/html" href="http://localhost:1313/posts/make_nmap_reports_friendly/" title="Делаем отчёты nmap дружелюбней" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Утечка исходного кода через директорию .git",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/posts\/source_code_leak_through_git\/"
+    },"genre": "posts","keywords": "git, hacking, security","wordcount":  595 ,
+    "url": "http:\/\/localhost:1313\/posts\/source_code_leak_through_git\/","datePublished": "2023-12-15T00:15:26+03:00","dateModified": "2023-12-15T00:15:26+03:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "the29a"
+      },"description": "Утечка исходного кода через директорию .git"
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item">
+              <a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item">
+              <a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item"><a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item"><a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="Collections"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Утечка Исходного Кода Через Директорию .Git</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      the29a</span></span></div><div class="post-meta-line"><span title="published on 2023-12-15 00:15:26"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-12-15">2023-12-15</time></span>&nbsp;<span title="595 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 600 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>3 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#почему-это-стоит-искать">Почему это стоит искать</a></li>
+    <li><a href="#зачем-нужен-git">Зачем нужен Git?</a></li>
+    <li><a href="#что-такое-git">Что такое .git?</a></li>
+    <li><a href="#как-найти">Как найти</a></li>
+    <li><a href="#коды-ошибок">Коды ошибок</a></li>
+    <li><a href="#эксплуатация">Эксплуатация</a></li>
+    <li><a href="#что-делать-дальше">Что делать дальше?</a></li>
+    <li><a href="#как-устранить-уязвимость-раскрытия-исходного-кода-git">Как устранить уязвимость раскрытия исходного кода .git?</a>
+      <ul>
+        <li><a href="#apache">Apache</a></li>
+        <li><a href="#nginx">Nginx</a></li>
+        <li><a href="#lighttpd">Lighttpd</a></li>
+      </ul>
+    </li>
+    <li><a href="#outro">Outro</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="intro" class="heading-element"><span>Intro</span>
+  <a href="#intro" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Сегодня поговорим о раскрытии исходного кода через открытую директорию .git в веб-приложениях/рабочей среде.<br>
+Хакеры могут использовать инструменты для загрузки/восстановления репозитория, чтобы получить доступ к исходному коду вашего приложения.</p>
+<h2 id="почему-это-стоит-искать" class="heading-element"><span>Почему это стоит искать</span>
+  <a href="#%d0%bf%d0%be%d1%87%d0%b5%d0%bc%d1%83-%d1%8d%d1%82%d0%be-%d1%81%d1%82%d0%be%d0%b8%d1%82-%d0%b8%d1%81%d0%ba%d0%b0%d1%82%d1%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Это интересно потому что:</p>
+<ul>
+<li>Его легко обнаружить.</li>
+<li>Анализ исходного кода может выявить другие уязвимости, более критичные.</li>
+<li>Любой может использовать ваш исходный код в злонамеренных целях, нанеся вам финансовый/репутационный ущерб.</li>
+<li>Поиск файлов, содержащих конфиденциальную информацию, например учетные данные, токены, новые конечные точки и т. д.</li>
+</ul>
+<p>Согласно <a href="https://trufflesecurity.com/blog/4500-of-the-top-1-million-websites-leaked-source-code-secrets/"target="_blank" rel="external nofollow noopener noreferrer">исследованию Truffle Security</a>, 4,500 сайтов из миллионного топа раскрывают исходный код.</p>
+<h2 id="зачем-нужен-git" class="heading-element"><span>Зачем нужен Git?</span>
+  <a href="#%d0%b7%d0%b0%d1%87%d0%b5%d0%bc-%d0%bd%d1%83%d0%b6%d0%b5%d0%bd-git" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Git - это система контроля версий с открытым исходным кодом. Она широко используется разработчиками для отслеживания изменений, вносимых как в проекты с открытым исходным кодом, так и в коммерческие проекты. Разработчики могут использовать Git с основными операционными системами и средами разработки.</p>
+<h2 id="что-такое-git" class="heading-element"><span>Что такое .git?</span>
+  <a href="#%d1%87%d1%82%d0%be-%d1%82%d0%b0%d0%ba%d0%be%d0%b5-git" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Папка .git содержит всю информацию, необходимую для контроля версий вашего проекта, а также все сведения о коммитах, адресе репозитория и прочем. В ней также находится лог, в котором хранится история коммитов. <a href="https://ru.hexlet.io/courses/intro_to_git/lessons/working-directory/theory_unit"target="_blank" rel="external nofollow noopener noreferrer">(Подробнее о .git)</a></p>
+<h2 id="как-найти" class="heading-element"><span>Как найти</span>
+  <a href="#%d0%ba%d0%b0%d0%ba-%d0%bd%d0%b0%d0%b9%d1%82%d0%b8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Если нет конкретной цели, то для поиска .git мы можем использовать Google Dorks:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">&#34;index of” inurl:.git</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">allintext:index filetype:git</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Если мы уже ищем что-то целенаправленно, можем указать <code>site:</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">&#34;index of” inurl:.git site:example.com</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">allintext:index filetype:git site:example.com</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Так же для этой цели мы можем использовать <a href="https://github.com/OJ/gobuster"target="_blank" rel="external nofollow noopener noreferrer">gobuster</a>/<a href="https://github.com/KajanM/DirBuster"target="_blank" rel="external nofollow noopener noreferrer">dirbuster</a> (оба инструмента есть в дистрибутивах Kali/Parrot).</p>
+<h2 id="коды-ошибок" class="heading-element"><span>Коды ошибок</span>
+  <a href="#%d0%ba%d0%be%d0%b4%d1%8b-%d0%be%d1%88%d0%b8%d0%b1%d0%be%d0%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>200 Found: отлично, работаем дальше.</li>
+<li>404 Not found: .git не существует на сервере или выбран неверный путь</li>
+<li>403 Forbidden: .git существует, но на сервере выключен листинг.</li>
+</ul>
+<h2 id="эксплуатация" class="heading-element"><span>Эксплуатация</span>
+  <a href="#%d1%8d%d0%ba%d1%81%d0%bf%d0%bb%d1%83%d0%b0%d1%82%d0%b0%d1%86%d0%b8%d1%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Если на  сервере включен листинг каталогов, мы можем использовать всего одну простую команду для загрузки всех файлов:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget --mirror -I .git example.com/.git/</span></span></code></pre></td></tr></table>
+</div>
+</div><p>После чего можно посмотреть изменения используя <code>git diff</code>.</p>
+<p>Но листинга каталогов может и не быть, так что удобней для этого использовать инструменты:</p>
+<ul>
+<li><a href="https://github.com/arthaud/git-dumper"target="_blank" rel="external nofollow noopener noreferrer">git-dumper</a></li>
+<li><a href="https://github.com/internetwache/GitTools"target="_blank" rel="external nofollow noopener noreferrer">GitTools</a></li>
+<li><a href="https://github.com/WangYihang/GitHacker"target="_blank" rel="external nofollow noopener noreferrer">GitHacker</a></li>
+</ul>
+<p>Если каталог <code>.git</code> открыт, он выглядит следующим образом:
+<img loading="lazy" src="../../static/source_code_leak_through_git1.png" alt="../../static/source_code_leak_through_git1.png" srcset="../../static/source_code_leak_through_git1.png?size=small, ../../static/source_code_leak_through_git1.png?size=medium 1.5x, ../../static/source_code_leak_through_git1.png?size=large 2x" data-title="../../static/source_code_leak_through_git1.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>После завершения загрузки мы можем просмотреть статус всех локальных изменений и сравнить их с данными, полученными в репозитории целевого веб-сервера.</p>
+<blockquote>
+<p>Файлы отредактировны, имя хоста и репозитория скрыты.</p></blockquote>
+<p><img loading="lazy" src="../../static/source_code_leak_through_git2.png" alt="../../static/source_code_leak_through_git2.png" srcset="../../static/source_code_leak_through_git2.png?size=small, ../../static/source_code_leak_through_git2.png?size=medium 1.5x, ../../static/source_code_leak_through_git2.png?size=large 2x" data-title="../../static/source_code_leak_through_git2.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/> <img loading="lazy" src="../../static/source_code_leak_through_git3.png" alt="../../static/source_code_leak_through_git3.png" srcset="../../static/source_code_leak_through_git3.png?size=small, ../../static/source_code_leak_through_git3.png?size=medium 1.5x, ../../static/source_code_leak_through_git3.png?size=large 2x" data-title="../../static/source_code_leak_through_git3.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>Cтатус показывает только удаленные файлы, поскольку у нас есть только папка <code>.git</code>, загруженная с веб-сервера. Впрочем, это не проблема. Выполнение команды <code>git checkout -- .</code> или <code>git restore .</code> вернёт репозиторий к последнему изменению.</p>
+<h2 id="что-делать-дальше" class="heading-element"><span>Что делать дальше?</span>
+  <a href="#%d1%87%d1%82%d0%be-%d0%b4%d0%b5%d0%bb%d0%b0%d1%82%d1%8c-%d0%b4%d0%b0%d0%bb%d1%8c%d1%88%d0%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Торчащий наружу <code>.git</code> это сама по себе неприятная уязвимость, но чтобы не ходить два раза, можем немного пробежаться по репозиторию.
+Что можно сделать с найденным репозиторием:</p>
+<ul>
+<li>Поискать CVE и уязвимости в коммитах используя <a href="https://github.com/semgrep/semgrep"target="_blank" rel="external nofollow noopener noreferrer">semgrep</a> или <a href="https://github.com/cve-search/git-vuln-finder"target="_blank" rel="external nofollow noopener noreferrer">git-vuln-finder</a></li>
+<li>Поискать секреты используя <a href="https://github.com/trufflesecurity/trufflehog"target="_blank" rel="external nofollow noopener noreferrer">trufflehog</a> или <a href="https://github.com/UKHomeOffice/repo-security-scanner"target="_blank" rel="external nofollow noopener noreferrer">repo-security-scanner</a></li>
+<li>Составить поверхность атаки на приложение используя <a href="https://github.com/noir-cr/noir"target="_blank" rel="external nofollow noopener noreferrer">noir</a></li>
+<li>Если используются контейнеры, можно использовать <a href="https://github.com/aquasecurity/trivy"target="_blank" rel="external nofollow noopener noreferrer">trivy</a></li>
+</ul>
+<h2 id="как-устранить-уязвимость-раскрытия-исходного-кода-git" class="heading-element"><span>Как устранить уязвимость раскрытия исходного кода .git?</span>
+  <a href="#%d0%ba%d0%b0%d0%ba-%d1%83%d1%81%d1%82%d1%80%d0%b0%d0%bd%d0%b8%d1%82%d1%8c-%d1%83%d1%8f%d0%b7%d0%b2%d0%b8%d0%bc%d0%be%d1%81%d1%82%d1%8c-%d1%80%d0%b0%d1%81%d0%ba%d1%80%d1%8b%d1%82%d0%b8%d1%8f-%d0%b8%d1%81%d1%85%d0%be%d0%b4%d0%bd%d0%be%d0%b3%d0%be-%d0%ba%d0%be%d0%b4%d0%b0-git" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Чтобы устранить эту уязвимость, либо удалите папку git с вашего веб-сервера, либо запретите доступ к папкам <code>.git</code>.
+Запретить доступ к папкам <code>.git</code> просто:</p>
+<h3 id="apache" class="heading-element"><span>Apache</span>
+  <a href="#apache" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Правим <code>.htaccess</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-apache" data-lang="apache"><span class="line"><span class="cl"><span class="nt">&lt;DirectoryMatch</span> <span class="s">“^/.*/\.git/”</span><span class="nt">&gt;</span> 
+</span></span><span class="line"><span class="cl">	<span class="nb">Order</span> deny, allow 
+</span></span><span class="line"><span class="cl">	<span class="nb">Deny</span> from <span class="k">all</span> 
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/DirectoryMatch&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="nginx" class="heading-element"><span>Nginx</span>
+  <a href="#nginx" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Правим <code>nginx.conf</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">location</span> <span class="p">~</span> <span class="sr">/.git/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="kn">deny</span> <span class="s">all</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="lighttpd" class="heading-element"><span>Lighttpd</span>
+  <a href="#lighttpd" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Правим <code>lighttpd.conf</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lighttpd" data-lang="lighttpd"><span class="line"><span class="cl"><span class="k">server.modules</span> <span class="o">+=</span> <span class="p">(</span> <span class="s2">&#34;mod_access&#34;</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">$HTTP</span><span class="p">[</span><span class="s2">&#34;url&#34;</span><span class="p">]</span> <span class="o">=~</span> <span class="s2">&#34;^/\.git/&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">url.access-deny</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="outro" class="heading-element"><span>Outro</span>
+  <a href="#outro" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Как мы можем увидеть, обнаружение и устранение выглядят довольно просто. Однако проблемы, которые могут принести утекшие исходники представить довольно несложно.</p>
+<ul>
+<li>Если утёк сайт с платежами, то злоумышленники могут развернуть фишинговый ресурс;</li>
+<li>Утекшие секреты в коде могут обеспечить злоумыленникам доступ, в том числе и к внутренним\непубличнм сервисам;</li>
+<li>Утекшие секреты от API, которые в лучшем случае принесут финансовые потери.</li>
+</ul>
+<hr>
+<h2 id="reference" class="heading-element"><span>Reference</span>
+  <a href="#reference" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><a href="https://trufflesecurity.com/blog/4500-of-the-top-1-million-websites-leaked-source-code-secrets/"target="_blank" rel="external nofollow noopener noreferrer">Truffle Security Co: 4,500 of the Top 1 Million Websites Leaked Source Code, Secrets</a><br>
+<a href="https://ru.hexlet.io/courses/intro_to_git/lessons/working-directory/theory_unit"target="_blank" rel="external nofollow noopener noreferrer">Введение в Git - Рабочая директория</a><br>
+<a href="https://tecadmin.net/block-git-directory-in-apache-nginx/"target="_blank" rel="external nofollow noopener noreferrer">How to Block .git Directory in Apache/Nginx</a></p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="Updated on 2023-12-15 00:15:26">Updated on 2023-12-15&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="Share on X" data-sharer="twitter" data-url="http://localhost:1313/posts/source_code_leak_through_git/" data-title="Утечка Исходного Кода Через Директорию .Git" data-hashtags="git,hacking,security"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/source_code_leak_through_git/" data-hashtag="git"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/source_code_leak_through_git/" data-title="Утечка Исходного Кода Через Директорию .Git"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/git/" class="post-tag" title="Tags - Git">Git</a><a href="/tags/hacking/" class="post-tag" title="Tags - Hacking">Hacking</a><a href="/tags/security/" class="post-tag" title="Tags - Security">Security</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/iot_as_a_way_to_get_into_the_network/" class="post-nav-item" rel="prev" title="Забытый IoT Как Способ Попасть В Сеть."><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Забытый IoT Как Способ Попасть В Сеть.</a><a href="/posts/make_nmap_reports_friendly/" class="post-nav-item" rel="next" title="Делаем Отчёты Nmap Дружелюбней">Делаем Отчёты Nmap Дружелюбней<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="Contents"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.144.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> | Theme - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.17-8b402129"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">the29a</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">This website works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"version":"v0.3.17-8b402129"};console.log('Page config:', window.config);</script><script src="/js/theme.min.js" defer></script></body>
+</html>

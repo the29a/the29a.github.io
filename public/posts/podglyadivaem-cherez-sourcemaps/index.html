@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Подглядываем Через Sourcemaps - 29a µ blog</title><meta name="author" content="the29a">
+<meta name="description" content="Зачем нужны sourcemaps в JavaScript? Файлы Source-map полезны при отладке минифицированных JavaScript-файлов. Они работают путем сопоставления минифицированного кода с его неминифицированной версией. После этого можно отлаживать неминифицированный Javascript как обычно.
+"><meta name="keywords" content='security, hacking, web'>
+  <meta itemprop="name" content="Подглядываем через Sourcemaps">
+  <meta itemprop="description" content="Зачем нужны sourcemaps в JavaScript? Файлы Source-map полезны при отладке минифицированных JavaScript-файлов. Они работают путем сопоставления минифицированного кода с его неминифицированной версией. После этого можно отлаживать неминифицированный Javascript как обычно.">
+  <meta itemprop="datePublished" content="2023-09-09T03:52:36+03:00">
+  <meta itemprop="dateModified" content="2023-09-09T03:52:36+03:00">
+  <meta itemprop="wordCount" content="301">
+  <meta itemprop="image" content="http://localhost:1313/avatar.png">
+  <meta itemprop="keywords" content="Security,Hacking,Web"><meta property="og:url" content="http://localhost:1313/posts/podglyadivaem-cherez-sourcemaps/">
+  <meta property="og:site_name" content="29a µ blog">
+  <meta property="og:title" content="Подглядываем через Sourcemaps">
+  <meta property="og:description" content="Зачем нужны sourcemaps в JavaScript? Файлы Source-map полезны при отладке минифицированных JavaScript-файлов. Они работают путем сопоставления минифицированного кода с его неминифицированной версией. После этого можно отлаживать неминифицированный Javascript как обычно.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-09-09T03:52:36+03:00">
+    <meta property="article:modified_time" content="2023-09-09T03:52:36+03:00">
+    <meta property="article:tag" content="Security">
+    <meta property="article:tag" content="Hacking">
+    <meta property="article:tag" content="Web">
+    <meta property="og:image" content="http://localhost:1313/avatar.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/avatar.png">
+  <meta name="twitter:title" content="Подглядываем через Sourcemaps">
+  <meta name="twitter:description" content="Зачем нужны sourcemaps в JavaScript? Файлы Source-map полезны при отладке минифицированных JavaScript-файлов. Они работают путем сопоставления минифицированного кода с его неминифицированной версией. После этого можно отлаживать неминифицированный Javascript как обычно.">
+<meta name="application-name" content="29a µ blog">
+<meta name="apple-mobile-web-app-title" content="29a µ blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="http://localhost:1313/posts/podglyadivaem-cherez-sourcemaps/" title="Подглядываем через Sourcemaps - 29a µ blog" /><link rel="prev" type="text/html" href="http://localhost:1313/posts/skreshivaem-esha-s-uzhom/" title="Скрещиваем ежа с ужом. Заводим репорты Nuclei в Defect Dojo" /><link rel="next" type="text/html" href="http://localhost:1313/posts/security-rss-feed/" title="Security RSS Feed" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Подглядываем через Sourcemaps",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost:1313\/posts\/podglyadivaem-cherez-sourcemaps\/"
+    },"genre": "posts","keywords": "security, hacking, web","wordcount":  301 ,
+    "url": "http:\/\/localhost:1313\/posts\/podglyadivaem-cherez-sourcemaps\/","datePublished": "2023-09-09T03:52:36+03:00","dateModified": "2023-09-09T03:52:36+03:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "the29a"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item">
+              <a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item">
+              <a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="29a µ blog"><span class="header-title-text">29a µ blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> Posts</a></li><li class="menu-item"><a class="menu-link" href="/about"><i class="fa-solid fa-user fa-fw fa-sm" aria-hidden="true"></i> About</a></li><li class="menu-item"><a class="menu-link" href="/projects"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> Projects</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-hashtag fa-fw fa-sm" aria-hidden="true"></i> Tags</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="Collections"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Подглядываем Через Sourcemaps</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      the29a</span></span></div><div class="post-meta-line"><span title="published on 2023-09-09 03:52:36"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-09-09">2023-09-09</time></span>&nbsp;<span title="301 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 400 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>2 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#зачем-нужны-sourcemaps-в-javascript">Зачем нужны sourcemaps в JavaScript?</a></li>
+    <li><a href="#как-можно-найти-файл-js-map">Как можно найти файл JS map?</a></li>
+    <li><a href="#что-и-где">Что и где?</a></li>
+    <li><a href="#чем-получить-исходники">Чем получить исходники?</a></li>
+    <li><a href="#зачем-это-всё">Зачем это всё?</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="зачем-нужны-sourcemaps-в-javascript" class="heading-element"><span>Зачем нужны sourcemaps в JavaScript?</span>
+  <a href="#%d0%b7%d0%b0%d1%87%d0%b5%d0%bc-%d0%bd%d1%83%d0%b6%d0%bd%d1%8b-sourcemaps-%d0%b2-javascript" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Файлы Source-map полезны при отладке минифицированных JavaScript-файлов.
+Они работают путем сопоставления минифицированного кода с его неминифицированной версией. После этого можно отлаживать неминифицированный Javascript как обычно.</p>
+<h2 id="как-можно-найти-файл-js-map" class="heading-element"><span>Как можно найти файл JS map?</span>
+  <a href="#%d0%ba%d0%b0%d0%ba-%d0%bc%d0%be%d0%b6%d0%bd%d0%be-%d0%bd%d0%b0%d0%b9%d1%82%d0%b8-%d1%84%d0%b0%d0%b9%d0%bb-js-map" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Burp, DevTools браузера.
+В конец минифицированного файла добавляется конструкция вроде этой:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">//# sourceMappingURL=main-1337666.js.map
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Но в идеале никак. Оно должно быть в условном Sentry.</p>
+<p>К слову о Sentry. Их мы и возьмем как пример.</p>
+<h2 id="что-и-где" class="heading-element"><span>Что и где?</span>
+  <a href="#%d1%87%d1%82%d0%be-%d0%b8-%d0%b3%d0%b4%d0%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><img loading="lazy" src="../../static/20230909030605.png" alt="../../static/20230909030605.png" srcset="../../static/20230909030605.png?size=small, ../../static/20230909030605.png?size=medium 1.5x, ../../static/20230909030605.png?size=large 2x" data-title="../../static/20230909030605.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+В примере на скриншоте:</p>
+<ul>
+<li>Множество минифицированных  JS-файлов</li>
+<li>Код минифицированного js-файла</li>
+<li>Ссылка на sourcemap-файл</li>
+</ul>
+<p>Возьмем как пример файл <code>f10687e-943b37fa375b2046728e.js</code>.
+В сжатом файле будет строчка со ссылкой на sourcemap:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">//# sourceMappingURL=f10687e-943b37fa375b2046728e.js.map
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="чем-получить-исходники" class="heading-element"><span>Чем получить исходники?</span>
+  <a href="#%d1%87%d0%b5%d0%bc-%d0%bf%d0%be%d0%bb%d1%83%d1%87%d0%b8%d1%82%d1%8c-%d0%b8%d1%81%d1%85%d0%be%d0%b4%d0%bd%d0%b8%d0%ba%d0%b8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Мы можем запустить curl:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl https://33fa1ur95-bcmasgak4.sentry.dev/2f10687e-943b37fa375b2046728e.js.map -o test.js</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Но в ответ получим глазную боль.</p>
+<p><img loading="lazy" src="../../static/20230909034129.png" alt="../../static/20230909034129.png" srcset="../../static/20230909034129.png?size=small, ../../static/20230909034129.png?size=medium 1.5x, ../../static/20230909034129.png?size=large 2x" data-title="../../static/20230909034129.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+Мы можем посмотреть это всё в браузере, но это тоже веселым занятием не назовешь.</p>
+<p>Чтобы получить что-то полезное из нашей находки воспользуемся <a href="https://github.com/denandz/sourcemapper"target="_blank" rel="external nofollow noopener noreferrer">sourcemapper</a>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sourcemapper -url https://33fa1ur95-bcmasgak4.sentry.dev/2f10687e-943b37fa375b2046728e.js.map -output sourcemaps</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Можно собрать список, и забрать всё оптом.
+Например так:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat sourcemaps.list <span class="p">|</span> xargs -I <span class="o">{}</span> sourcemapper -url <span class="o">{}</span> -output sourcemaps</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Примечание:
+То ли баг, то ли фича. Бывает ошибка <code>status !=200</code>. Приходится забирать sourcemap вне списка.</p>
+<h2 id="зачем-это-всё" class="heading-element"><span>Зачем это всё?</span>
+  <a href="#%d0%b7%d0%b0%d1%87%d0%b5%d0%bc-%d1%8d%d1%82%d0%be-%d0%b2%d1%81%d1%91" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Мы получаем исходный код проекта, пусть и не весь. А это нам открывает кучу возможностей.</p>
+<ul>
+<li>Анализ кода на уязимость (вдруг XSS найдется)</li>
+<li>Захардкоженые API ключи</li>
+<li>Захардкоженые пароли</li>
+<li>Ссылки на панели администрирования</li>
+<li>Информация о API-эндпоинтах</li>
+<li>Множество разной дополнительной информации из комментариев в коде.</li>
+</ul>
+<p>В теории, это всё можно автоматизировать (было бы интересно), с запуском semgrep, trufflehog и прочим.</p>
+<p>P.S. Можете попробовать сдать им этот баг, но у них вечные беды с bug bounty, а если просто так им на почту написать, то даже спасибо не скажут.</p>
+<hr>
+<h2 id="reference" class="heading-element"><span>Reference</span>
+  <a href="#reference" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><a href="https://github.com/denandz/sourcemapper"target="_blank" rel="external nofollow noopener noreferrer">Github: sourcemapper</a><br>
+<a href="https://github.com/yg-ht/Burp-SourceMapper"target="_blank" rel="external nofollow noopener noreferrer">Github: Burp-SourceMapper</a><br>
+<a href="https://github.com/portswigger/source-mapper"target="_blank" rel="external nofollow noopener noreferrer">Github: source-mapper</a><br>
+<a href="https://web.dev/source-maps/"target="_blank" rel="external nofollow noopener noreferrer">Web.Dev: Source Maps</a><br>
+<a href="https://habr.com/ru/articles/178743/"target="_blank" rel="external nofollow noopener noreferrer">Habr: Время подключать исходники. Введение в Source Maps</a><br>
+<a href="https://github.com/ryanseddon/source-map/wiki/Source-maps:-languages,-tools-and-other-info"target="_blank" rel="external nofollow noopener noreferrer">Github: Source maps: languages, tools and other info</a></p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="Updated on 2023-09-09 03:52:36">Updated on 2023-09-09&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="Share on X" data-sharer="twitter" data-url="http://localhost:1313/posts/podglyadivaem-cherez-sourcemaps/" data-title="Подглядываем Через Sourcemaps" data-hashtags="security,hacking,web"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/podglyadivaem-cherez-sourcemaps/" data-hashtag="security"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/podglyadivaem-cherez-sourcemaps/" data-title="Подглядываем Через Sourcemaps"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/security/" class="post-tag" title="Tags - Security">Security</a><a href="/tags/hacking/" class="post-tag" title="Tags - Hacking">Hacking</a><a href="/tags/web/" class="post-tag" title="Tags - Web">Web</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/skreshivaem-esha-s-uzhom/" class="post-nav-item" rel="prev" title="Скрещиваем Ежа С Ужом. Заводим Репорты Nuclei В Defect Dojo"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Скрещиваем Ежа С Ужом. Заводим Репорты Nuclei В Defect Dojo</a><a href="/posts/security-rss-feed/" class="post-nav-item" rel="next" title="Security RSS Feed">Security RSS Feed<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="Contents"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.144.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> | Theme - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.17-8b402129"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">the29a</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">This website works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"version":"v0.3.17-8b402129"};console.log('Page config:', window.config);</script><script src="/js/theme.min.js" defer></script></body>
+</html>

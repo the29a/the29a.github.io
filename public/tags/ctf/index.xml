@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ctf - Tag - 29a µ blog</title>
+    <link>http://localhost:1313/tags/ctf/</link>
+    <description>infosec and something else</description>
+    <generator>Hugo 0.144.0 &amp; FixIt v0.3.17-8b402129</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 28 Jun 2023 11:15:39 +0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/ctf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CTF не только полезен, но и вреден.</title>
+      <link>http://localhost:1313/posts/ne-vse-ctf-odinakovo-polezni/</link>
+      <pubDate>Wed, 28 Jun 2023 11:15:39 +0300</pubDate>
+      <guid>http://localhost:1313/posts/ne-vse-ctf-odinakovo-polezni/</guid>
+      <description>&lt;p&gt;CTF не только полезен, но и вреден.&lt;br&gt;&#xA;Как ни странно, но да.&lt;/p&gt;&#xA;&lt;p&gt;Стоит даже несколько переиначить эту фразу: не все CTF одинаково полезны.&lt;br&gt;&#xA;Условно CTF можно разделить на две категории:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Образовательные.&lt;/li&gt;&#xA;&lt;li&gt;Развлекательные.&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>
