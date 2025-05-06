@@ -6,8 +6,15 @@
     <description>infosec and something else</description>
     <generator>Hugo 0.144.0 &amp; FixIt v0.3.17-8b402129</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Feb 2025 16:48:43 +0300</lastBuildDate>
+    <lastBuildDate>Tue, 06 May 2025 18:26:25 +0300</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Draft</title>
+      <link>http://localhost:1313/tags/draft/</link>
+      <pubDate>Tue, 06 May 2025 18:26:25 +0300</pubDate>
+      <guid>http://localhost:1313/tags/draft/</guid>
+      <description>Draft</description>
+    </item>
     <item>
       <title>Docker</title>
       <link>http://localhost:1313/tags/docker/</link>
